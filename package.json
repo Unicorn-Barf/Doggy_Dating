@@ -1,0 +1,23 @@
+{
+  "name": "doggy_dating",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unicorn-Barf/Doggy_Dating.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Unicorn-Barf/Doggy_Dating/issues"
+  },
+  "homepage": "https://github.com/Unicorn-Barf/Doggy_Dating#readme",
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
+}
