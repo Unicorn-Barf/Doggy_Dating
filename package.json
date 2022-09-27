@@ -23,5 +23,8 @@
   "homepage": "https://github.com/Unicorn-Barf/Doggy_Dating#readme",
   "devDependencies": {
     "concurrently": "^7.4.0"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.10.2"
   }
 }
