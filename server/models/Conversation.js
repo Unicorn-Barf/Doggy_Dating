@@ -11,6 +11,7 @@ const convoSchema = new Schema({
    messageIds: [messageSchema],
 },
 {
+   timestamps: true,
    toJSON: {
       getters: true,
    },

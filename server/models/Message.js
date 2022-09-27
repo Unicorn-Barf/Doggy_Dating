@@ -12,6 +12,9 @@ const messageSchema = new Schema({
 },
 {
    timestamps: true,
+   toJSON: {
+      getters: true,
+   },
    id: false,
 });
 
