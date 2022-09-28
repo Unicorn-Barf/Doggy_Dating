@@ -9,8 +9,14 @@ import Signout from './pages/Signout';
 import Signup from './pages/Signup';
 import Chat from './pages/Chat';
 
+const client = new ApolloClient({
+  uri: 'graphql',
+  cache: new InMemoryCache(),
+});
+
 function App() {
   return (
+    <ApolloProvider client = {client}>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -27,6 +33,7 @@ function App() {
         </a>
       </header>
     </div>
+    </ApolloProvider>
   );
 }
 
