@@ -4,7 +4,17 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
    Query: {
-      owner: async (parent, { username, _id }, context) => {
+      getLoggedInOwner: async (parent, args, context) => {
+         try {
+            if(!context.owner) throw new Error('Not logged in!');
+            const owner = Owner.findById(context.owner._id);
+            return owner;
+         } catch(error) {
+            console.error(error);
+            throw new Error(error);
+         }
+      },
+      getOwner: async (parent, { username, _id }, context) => {
          try {
             return await Owner.findOne({
                $or: [{ _id: _id }, { username }],
@@ -14,21 +24,19 @@ const resolvers = {
             throw new Error(error);
          }
       },
-      me: async (parent, args, context) => {
+      getAllOwners: async (parent, args, context) => {
          try {
-            if(!context.owner) throw new Error('Not logged in!');
-            const owner = Owner.findById(context.owner._id);
-            return owner;
+            return await Owner.find();
          } catch(error) {
             console.error(error);
-            return error;
+            throw new Error(error);
          }
       }
    },
    Mutation: {
-      addOwner: async (parent, args, context) => {
+      postOwner: async (parent, args, context) => {
          const owner = await Owner.create({...args});
-         console.log("here!!!");
+         
          if(!owner) {
             throw new Error('Something went wrong');
          }
@@ -51,13 +59,16 @@ const resolvers = {
          const token = signToken(owner);
          return { token, owner };
       },
-      addDog: async (parent, args, context) => {
+      postDog: async (parent, args, context) => {
          try {
             const dog = await Dog.create({...args});
             
             if(!dog) {
                throw new Error('Something went wrong');
             }
+
+            //add dog id to owner
+
             return dog;
          } catch(error) {
             console.error(error);
