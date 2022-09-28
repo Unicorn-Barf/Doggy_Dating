@@ -28,13 +28,13 @@ const resolvers = {
    Mutation: {
       addOwner: async (parent, args, context) => {
          const owner = await Owner.create({...args});
-         console.log(owner);
+         console.log("here!!!");
          if(!owner) {
             throw new Error('Something went wrong');
          }
 
          const token = signToken(owner);
-         return { token, user };
+         return { token, owner };
       },
       login: async (parent, { username, email, password }, context) => {
          const owner = await Owner.findOne({ $or: [{ username }, { email }] });
@@ -66,3 +66,5 @@ const resolvers = {
       }
    }
 }
+
+module.exports = resolvers;
