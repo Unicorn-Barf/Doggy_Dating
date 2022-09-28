@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import Home from './pages/Home';
@@ -9,11 +7,16 @@ import Signout from './pages/Signout';
 import Signup from './pages/Signup';
 import Chat from './pages/Chat';
 
+const client = new ApolloClient({
+  uri: 'graphql',
+  cache: new InMemoryCache(),
+});
+
 function App() {
   return (
+    <ApolloProvider client = {client}>
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -27,6 +30,7 @@ function App() {
         </a>
       </header>
     </div>
+    </ApolloProvider>
   );
 }
 
