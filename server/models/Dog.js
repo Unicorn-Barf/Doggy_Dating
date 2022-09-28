@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const dogSchema = new Schema({
    ownerId: {
       type: Schema.Types.ObjectId,
+      ref: 'Owner',
       required: true,
    },
    name: {
@@ -11,12 +12,15 @@ const dogSchema = new Schema({
    },
    birthday: {
       type: Date,
-      //required: true,
+      required: true,
    },
    sex: {
       type: String,
       enum: ['Male', 'Female', 'Prefer not to say'],
-      //required: true,
+      required: true,
+   },
+   weight: {
+      type: Number,
    },
    personality: [
       {
@@ -24,9 +28,6 @@ const dogSchema = new Schema({
          //figure out enum[]
       }
    ],
-   weight: {
-      type: Number,
-   },
    headline: {
       type: String,
    },
