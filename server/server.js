@@ -5,22 +5,24 @@ const path = require('path');
 const { Server } = require('socket.io');
 const { createServer } = require('http');
 
-const { authMiddleware } = require('./utils/auth');
-
-// const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
+// Development Logs for Database Transactions
 const mongoose = require('mongoose');
 mongoose.set('debug', true);
 
+// Utils and Local File imports
+const { authMiddleware } = require('./utils/auth');
+const { typeDefs, resolvers } = require('./schemas');
+const db = require('./config/connection');
+
+// Setup for express with SocketIO websockets
 const app = express();
-//
-const expressServer = createServer(app);
-const io =  new Server(expressServer);
+const httpServer = createServer(app);
+const io =  new Server(httpServer);
 
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
-  // typeDefs,
-  // resolvers,
+  typeDefs,
+  resolvers,
   context: authMiddleware,
 });
 
@@ -40,10 +42,10 @@ io.on("connection",(socket) =>{
 })
 const startApolloServer = async () => {
   await server.start();
-  server.applyMiddleware({ io });
+  server.applyMiddleware({ app });
 
   db.once('open', () => {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log(`🌍 Now listening on localhost:${PORT}`);
       console.log(`Use GraphQL at http://localhost:${PORT}/${server.graphqlPath}`);
     });
