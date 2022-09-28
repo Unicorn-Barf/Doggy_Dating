@@ -1,5 +1,22 @@
 const { Schema, model } = require('mongoose');
-const messageSchema = require('./Message');
+
+const messageSchema = new Schema({
+   dogId: {
+      type: Schema.Types.ObjectId,
+      require: true,
+   },
+   message: {
+      type: String,
+      require: true,
+   },
+},
+{
+   timestamps: true,
+   toJSON: {
+      getters: true,
+   },
+   id: false,
+});
 
 const convoSchema = new Schema({
    dogIds: [

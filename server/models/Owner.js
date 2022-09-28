@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const Dog = require('./Dog');
+const bcrypt = require('bcrypt');
 
 const ownerSchema = new Schema({
    username: {
@@ -19,7 +19,7 @@ const ownerSchema = new Schema({
    sex: {
       type: String,
       enum: ['Male', 'Female', 'Prefer not to say'],
-      required: true,
+      //required: true,
    },
    email: {
       type: String,
@@ -36,7 +36,6 @@ const ownerSchema = new Schema({
    },
    birthday: {
       type: Date,
-      required: true,
    },
    images: [
       {
@@ -68,6 +67,14 @@ ownerSchema.pre('save', async function(next) {
       this.password = await bcrypt.hash(this.password, saltRounds);
    }
    next();
+});
+
+ownerSchema.methods.passwordCheck = async function(password) {
+   return bcrypt.compare(password, this.password);
+}
+
+ownerSchema.virtual('dogCount').get(function() {
+   return this.dogIds.length;
 });
 
 module.exports = model('Owner', ownerSchema);

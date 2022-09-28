@@ -11,12 +11,12 @@ const dogSchema = new Schema({
    },
    birthday: {
       type: Date,
-      required: true,
+      //required: true,
    },
    sex: {
       type: String,
       enum: ['Male', 'Female', 'Prefer not to say'],
-      required: true,
+      //required: true,
    },
    personality: [
       {
@@ -38,10 +38,6 @@ const dogSchema = new Schema({
          type: String,
       }
    ],
-   displayImage: {
-      type: Number,
-      //index of image to display on front page
-   },
    tags: [
       {
          type: String,
