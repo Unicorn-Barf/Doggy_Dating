@@ -13,8 +13,52 @@ const typeDefs = gql`
       images: [String]
    }
 
+   input PostOwnerInput {
+      username: String!
+      email: String!
+      password: String!
+      firstName: String!
+      lastName: String!
+      sex: String!
+      birthday: String!
+   }
+
+   input PutOwnerInput {
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      sex: String
+      birthday: String
+      about: String
+      images: [String]
+      dogIds: [ID]
+   }
+
    type Dog {
       _id: ID
+      name: String
+      birthday: String
+      sex: String
+      weight: Int
+      personality: [String]
+      headline: String
+      about: String
+      images: [String]
+      tags: [String]
+   }
+
+   input PostDogInput {
+      ownerId: ID!
+      name: String!
+      birthday: String!
+      sex: String!
+      weight: Int!
+      personality: [String]
+   }
+
+   input PutDogInput {
       name: String
       birthday: String
       sex: String
@@ -32,15 +76,23 @@ const typeDefs = gql`
    }
 
    type Query {
-      owner(username: String, _id: ID): Owner
-      me: Owner
+      getLoggedInOwner: Owner
+      getOwner(username: String, _id: ID): Owner
+      getAllOwners: [Owner]
+
+      getDog(_id: ID): Dog
+      getAllDogs: [Dog]
+      getAllDogsByOwner(username: String!): [Dog]
    }
 
    type Mutation {
-      addOwner(username: String!, firstName: String!, lastName: String!, email: String!, password: String!): Auth
       login(username: String, email: String, password: String!): Auth
 
-      addDog(ownderId: ID!, name: String!): Dog
+      postOwner(owner: PostOwnerInput): Auth
+      putOwner(_id: ID): Owner
+
+      postDog(dog: PostDogInput): Dog
+      putDog(dog: PutDogInput): Dog
    }
 `
 

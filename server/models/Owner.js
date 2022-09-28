@@ -8,6 +8,16 @@ const ownerSchema = new Schema({
       required: true,
       trim: true,      
    },
+   email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /^[a-z\d_\.-]+@[a-z\d\.-]+\.[a-z\.]{2,6}$/,
+   },
+   password: {
+      type: String,
+      required: true,
+   },
    firstName: {
       type: String,
       required: true,
@@ -19,32 +29,20 @@ const ownerSchema = new Schema({
    sex: {
       type: String,
       enum: ['Male', 'Female', 'Prefer not to say'],
-      //required: true,
-   },
-   email: {
-      type: String,
       required: true,
-      unique: true,
-      match: /^[a-z\d_\.-]+@[a-z\d\.-]+\.[a-z\.]{2,6}$/,
    },
-   password: {
-      type: String,
+   birthday: {
+      type: Date,
       required: true,
    },
    about: {
       type: String,
-   },
-   birthday: {
-      type: Date,
    },
    images: [
       {
          type: String,
       }
    ],
-   profileImage: {
-      type: Number,
-   },
    dogIds: [
       {
          type: Schema.Types.ObjectId,
