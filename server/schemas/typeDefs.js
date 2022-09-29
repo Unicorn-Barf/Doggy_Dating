@@ -75,6 +75,11 @@ const typeDefs = gql`
       owner: Owner
    }
 
+   type AuthDog {
+      owner: Owner
+      dog: Dog
+   }
+
    type Query {
       getLoggedInOwner: Owner
       getOwner(username: String, _id: ID): Owner
@@ -90,6 +95,7 @@ const typeDefs = gql`
 
       postOwner(owner: PostOwnerInput): Auth
       putOwner(_id: ID): Owner
+      deleteOwner(_id: ID): Owner
 
       postDog(dog: PostDogInput): Dog
       putDog(dog: PutDogInput): Dog
