@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError } = require('apollo-server-express');
+const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -10,7 +10,7 @@ const ownerQuery = {
             throw new PersistedQueryNotFoundError('Logged in user not found');
          }
          const owner = Owner.findById(context.owner._id);
-         if(!owner) {
+         if (!owner) {
             throw new PersistedQueryNotFoundError('Logged in user not found');
          }
          return owner;
@@ -39,6 +39,20 @@ const ownerQuery = {
 
 /*-------Mutation-------*/
 const ownerMutation = {
+   login: async (parent, args, context) => {
+      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
+      if (!owner) {
+         throw new AuthenticationError('Error logging in!');
+      }
+
+      const passwordCheck = await owner.passwordCheck(password);
+      if (!passwordCheck) {
+         throw new AuthenticationError('Error logging in!');
+      }
+
+      const token = signToken(owner);
+      return { token, owner };
+   },
    postOwner: async (parent, args, context) => {
       try {
          const { username, email, password, firstName, lastName, sex, birthday } = args.owner;
@@ -51,30 +65,44 @@ const ownerMutation = {
             sex: sex,
             birthday: Date.parse(birthday),
          });
-
-         if(!owner) {
+         if (!owner) {
             throw Error('Error in creating owner');
          }
-
          const token = signToken(owner);
          return { token, owner };
       } catch (error) {
          console.error(error);
       }
    },
-   login: async (parent, args, context) => {
-      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
-      if (!owner) {
-         throw new AuthenticationError('Error logging in!');
+   putOwner: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findByIdAndUpdate(
+            context.owner._id,
+            {
+               ...args.owner
+            },
+            {
+               new: true,
+            }
+         );
+         return owner;
+      } catch (error) {
+         console.error(error);
       }
-
-      const passwordCheck = await Owner.passwordCheck(password);
-      if (!passwordCheck) {
-         throw new AuthenticationError('Error logging in!');
+   },
+   deleteOwner: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findById(context.owner._id);
+         const passwordCheck = owner.passwordCheck(password);
+         if (!passwordCheck) {
+            throw new AuthenticationError('Incorrect password');
+         } else {
+            const deletedOwner = await Owner.findByIdAndDelete(context.owner._id);
+            return deletedOwner;
+         }
+      } catch (error) {
+         console.error(error);
       }
-
-      const token = signToken(owner);
-      return { token, owner };
    }
 }
 
