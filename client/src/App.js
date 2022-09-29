@@ -19,7 +19,7 @@ function App() {
       <div className="App">
         <header className="App-header">
           <Navbar />
-          <Router>
+          {/* <Router>
             <Routes>
               <Route
                 path="/"
@@ -46,7 +46,7 @@ function App() {
                 element={<Profile />}
               />
             </Routes>
-          </Router>
+          </Router> */}
         </header>
       </div>
     </ApolloProvider>

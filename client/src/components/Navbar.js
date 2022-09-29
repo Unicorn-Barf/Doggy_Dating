@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Link } from 'react-router-dom';
 
-const pages = ['Home', 'Signin'];
-const settings = ['Profile', 'Signout'];
+const pages = ['Home', 'Signin', 'Profile'];
+const settings = ['Signout'];
 
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
