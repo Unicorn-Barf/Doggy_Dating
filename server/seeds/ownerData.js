@@ -1,11 +1,14 @@
 const fetch = require('node-fetch');
 const { randNumInRange } = require('../utils/mathHelpers');
 
-const gender = ['Male', 'Female', 'Prefer not to say'];
-var ownerData = [];
-// IIFE to fetch random user data
+
+// function to fetch random user data
 // Uses https://random-data-api.com/
-(async () => {
+const getOwnerData = async () => {
+
+    const gender = ['Male', 'Female', 'Prefer not to say'];
+    var ownerData = [];
+
     const users = await fetch('https://random-data-api.com/api/v2/users?size=100');
     const parsedUsers = await users.json();
 
@@ -23,8 +26,8 @@ var ownerData = [];
         }
         // Add to the owner array
         ownerData.push(editedUser);
-    }
-    console.log(ownerData);
-})();
+    };
+    return ownerData;
+};
 
-module.exports = ownerData;
+module.exports = getOwnerData;

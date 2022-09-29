@@ -12,7 +12,7 @@ const ownerSchema = new Schema({
       type: String,
       required: true,
       unique: true,
-      match: /^[a-z\d_\.-]+@[a-z\d\.-]+\.[a-z\.]{2,6}$/,
+      match: /^[a-z'\d_\.-]+@[a-z\d\.-]+\.[a-z\.]{2,6}$/,
    },
    password: {
       type: String,
