@@ -12,7 +12,7 @@ const dogQuery = {
          return dog;
       } catch(error) {
          console.error(error);
-         throw new None('Internal server error');
+         
       }
    },
    getAllDogs: async (parent, args, context) => {
@@ -24,7 +24,7 @@ const dogQuery = {
          return dogs;
       } catch(error) {
          console.error(error);
-         throw new None('Internal server error');
+         
       }
    }
 }
@@ -33,12 +33,16 @@ const dogQuery = {
 const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
-         const dog = await Dog.create({ ...args });
-         if (!dog) {
-            throw new None('Error posting dog');
-         }
+         const { ownerId, name, birthday, sex, weight } = args.dog;
+         const dog = await Dog.create({
+            ownerId: ownerId,
+            name: name,
+            birthday: Date.parse(birthday),
+            sex: sex,
+            weight: weight,
+         });
          const owner = await Owner.findByIdAndUpdate(
-            args.ownerId,
+            ownerId,
             {
                $addToSet: {
                   dogIds: dog._id,
@@ -48,13 +52,9 @@ const dogMutation = {
                new: true,
             }
          );
-         if(!owner) {
-            throw new None('Error updating owner');
-         }
          return dog;
       } catch (error) {
          console.error(error);
-         throw new None('Internal server error');
       }
    }
 }
