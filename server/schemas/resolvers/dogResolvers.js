@@ -33,6 +33,7 @@ const dogQuery = {
 const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
+         console.log(args);
          const { ownerId, name, birthday, sex, weight } = args.dog;
          const dog = await Dog.create({
             ownerId: ownerId,

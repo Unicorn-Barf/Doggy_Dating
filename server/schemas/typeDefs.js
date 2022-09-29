@@ -74,9 +74,21 @@ const typeDefs = gql`
       owner: Owner
    }
 
-   type AuthDog {
-      owner: Owner
-      dog: Dog
+   type Message {
+      messageId: ID
+      dogId: ID
+      message: String
+   }
+
+   input PostMessage {
+      dogId: ID!
+      message: String!
+   }
+
+   type Conversation {
+      _id: ID
+      dogIds: [ID]
+      messages: [Message]
    }
 
    type Query {
@@ -87,6 +99,9 @@ const typeDefs = gql`
       getDog(_id: ID): Dog
       getAllDogs: [Dog]
       getAllDogsByOwner(username: String!): [Dog]
+
+      getConversationsByDogId(dogId: ID): [Conversation]
+      getConversationById(_id: ID): Conversation
    }
 
    type Mutation {
@@ -99,6 +114,9 @@ const typeDefs = gql`
       postDog(dog: PostDogInput): Dog
       putDog(dogId: ID!, dog: PutDogInput): Dog
       deleteDog(dogId: ID!): Dog
+
+      postConversation(dogIds: [ID]): Conversation
+      newMessage(conversationId: ID!, message: PostMessage): Conversation
    }
 `
 
