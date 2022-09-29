@@ -1,5 +1,5 @@
 const { Dog, Owner } = require('../../models');
-const { PersistedQueryNotFoundError } = require('apollo-server-express');
+const { PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
 
 /*-------Query-------*/
 const dogQuery = {
@@ -41,19 +41,35 @@ const dogMutation = {
             sex: sex,
             weight: weight,
          });
-         const owner = await Owner.findByIdAndUpdate(
-            ownerId,
-            {
-               $addToSet: {
-                  dogIds: dog._id,
-               }
-            },
-            {
-               new: true,
-            }
-         );
+         await Owner.findByIdAndUpdate(ownerId, { $addToSet:{ dogIds: dog._id } }, { new: true });
          return dog;
       } catch (error) {
+         console.error(error);
+      }
+   },
+   putDog: async (parent, args, context) => {
+      try {
+         const dog = await Dog.findById(args.dogId);
+         if(dog.ownerId === context.owner._id) {
+            const updatedDog = await Dog.findByIdAndUpdate(args.dogId, { ...args.dog }, { new: true });
+            return updatedDog;
+         } else {
+            throw new ForbiddenError('You cannot edit this dog');
+         }
+      } catch(error) {
+         console.error(error);
+      }
+   },
+   deleteDog: async (parent, args, context) => {
+      try {
+         const dog = await Dog.findById(args.dogId);
+         if(dog.ownerId === context.owner._id) {
+            const deletedDog = await Dog.findByIdAndDelete(args.dogId);
+            return deletedDog;
+         } else {
+            throw new ForbiddenError('You cannot delete this dog');
+         }
+      } catch(error) {
          console.error(error);
       }
    }
