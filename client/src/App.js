@@ -6,6 +6,7 @@ import Signin from './pages/Signin';
 import Signout from './pages/Signout';
 import Signup from './pages/Signup';
 import Chat from './pages/Chat';
+import Navbar from './components/Navbar';
 
 const client = new ApolloClient({
   uri: 'graphql',
@@ -17,17 +18,7 @@ function App() {
     <ApolloProvider client = {client}>
     <div className="App">
       <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Navbar />
       </header>
     </div>
     </ApolloProvider>
