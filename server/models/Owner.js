@@ -49,6 +49,10 @@ const ownerSchema = new Schema({
          ref: 'Dog',
       }
    ],
+   loggedInDog: {
+      type: Schema.Types.ObjectId,
+      ref: 'Dog',
+   }
 },
 {
    timestamps: true,

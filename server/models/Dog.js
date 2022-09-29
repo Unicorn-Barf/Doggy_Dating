@@ -43,6 +43,12 @@ const dogSchema = new Schema({
       {
          type: String,
       }
+   ],
+   conversationIds: [
+      {
+         type: Schema.Types.ObjectId,
+         ref: 'Conversation'
+      }
    ]
 },
 {
