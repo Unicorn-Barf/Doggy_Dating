@@ -69,6 +69,8 @@ const dogMutation = {
          } else {
             throw new ForbiddenError('You cannot delete this dog');
          }
+      } catch(error) {
+         console.error(error);
       }
    }
 }
