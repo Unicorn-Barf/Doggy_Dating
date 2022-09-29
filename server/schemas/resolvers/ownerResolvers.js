@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError } = require('apollo-server-express');
+const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -10,7 +10,7 @@ const ownerQuery = {
             throw new PersistedQueryNotFoundError('Logged in user not found');
          }
          const owner = Owner.findById(context.owner._id);
-         if(!owner) {
+         if (!owner) {
             throw new PersistedQueryNotFoundError('Logged in user not found');
          }
          return owner;
@@ -45,7 +45,7 @@ const ownerMutation = {
          throw new AuthenticationError('Error logging in!');
       }
 
-      const passwordCheck = await Owner.passwordCheck(password);
+      const passwordCheck = await owner.passwordCheck(password);
       if (!passwordCheck) {
          throw new AuthenticationError('Error logging in!');
       }
@@ -65,11 +65,9 @@ const ownerMutation = {
             sex: sex,
             birthday: Date.parse(birthday),
          });
-
-         if(!owner) {
+         if (!owner) {
             throw Error('Error in creating owner');
          }
-
          const token = signToken(owner);
          return { token, owner };
       } catch (error) {
@@ -79,12 +77,30 @@ const ownerMutation = {
    putOwner: async (parent, args, context) => {
       try {
          const owner = await Owner.findByIdAndUpdate(
-            args._id,
+            context.owner._id,
             {
                ...args.owner
+            },
+            {
+               new: true,
             }
-         )
-      } catch(error) {
+         );
+         return owner;
+      } catch (error) {
+         console.error(error);
+      }
+   },
+   deleteOwner: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findById(context.owner._id);
+         const passwordCheck = owner.passwordCheck(password);
+         if (!passwordCheck) {
+            throw new AuthenticationError('Incorrect password');
+         } else {
+            const deletedOwner = await Owner.findByIdAndDelete(context.owner._id);
+            return deletedOwner;
+         }
+      } catch (error) {
          console.error(error);
       }
    }
