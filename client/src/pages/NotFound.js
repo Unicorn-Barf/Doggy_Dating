@@ -1,6 +1,6 @@
 import React from "react";
-const Home = () => {
+const Notfound = () => {
   return <h1>Home Screen</h1>;
 };
 
-export default Home;
+export default Notfound;
