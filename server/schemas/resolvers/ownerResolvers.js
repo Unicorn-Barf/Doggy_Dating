@@ -39,6 +39,20 @@ const ownerQuery = {
 
 /*-------Mutation-------*/
 const ownerMutation = {
+   login: async (parent, args, context) => {
+      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
+      if (!owner) {
+         throw new AuthenticationError('Error logging in!');
+      }
+
+      const passwordCheck = await Owner.passwordCheck(password);
+      if (!passwordCheck) {
+         throw new AuthenticationError('Error logging in!');
+      }
+
+      const token = signToken(owner);
+      return { token, owner };
+   },
    postOwner: async (parent, args, context) => {
       try {
          const { username, email, password, firstName, lastName, sex, birthday } = args.owner;
@@ -62,19 +76,17 @@ const ownerMutation = {
          console.error(error);
       }
    },
-   login: async (parent, args, context) => {
-      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
-      if (!owner) {
-         throw new AuthenticationError('Error logging in!');
+   putOwner: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findByIdAndUpdate(
+            args._id,
+            {
+               ...args.owner
+            }
+         )
+      } catch(error) {
+         console.error(error);
       }
-
-      const passwordCheck = await Owner.passwordCheck(password);
-      if (!passwordCheck) {
-         throw new AuthenticationError('Error logging in!');
-      }
-
-      const token = signToken(owner);
-      return { token, owner };
    }
 }
 

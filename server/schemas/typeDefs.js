@@ -26,7 +26,6 @@ const typeDefs = gql`
    input PutOwnerInput {
       username: String
       email: String
-      password: String
       firstName: String
       lastName: String
       sex: String
@@ -94,7 +93,7 @@ const typeDefs = gql`
       login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput): Auth
-      putOwner(_id: ID): Owner
+      putOwner(_id: ID, owner: PutOwnerInput): Owner
       deleteOwner(_id: ID): Owner
 
       postDog(dog: PostDogInput): Dog
