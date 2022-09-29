@@ -1,11 +1,12 @@
-import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import Home from './pages/Home';
-import Profile from'./pages/Profile';
+import Profile from './pages/Profile';
 import Signin from './pages/Signin';
 import Signout from './pages/Signout';
 import Signup from './pages/Signup';
 import Chat from './pages/Chat';
+import Navbar from './components/Navbar';
 
 const client = new ApolloClient({
   uri: 'graphql',
@@ -14,22 +15,40 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client = {client}>
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+        <header className="App-header">
+          <Navbar />
+          {/* <Router>
+            <Routes>
+              <Route
+                path="/"
+                element={<Home />}
+              />
+              <Route
+                path="Signin"
+                element={<Signin />}
+              />
+              <Route
+                path="Signout"
+                element={<Signout />}
+              />
+              <Route
+                path="Signup"
+                element={<Signup />}
+              />
+              <Route
+                path="Chat"
+                element={<Chat />}
+              />
+              <Route
+                path="Profile"
+                element={<Profile />}
+              />
+            </Routes>
+          </Router> */}
+        </header>
+      </div>
     </ApolloProvider>
   );
 }
