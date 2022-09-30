@@ -14,10 +14,12 @@ import MenuItem from '@mui/material/MenuItem';
 export default function CreateDog() {
     const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
     const [sex, setSex] = React.useState([]);
+    const [fix, setFix] = React.useState([]);
 
-    const handleChange = (newValue, newSex) => {
+    const handleChange = (newValue, newSex, newFix) => {
         setValue(newValue);
         setSex(newSex);
+        setFix(newFix);
     };
 
     const sexes = [
@@ -33,7 +35,18 @@ export default function CreateDog() {
         //     value: 'Prefer Not to Say',
         //     label: 'Prefer Not to Say',
         // },
-    ]
+    ];
+
+    const fixed = [
+        {
+            value: 'Yes',
+            label: 'Yes',
+        },
+        {
+            value: 'No',
+            label: 'No',
+        },
+    ];
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -50,38 +63,44 @@ export default function CreateDog() {
                     <TextField
                         required
                         id="outlined-basic"
-                        label="Create Username"
+                        label="Username"
                         variant="outlined"
+                        helperText="Please create a username."
                     />
                     <TextField
                         required
                         id="outlined-basic"
                         label="First Name"
                         variant="outlined"
+                        helperText="Please enter your first name."
                     />
                     <TextField
                         required
                         id="outlined-basic"
                         label="Last Name"
                         variant="outlined"
+                        helperText="Please enter your last name."
                     />
                     <TextField
                         required
                         id="outlined-basic"
                         label="Email"
                         variant="outlined"
+                        helperText="Please enter your email address."
                     />
                     <TextField
                         required
                         id="outlined-basic"
                         label="Create Password"
                         variant="outlined"
+                        helperText="Please create a password."
                     />
                     <TextField
                         required
                         id="outlined-basic"
                         label="Confirm Password"
                         variant="outlined"
+                        helperText="Please type your password again."
                     />
 
                 </Box>
@@ -99,6 +118,7 @@ export default function CreateDog() {
                         id="outlined-basic"
                         label="Name"
                         variant="outlined"
+                        helperText="Please enter your dog's name."
                     />
                     <MobileDatePicker
                         label="Birthday"
@@ -106,6 +126,7 @@ export default function CreateDog() {
                         value={value}
                         onChange={handleChange}
                         renderInput={(params) => <TextField {...params} />}
+                        helperText="Please select your dog's birthday. 🎂"
                     />
                     <TextField
                         required
@@ -117,6 +138,21 @@ export default function CreateDog() {
                         helperText="Please select your dog's sex."
                     >
                         {sexes.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        required
+                        id="outlined-select-fixed"
+                        select
+                        label="Is your dog spayed/neutered?"
+                        value={fixed}
+                        onChange={handleChange}
+                        helperText="Please select yes or no."
+                    >
+                        {fixed.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
