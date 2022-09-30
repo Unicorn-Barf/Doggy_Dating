@@ -8,8 +8,8 @@ const typeDefs = gql`
       lastName: String
       sex: String
       email: String
-      latitude: String
-      longitude: String
+      lat: String
+      lon: String
       about: String
       birthday: String
       images: [String]
@@ -40,6 +40,7 @@ const typeDefs = gql`
    type Dog {
       _id: ID
       name: String
+      breed: String
       birthday: String
       sex: String
       weight: Int
@@ -53,6 +54,7 @@ const typeDefs = gql`
    input PostDogInput {
       ownerId: ID!
       name: String!
+      breed: String!
       birthday: String!
       sex: String!
       weight: Int!
@@ -61,6 +63,7 @@ const typeDefs = gql`
 
    input PutDogInput {
       name: String
+      breed: String
       birthday: String
       sex: String
       personality: [String]
@@ -101,7 +104,7 @@ const typeDefs = gql`
 
       getDog(dogId: ID!): Dog
       getAllDogs: [Dog]
-      getAllDogsByOwner(username: String!): [Dog]
+      getAllDogsByOwner(ownerId: ID, username: String): [Dog]
 
       getAllConversationsByDogId(dogId: ID!): [Conversation]
       getConversationById(conversationId: ID!): [Message]

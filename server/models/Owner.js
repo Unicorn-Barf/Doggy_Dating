@@ -38,10 +38,10 @@ const ownerSchema = new Schema({
    about: {
       type: String,
    },
-   latitude: {
+   lat: {
       type: String,
    },
-   longitude: {
+   lon: {
       type: String,
    },
    images: [
@@ -49,6 +49,9 @@ const ownerSchema = new Schema({
          type: String,
       }
    ],
+   profileImage: {
+      type: String,
+   },
    dogIds: [
       {
          type: Schema.Types.ObjectId,

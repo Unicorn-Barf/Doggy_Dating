@@ -10,6 +10,10 @@ const dogSchema = new Schema({
       type: String,
       required: true,
    },
+   breed: {
+      type: String,
+      required: true,
+   },
    birthday: {
       type: Date,
       required: true,

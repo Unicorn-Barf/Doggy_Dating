@@ -40,12 +40,12 @@ const ownerQuery = {
 /*-------Mutation-------*/
 const ownerMutation = {
    login: async (parent, args, context) => {
-      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
+      const owner = await Owner.findOne({ $or: [{ username: args.username }, { email: args.email }] });
       if (!owner) {
          throw new AuthenticationError('Error logging in!');
       }
 
-      const passwordCheck = await owner.passwordCheck(password);
+      const passwordCheck = await owner.passwordCheck(args.password);
       if (!passwordCheck) {
          throw new AuthenticationError('Error logging in!');
       }
@@ -101,6 +101,41 @@ const ownerMutation = {
             return deletedOwner;
          }
       } catch (error) {
+         console.error(error);
+      }
+   },
+   addOwnerImage: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findByIdAndUpdate(
+            context.owner._id,
+            {
+               $push: {
+                  images: args.imageURL,
+               }
+            },
+            {
+               new: true,
+            }
+         );
+         return owner;
+      } catch(error) {
+         console.error(error);
+      }
+   },
+   updateOwnerLocation: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findByIdAndUpdate(
+            context.owner._id,
+            {
+               lat: args.lat,
+               lon: args.lon,
+            },
+            {
+               new: true,
+            }
+         );
+         return owner;
+      } catch(error) {
          console.error(error);
       }
    }
