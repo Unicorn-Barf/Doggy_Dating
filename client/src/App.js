@@ -1,54 +1,36 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Signin from './pages/Signin';
-import Signout from './pages/Signout';
-import Signup from './pages/Signup';
-import Chat from './pages/Chat';
-import Navbar from './components/Navbar';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Chat from "./pages/Chat";
+import NotFound from './pages/NotFound';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 
 const client = new ApolloClient({
-  uri: 'graphql',
+  uri: "graphql",
   cache: new InMemoryCache(),
 });
 
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
-          <Navbar />
-          {/* <Router>
+        <Router>
+          <>
             <Routes>
-              <Route
-                path="/"
-                element={<Home />}
-              />
-              <Route
-                path="Signin"
-                element={<Signin />}
-              />
-              <Route
-                path="Signout"
-                element={<Signout />}
-              />
-              <Route
-                path="Signup"
-                element={<Signup />}
-              />
-              <Route
-                path="Chat"
-                element={<Chat />}
-              />
-              <Route
-                path="Profile"
-                element={<Profile />}
-              />
+              <Route path="/" element={<Home />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/signin" element={<Signin />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="*" element={<Home />} />
             </Routes>
-          </Router> */}
-        </header>
-      </div>
+          </>
+        </Router>
+      <Footer />
     </ApolloProvider>
   );
 }
