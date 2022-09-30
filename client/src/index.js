@@ -33,4 +33,3 @@ root.render(
         </Router>
     </ApolloProvider>
 );
-
