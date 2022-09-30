@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from "@apollo/client";
 
 // dog queries
 export const GET_DOG_BY_ID = gql`

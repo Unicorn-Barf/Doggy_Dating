@@ -1,13 +1,13 @@
 import React from 'react';
-import Carousel from 'react-material-ui-carousel';
-import { Paper, Button } from '@mui/material';
+// import Carousel from 'react-material-ui-carousel';
+// import { Paper, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useQuery } from "@apollo/client";
 
 import { GET_DOG_BY_ID } from '../utils/queries';
 
-const { useSlotProps } = require("@mui/base");
+// const { useSlotProps } = require("@mui/base");
 
 
 // const DogProfile = (props) => {

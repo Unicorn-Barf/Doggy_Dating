@@ -30,6 +30,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.7",
     "apollo-server-express": "^3.10.2",
-    "react-material-ui-carousel": "^3.4.2"
+    "react-material-ui-carousel": "^3.4.2",
+    "webpack": "^5.74.0"
   }
 }
