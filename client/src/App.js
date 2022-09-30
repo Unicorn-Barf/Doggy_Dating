@@ -1,8 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-
-
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Signin from "./pages/Signin";
@@ -11,8 +9,6 @@ import Chat from "./pages/Chat";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-
-
 
 function App() {
   return (
