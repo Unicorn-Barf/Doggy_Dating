@@ -41,11 +41,13 @@ const ownerQuery = {
 const ownerMutation = {
    login: async (parent, args, context) => {
       const owner = await Owner.findOne({ $or: [{ username: args.username }, { email: args.email }] });
+      console.log(owner);
       if (!owner) {
          throw new AuthenticationError('Error logging in!');
       }
 
       const passwordCheck = await owner.passwordCheck(args.password);
+      console.log(passwordCheck);
       if (!passwordCheck) {
          throw new AuthenticationError('Error logging in!');
       }
