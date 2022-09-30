@@ -25,6 +25,10 @@
     "concurrently": "^7.4.0"
   },
   "dependencies": {
-    "apollo-server-express": "^3.10.2"
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.7",
+    "apollo-server-express": "^3.10.2",
+    "react-material-ui-carousel": "^3.4.2"
   }
 }
