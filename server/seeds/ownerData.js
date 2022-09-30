@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const bcrypt = require('bcrypt');
 const { randNumInRange } = require('../utils/mathHelpers');
 
 
@@ -8,6 +9,7 @@ const getOwnerData = async () => {
 
     const gender = ['Male', 'Female', 'Prefer not to say'];
     var ownerData = [];
+    const password = await bcrypt.hash('password', 10);
 
     const users = await fetch('https://random-data-api.com/api/v2/users?size=100');
     const parsedUsers = await users.json();
@@ -17,7 +19,7 @@ const getOwnerData = async () => {
         const editedUser = {
             username: user.username,
             email: user.email,
-            password: 'password',
+            password,
             firstName: user.first_name,
             lastName: user.last_name,
             sex: gender[randNumInRange(0, 2)],
