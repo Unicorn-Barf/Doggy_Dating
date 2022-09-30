@@ -1,8 +1,14 @@
 const { Schema, model } = require('mongoose');
+const { ObjectId } = require('mongodb');
 
 const messageSchema = new Schema({
+   messageId: {
+      type: Schema.Types.ObjectId,
+      default: new ObjectId(),
+   },
    dogId: {
       type: Schema.Types.ObjectId,
+      ref: 'Dog',
       require: true,
    },
    message: {
@@ -23,9 +29,10 @@ const convoSchema = new Schema({
       {
          type: Schema.Types.ObjectId,
          ref: 'Dog',
+         require: true,
       }
    ],
-   messageIds: [messageSchema],
+   messages: [messageSchema],
 },
 {
    timestamps: true,
