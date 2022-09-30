@@ -122,23 +122,6 @@ const ownerMutation = {
          console.error(error);
       }
    },
-   updateOwnerLocation: async (parent, args, context) => {
-      try {
-         const owner = await Owner.findByIdAndUpdate(
-            context.owner._id,
-            {
-               lat: args.lat,
-               lon: args.lon,
-            },
-            {
-               new: true,
-            }
-         );
-         return owner;
-      } catch(error) {
-         console.error(error);
-      }
-   }
 }
 
 
