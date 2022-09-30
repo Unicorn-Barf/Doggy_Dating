@@ -40,6 +40,7 @@ const typeDefs = gql`
    type Dog {
       _id: ID
       name: String
+      breed: String
       birthday: String
       sex: String
       weight: Int
@@ -53,6 +54,7 @@ const typeDefs = gql`
    input PostDogInput {
       ownerId: ID!
       name: String!
+      breed: String!
       birthday: String!
       sex: String!
       weight: Int!
@@ -61,6 +63,7 @@ const typeDefs = gql`
 
    input PutDogInput {
       name: String
+      breed: String
       birthday: String
       sex: String
       personality: [String]
