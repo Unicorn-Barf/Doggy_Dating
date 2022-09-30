@@ -1,7 +1,9 @@
 import React from 'react';
+import './footer.css';
+
 const Footer = () =>{
     return(
-        <h3>&copy; 2022 by Team NaNarwhal</h3>
+        <p id="footer">Team NaNarwhal &copy; 2022</p>
     )
 }
 
