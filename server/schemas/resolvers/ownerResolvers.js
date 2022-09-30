@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
+const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -55,15 +55,8 @@ const ownerMutation = {
    },
    postOwner: async (parent, args, context) => {
       try {
-         const { username, email, password, firstName, lastName, sex, birthday } = args.owner;
          const owner = await Owner.create({
-            username: username,
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            sex: sex,
-            birthday: Date.parse(birthday),
+            ...args.owner
          });
          if (!owner) {
             throw Error('Error in creating owner');
@@ -85,7 +78,8 @@ const ownerMutation = {
                new: true,
             }
          );
-         return owner;
+         const token = signToken(owner);
+         return { token, owner };
       } catch (error) {
          console.error(error);
       }
