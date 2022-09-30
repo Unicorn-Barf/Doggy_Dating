@@ -8,8 +8,8 @@ const typeDefs = gql`
       lastName: String
       sex: String
       email: String
-      latitude: String
-      longitude: String
+      lat: String
+      lon: String
       about: String
       birthday: String
       images: [String]
@@ -40,6 +40,7 @@ const typeDefs = gql`
    type Dog {
       _id: ID
       name: String
+      breed: String
       birthday: String
       sex: String
       weight: Int
@@ -53,6 +54,7 @@ const typeDefs = gql`
    input PostDogInput {
       ownerId: ID!
       name: String!
+      breed: String!
       birthday: String!
       sex: String!
       weight: Int!
@@ -61,6 +63,7 @@ const typeDefs = gql`
 
    input PutDogInput {
       name: String
+      breed: String
       birthday: String
       sex: String
       personality: [String]
@@ -101,7 +104,7 @@ const typeDefs = gql`
 
       getDog(dogId: ID!): Dog
       getAllDogs: [Dog]
-      getAllDogsByOwner(username: String!): [Dog]
+      getAllDogsByOwner(ownerId: ID, username: String): [Dog]
 
       getAllConversationsByDogId(dogId: ID!): [Conversation]
       getConversationById(conversationId: ID!): [Message]
@@ -113,13 +116,13 @@ const typeDefs = gql`
       postOwner(owner: PostOwnerInput!): Auth
       putOwner(owner: PutOwnerInput!): Owner
       deleteOwner(password: String!): Owner
-      addOwnerImage(imageURL: String!): Owner
+      addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner
 
       postDog(dog: PostDogInput): Dog
       putDog(dogId: ID!, dog: PutDogInput): Dog
       deleteDog(dogId: ID!): Dog
-      addDogImage(dogId: ID!, imageURL: String!): Dog
+      addDogImage(dogId: ID!, imageURL: [String]!): Dog
 
       postConversation(dogIds: [ID]): Conversation
       newMessage(conversationId: ID!, message: PostMessage): Conversation

@@ -26,6 +26,15 @@ const dogQuery = {
          console.error(error);
          
       }
+   },
+   getAllDogsByOwner: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
+         const dogs = await Dog.find({ ownerId: owner._id });
+         return dogs;
+      } catch(error) {
+         console.error(error);
+      }
    }
 }
 
@@ -33,14 +42,13 @@ const dogQuery = {
 const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
-         console.log(args);
-         const { ownerId, name, birthday, sex, weight } = args.dog;
          const dog = await Dog.create({
-            ownerId: ownerId,
-            name: name,
-            birthday: Date.parse(birthday),
-            sex: sex,
-            weight: weight,
+            ownerId: args.dog.ownerId,
+            name: args.dog.name,
+            breed: args.dog.breed,
+            birthday: Date.parse(args.dog.birthday),
+            sex: args.dog.sex,
+            weight: args.dog.weight,
          });
          await Owner.findByIdAndUpdate(ownerId, { $addToSet:{ dogIds: dog._id } }, { new: true });
          return dog;
@@ -76,7 +84,18 @@ const dogMutation = {
    },
    addDogImage: async (parent, args, context) => {
       try {
-
+         const dog = await Dog.findByIdAndUpdate(
+            args.dogId,
+            {
+               $push: {
+                  images: args.imageURL,
+               }
+            },
+            {
+               new: true,
+            }
+         );
+         return dog;
       } catch(error) {
          console.error(error);
       }
