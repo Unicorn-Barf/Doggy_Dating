@@ -5,7 +5,7 @@ const { PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-e
 const dogQuery = {
    getDog: async (parent, args, context) => {
       try {
-         const dog = await Dog.findById(args._id);
+         const dog = await Dog.findById(args.dogId);
          if(!dog) {
             throw new PersistedQueryNotFoundError('Dog not found');
          }
@@ -70,6 +70,13 @@ const dogMutation = {
          } else {
             throw new ForbiddenError('You cannot delete this dog');
          }
+      } catch(error) {
+         console.error(error);
+      }
+   },
+   addDogImage: async (parent, args, context) => {
+      try {
+
       } catch(error) {
          console.error(error);
       }

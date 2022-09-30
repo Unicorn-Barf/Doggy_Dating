@@ -38,6 +38,12 @@ const ownerSchema = new Schema({
    about: {
       type: String,
    },
+   latitude: {
+      type: String,
+   },
+   longitude: {
+      type: String,
+   },
    images: [
       {
          type: String,
