@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 const pages = ['Home', 'Signin', 'Profile'];
 const settings = ['Signout'];
 
-const ResponsiveAppBar = () => {
+const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -166,4 +166,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default Navbar;
