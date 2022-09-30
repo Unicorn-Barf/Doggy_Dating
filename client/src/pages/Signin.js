@@ -44,13 +44,12 @@ const Signin = () => {
       password: "",
     });
   };
-
   return (
     <div>
       <Container maxWidth="sm">
         <Grid
           container
-          spacing={2}
+          spacing={0}
           direction="column"
           justifyContent="center"
           style={{ minHeight: "100vh" }}
@@ -58,11 +57,12 @@ const Signin = () => {
           <Paper elevation={3} sx={{ padding: 5 }}>
             <Grid item>
               <TextField
+                sx={{ my: 1 }}
                 type="text"
                 name="email"
                 fullWidth
-                label="Enter your Email"
-                placeholder="Email address"
+                label="Email"
+                placeholder="email address"
                 onChange={handleInputChange}
                 value={userFormData.email}
                 variant="outlined"
@@ -73,7 +73,7 @@ const Signin = () => {
                 type="password"
                 name="password"
                 fullWidth
-                label="Enter your password"
+                label="Password"
                 placeholder="password"
                 onChange={handleInputChange}
                 value={userFormData.password}
@@ -81,6 +81,7 @@ const Signin = () => {
               />
               <Grid item>
                 <Button
+                  sx={{ my: 2 }}
                   fullWidth
                   variant="contained"
                   type="button"
