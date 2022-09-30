@@ -20,9 +20,9 @@ const ownerQuery = {
    },
    getOwner: async (parent, args, context) => {
       try {
-         const { username, _id } = args;
+         const { username, ownerId } = args;
          return await Owner.findOne({
-            $or: [{ _id: _id }, { username }],
+            $or: [{ _id: ownerId }, { username }],
          });
       } catch (error) {
          console.error(error);
