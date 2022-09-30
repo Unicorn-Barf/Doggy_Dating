@@ -1,40 +1,49 @@
 import React, { useState } from "react";
 import { Container, Grid, Paper, TextField, Button } from "@mui/material";
-import useMutation from '@apollo/client';
-
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
+import { LOGIN_USER } from "../utils/mutations";
 const Signin = () => {
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
   });
-  const [validate] = useState(false);
-  // const [loginUser] = useMutation(ownerMutation.login)
+  // const [validate] = useState(false);
+  const [ loginUser] = useMutation(LOGIN_USER);
   const handleInputChange = (event) => {
     event.preventDefault();
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     setUserFormData({
-      ...userFormData,//access the properties which is name and email
-      [name]: value,//
-
-    })
-  }
-  const handleFormSubmit= async(event) => {
+      ...userFormData, //access the properties which is name and email
+      [name]: value, //
+    });
+  };
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     const validateEmail = userFormData.email;
     const validatePassword = userFormData.password;
     if (!validateEmail) {
-      alert ("Please enter your email");
+      alert("Please enter your email");
+      return;
+    } else if (!validatePassword) {
+      alert("Please enter your password");
       return;
     }
-    else if (!validatePassword) {
-      alert ("Please enter your password");
-      return;
+    try {
+      const { data } = await loginUser({ 
+        variables: {
+          ...userFormData
+        },
+      });
+      Auth.login(data.login.token);
+    } catch (error) {
+      console.log(error);
     }
-    setUserFormData ({
-    email: "",
-    password: ""
-  })
-  }
+    setUserFormData({
+      email: "",
+      password: "",
+    });
+  };
 
   return (
     <div>
@@ -46,7 +55,7 @@ const Signin = () => {
           justifyContent="center"
           style={{ minHeight: "100vh" }}
         >
-          <Paper elevation={2} sx={{ padding: 5 }}>
+          <Paper elevation={3} sx={{ padding: 5 }}>
             <Grid item>
               <TextField
                 type="text"
@@ -61,7 +70,7 @@ const Signin = () => {
             </Grid>
             <Grid item>
               <TextField
-                type="text"
+                type="password"
                 name="password"
                 fullWidth
                 label="Enter your password"
@@ -71,7 +80,12 @@ const Signin = () => {
                 variant="outlined"
               />
               <Grid item>
-                <Button fullWidth variant="contained" type="button" onClick={handleFormSubmit} >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  type="button"
+                  onClick={handleFormSubmit}
+                >
                   SignIn
                 </Button>
               </Grid>
