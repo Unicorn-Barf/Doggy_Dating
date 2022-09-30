@@ -19,10 +19,12 @@ const typeDefs = gql`
       username: String!
       email: String!
       password: String!
+      confirmPassword: String!
       firstName: String!
       lastName: String!
       sex: String!
       birthday: String!
+      images: [String]
    }
 
    input PutOwnerInput {
@@ -33,8 +35,7 @@ const typeDefs = gql`
       sex: String
       birthday: String
       about: String
-      images: [String]
-      dogIds: [ID]
+      loggedInDog: ID
    }
 
    type Dog {
@@ -59,6 +60,9 @@ const typeDefs = gql`
       sex: String!
       weight: Int!
       personality: [String]
+      headline: String
+      about: String
+      tags: [String]
    }
 
    input PutDogInput {
@@ -66,11 +70,10 @@ const typeDefs = gql`
       breed: String
       birthday: String
       sex: String
-      personality: [String]
       weight: Int
+      personality: [String]
       headline: String
       about: String
-      images: [String]
       tags: [String]
    }
 
@@ -114,7 +117,7 @@ const typeDefs = gql`
       login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput!): Auth
-      putOwner(owner: PutOwnerInput!): Owner
+      putOwner(owner: PutOwnerInput!): Auth
       deleteOwner(password: String!): Owner
       addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner
@@ -126,6 +129,7 @@ const typeDefs = gql`
 
       postConversation(dogIds: [ID]): Conversation
       newMessage(conversationId: ID!, message: PostMessage): Conversation
+      addDogToConversation(conversationId: ID!, dogId: [ID]!): Conversation
    }
 `
 

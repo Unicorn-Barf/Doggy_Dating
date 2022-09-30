@@ -1,5 +1,5 @@
 const { Dog, Owner } = require('../../models');
-const { PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
+const { PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 
 /*-------Query-------*/
 const dogQuery = {
@@ -29,6 +29,9 @@ const dogQuery = {
    },
    getAllDogsByOwner: async (parent, args, context) => {
       try {
+         if(args.ownerId && args.username) {
+            throw new UserInputError('Cannot have both ownerId and username');
+         }
          const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
          const dogs = await Dog.find({ ownerId: owner._id });
          return dogs;
@@ -43,12 +46,7 @@ const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
          const dog = await Dog.create({
-            ownerId: args.dog.ownerId,
-            name: args.dog.name,
-            breed: args.dog.breed,
-            birthday: Date.parse(args.dog.birthday),
-            sex: args.dog.sex,
-            weight: args.dog.weight,
+            ...args.dog
          });
          await Owner.findByIdAndUpdate(ownerId, { $addToSet:{ dogIds: dog._id } }, { new: true });
          return dog;
@@ -60,7 +58,15 @@ const dogMutation = {
       try {
          const dog = await Dog.findById(args.dogId);
          if(dog.ownerId === context.owner._id) {
-            const updatedDog = await Dog.findByIdAndUpdate(args.dogId, { ...args.dog }, { new: true });
+            const updatedDog = await Dog.findByIdAndUpdate(
+               args.dogId,
+               {
+                  ...args.dog
+               },
+               {
+                  new: true
+               }
+            );
             return updatedDog;
          } else {
             throw new ForbiddenError('You cannot edit this dog');
