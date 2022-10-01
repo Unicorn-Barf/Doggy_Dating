@@ -3,13 +3,15 @@ import { Container, Grid, Paper, TextField, Button } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
+
 const Signin = () => {
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
   });
+
   // const [validate] = useState(false);
-  const [ loginUser] = useMutation(LOGIN_USER);
+  const [loginUser] = useMutation(LOGIN_USER);
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -18,6 +20,7 @@ const Signin = () => {
       [name]: value, //
     });
   };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const validateEmail = userFormData.email;
@@ -29,8 +32,9 @@ const Signin = () => {
       alert("Please enter your password");
       return;
     }
+
     try {
-      const { data } = await loginUser({ 
+      const { data } = await loginUser({
         variables: {
           ...userFormData
         },
@@ -39,11 +43,13 @@ const Signin = () => {
     } catch (error) {
       console.log(error);
     }
+
     setUserFormData({
       email: "",
       password: "",
     });
   };
+  
   return (
     <div>
       <Container maxWidth="sm">
