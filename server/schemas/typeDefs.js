@@ -131,6 +131,10 @@ const typeDefs = gql`
       newMessage(conversationId: ID!, message: PostMessage): Conversation
       addDogToConversation(conversationId: ID!, dogId: [ID]!): Conversation
    }
+
+   type Subscription {
+      messageSent: Conversation
+   }
 `
 
 module.exports = typeDefs;
