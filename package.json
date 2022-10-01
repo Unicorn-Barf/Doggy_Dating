@@ -24,11 +24,5 @@
   "homepage": "https://github.com/Unicorn-Barf/Doggy_Dating#readme",
   "devDependencies": {
     "concurrently": "^7.4.0"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/material": "^5.10.7",
-    "apollo-server-express": "^3.10.2"
   }
 }
