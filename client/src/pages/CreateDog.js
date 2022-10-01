@@ -31,10 +31,6 @@ export default function CreateDog() {
             value: 'Female',
             label: 'Female',
         },
-        // {
-        //     value: 'Prefer Not to Say',
-        //     label: 'Prefer Not to Say',
-        // },
     ];
 
     const fixed = [
@@ -126,7 +122,7 @@ export default function CreateDog() {
                         value={value}
                         onChange={handleChange}
                         renderInput={(params) => <TextField {...params} />}
-                        helperText="Please select your dog's birthday. 🎂"
+                        helperText="Please select your dog's birthday."
                     />
                     <TextField
                         required
@@ -148,7 +144,7 @@ export default function CreateDog() {
                         id="outlined-select-fixed"
                         select
                         label="Is your dog spayed/neutered?"
-                        value={fixed}
+                        value={fix}
                         onChange={handleChange}
                         helperText="Please select yes or no."
                     >
