@@ -1,3 +1,4 @@
+//Move into their respective mutation files and delete this file
 import { gql } from "@apollo/client";
 export const LOGIN_USER = gql`
 mutation Mutation($password: String!, $username: String, $email: String) {
