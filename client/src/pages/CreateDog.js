@@ -249,7 +249,6 @@ export default function CreateDog() {
                                 >
                                     <MenuItem value={'Male'}>Male</MenuItem>
                                     <MenuItem value={'Female'}>Female</MenuItem>
-                                    {/* <MenuItem value={30}>Thirty</MenuItem> */}
                                 </Select>
                             </FormControl>
 
