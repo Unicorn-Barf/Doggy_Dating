@@ -40,7 +40,7 @@ function Signup() {
     event.preventDefault();
     const validates = (values) => {
       const passerrors = {};
-      
+
       const regexp =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
 
@@ -65,6 +65,9 @@ function Signup() {
         passerrors.confirmpassword =
           "Password cannot be more than 6 characters";
       }
+      if (values.password !== values.confirmpassword){
+        passerrors.confirmpassword = "Passwords must match";
+    }
       return passerrors;
     };
     const passerrors = validates(userFormData);
@@ -188,14 +191,14 @@ function Signup() {
             ))}
           </TextField>
           <Button
-                  sx={{ my: 2 }}
-                  fullWidth
-                  variant="contained"
-                  type="button"
-                  onClick={handleFormSubmit}
-                >
-                  Signup
-                </Button>
+            sx={{ my: 2 }}
+            fullWidth
+            variant="contained"
+            type="button"
+            onClick={handleFormSubmit}
+          >
+            Signup
+          </Button>
         </Box>
       </div>
     </LocalizationProvider>
