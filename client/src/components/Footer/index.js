@@ -1,8 +1,10 @@
 import React from 'react';
+import './footer.css';
+
 const Footer = () =>{
     return(
-        <h3>&copy;by the Narwhal team.</h3>
+        <p id="footer">Team NaNarwhal &copy; 2022</p>
     )
 }
 
-export default Footer
+export default Footer;

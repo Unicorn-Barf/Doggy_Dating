@@ -10,31 +10,17 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
-import { SIGNUP_USER } from "../utils/mutations";
-import { useMutation} from "@apollo/client";
-import { useState } from 'react';
-function Signup() {
+
+export default function CreateDog() {
     const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
     const [sex, setSex] = React.useState([]);
-    const [userFormData, setUserFormData] = useState({
-          username: "",
-          firstname: "",
-          lastname: "",
-          email: "",
-          password: "",
-          birthday: "",
-          sex: "",
-        });
-    const [ signUpUser ] = useMutation(SIGNUP_USER);
+    const [fix, setFix] = React.useState([]);
 
-    const handleInputChange = (event) => {
-        event.preventDefault();
-        const { name, value } = event.target;
-        setUserFormData({
-          ...userFormData, //access the properties which is name and email
-          [name]: value, //
-        });
-      };
+    const handleChange = (newValue, newSex, newFix) => {
+        setValue(newValue);
+        setSex(newSex);
+        setFix(newFix);
+    };
 
     const sexes = [
         {
@@ -46,6 +32,18 @@ function Signup() {
             label: 'Female',
         },
     ];
+
+    const fixed = [
+        {
+            value: 'Yes',
+            label: 'Yes',
+        },
+        {
+            value: 'No',
+            label: 'No',
+        },
+    ];
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div>
@@ -64,9 +62,6 @@ function Signup() {
                         label="Username"
                         variant="outlined"
                         helperText="Please create a username."
-                        name='username'
-                        onChange={handleInputChange}
-                        value={userFormData.username}
                     />
                     <TextField
                         required
@@ -74,9 +69,6 @@ function Signup() {
                         label="First Name"
                         variant="outlined"
                         helperText="Please enter your first name."
-                        name="firstname"
-                        onChange={handleInputChange}
-                        value={userFormData.firstname}
                     />
                     <TextField
                         required
@@ -84,9 +76,6 @@ function Signup() {
                         label="Last Name"
                         variant="outlined"
                         helperText="Please enter your last name."
-                        name="lastname"
-                        onChange={handleInputChange}
-                        value={userFormData.lastname}
                     />
                     <TextField
                         required
@@ -94,9 +83,6 @@ function Signup() {
                         label="Email"
                         variant="outlined"
                         helperText="Please enter your email address."
-                        name="email"
-                        onChange={handleInputChange}
-                        value={userFormData.email}
                     />
                     <TextField
                         required
@@ -104,7 +90,6 @@ function Signup() {
                         label="Create Password"
                         variant="outlined"
                         helperText="Please create a password."
-                        name="password"
                     />
                     <TextField
                         required
@@ -112,7 +97,6 @@ function Signup() {
                         label="Confirm Password"
                         variant="outlined"
                         helperText="Please type your password again."
-                        name="password"
                     />
 
                 </Box>
@@ -125,13 +109,20 @@ function Signup() {
                     noValidate
                     autoComplete="off"
                 >
+                    <TextField
+                        required
+                        id="outlined-basic"
+                        label="Name"
+                        variant="outlined"
+                        helperText="Please enter your dog's name here."
+                    />
                     <MobileDatePicker
                         label="Birthday"
                         inputFormat="MM/DD/YYYY"
                         value={value}
+                        onChange={handleChange}
                         renderInput={(params) => <TextField {...params} />}
                         helperText="Please select your dog's birthday."
-                        name="birthday"
                     />
                     <TextField
                         required
@@ -139,9 +130,8 @@ function Signup() {
                         select
                         label="Sex"
                         value={sex}
+                        onChange={handleChange}
                         helperText="Please select your dog's sex."
-                        name="sex"
-
                     >
                         {sexes.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -149,12 +139,25 @@ function Signup() {
                             </MenuItem>
                         ))}
                     </TextField>
-                    
+                    <TextField
+                        required
+                        id="outlined-select-fixed"
+                        select
+                        label="Is your dog spayed/neutered?"
+                        value={fix}
+                        onChange={handleChange}
+                        helperText="Please select yes or no."
+                    >
+                        {fixed.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+
                 </Box>
             </div>
         </LocalizationProvider>
     );
 
-
 }
-export default Signup;

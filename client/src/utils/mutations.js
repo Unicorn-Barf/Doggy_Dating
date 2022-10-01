@@ -8,21 +8,13 @@ mutation Mutation($password: String!, $username: String, $email: String) {
 `;
 
 export const SIGNUP_USER = gql`
-mutation PostOwner($owner: PostOwnerInput!) {
-    postOwner(owner: $owner) {
-      token
-      owner {
-        username
-        firstName
-        lastName
-        sex
-        email
-        about
-        birthday
-      }
+mutation Mutation($username: String!, $email: String!, $password: String!, $firstName: String!, $lastName: String!, $sex: String!, $birthday: String!) {
+  signUp(username: $username, email: $email, password: $password, firstName: $firstName, lastName: $lastName, sex: $sex, birthday: $birthday) {
+    token
+    owner {
+      username
     }
   }
-
-
+}
 
 `;
