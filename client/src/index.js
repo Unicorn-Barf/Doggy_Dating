@@ -6,11 +6,33 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+
 import './main.css';
+
+// Apollo Subscriptions setup
+const wsLink = new GraphQLWsLink(createClient({
+    url: 'ws://localhost:3001/subscriptions',
+  }));
 
 const httpLink = createHttpLink({
     uri: '/graphql',
 });
+
+const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+    },
+    wsLink,
+    httpLink,
+  );
 
 const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('id_token');
@@ -23,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: authLink.concat(splitLink),
     cache: new InMemoryCache(),
 });
 

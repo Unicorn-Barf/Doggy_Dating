@@ -1,4 +1,9 @@
 const { Dog, Conversation } = require('../../models');
+const { PubSub } = require('graphql-subscriptions');
+
+// Apollo Subscriptions Utility
+const pubsub = new PubSub();
+
 
 /*-------Query-------*/
 const conversationQuery = {
@@ -7,7 +12,7 @@ const conversationQuery = {
          const dog = await Dog.findById(args.dogId);
          const conversations = await Conversation.find().where('_id').in(dog.conversationIds).exec();
          return conversations;
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    },
@@ -16,7 +21,7 @@ const conversationQuery = {
          const conversation = await Conversation.findById(args.conversationId);
          const messages = conversation.messages;
          return messages;
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    }
@@ -26,9 +31,9 @@ const conversationQuery = {
 const conversationMutation = {
    postConversation: async (parent, args, context) => {
       try {
-         const conversation = await Conversation.create({dogIds: args.dogIds});
+         const conversation = await Conversation.create({ dogIds: args.dogIds });
          //put this conversation id in every dog
-         for(let i=0; i<args.dogIds.length; i++) {
+         for (let i = 0; i < args.dogIds.length; i++) {
             console.log(args.dogIds[i]);
             await Dog.findByIdAndUpdate(
                args.dogIds[i],
@@ -43,7 +48,7 @@ const conversationMutation = {
             );
          }
          return conversation;
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    },
@@ -60,8 +65,13 @@ const conversationMutation = {
                new: true,
             },
          );
+         console.log(conversation);
+         // Publish Subscription Event
+         const { dogIds, _id, messages } = conversation;
+         pubsub.publish('NEW_MESSAGE', {  dogIds, _id, messages });
+
          return conversation;
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    },
@@ -90,13 +100,22 @@ const conversationMutation = {
             }
          );
          return conversation;
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    }
 }
 
+/*-------Subscription-------*/
+const conversationSubscription = {
+   messageSent: {
+      subscribe: () => pubsub.asyncIterator(['NEW_MESSAGE']),
+   },
+}
+
+
 module.exports = {
    conversationQuery,
    conversationMutation,
+   conversationSubscription
 }
