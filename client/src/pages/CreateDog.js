@@ -8,11 +8,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
 // import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -26,10 +26,13 @@ import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
 
 export default function CreateDog() {
-    const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-    const [sex, setSex] = React.useState([]);
+    const [name, setName] = React.useState('');
+    const [birthday, setBirthday] = React.useState(dayjs('2014-08-18T21:11:54'));
+    const [sex, setSex] = React.useState('');
     const [fix, setFix] = React.useState([]);
-    const [state, setState] = React.useState({
+    const [weight, setWeight] = React.useState('');
+    const [size, setSize] = React.useState([]);
+    const [personality, setPersonality] = React.useState({
         aggressive: false,
         confident: false,
         outgoing: false,
@@ -39,29 +42,54 @@ export default function CreateDog() {
         laidback: false,
     });
 
-    const handleChange = (newValue, newSex, newFix, event) => {
-        setValue(newValue);
-        setSex(newSex);
-        setFix(newFix);
-        setState({
-            ...state,
-            [event.target.name]: event.target.checked,
-        });
+    const handleChange = (event) => {
+        const { label, value } = event.target;
+        switch (label) {
+            case "Name":
+                setName(value);
+                break;
+            case "Birthday":
+                setBirthday(value);
+                break;
+            case "Sex":
+                setSex(value);
+                break;
+            case "Is your dog spayed/neutered?":
+                setFix(value);
+                break;
+            case "Weight":
+                setWeight(value);
+                break;
+            case "Size":
+                setSize(value);
+                break;
+            // case "Tell us about your pet.":
+            //     setDescript(value);
+            //     break;
+        };
+
+        // setBirthday();
+        // setSex(newSex);
+        // setFix(newFix);
+        // setPersonality({
+        //     ...personality,
+        //     [newPersonality.target.name]: newPersonality.target.checked,
+        // });
     };
 
-    const { aggressive, confident, outgoing, adaptable, insecure, independent, laidback } = state;
+    const { aggressive, confident, outgoing, adaptable, insecure, independent, laidback } = personality;
     const error = [aggressive, confident, outgoing, adaptable, insecure, independent, laidback].filter((v) => v).length !== 1;
 
-    const sexes = [
-        {
-            value: 'Male',
-            label: 'Male',
-        },
-        {
-            value: 'Female',
-            label: 'Female',
-        },
-    ];
+    // const sexes = [
+    //     {
+    //         value: 'Male',
+    //         label: 'Male',
+    //     },
+    //     {
+    //         value: 'Female',
+    //         label: 'Female',
+    //     },
+    // ];
 
     const fixed = [
         {
@@ -71,6 +99,33 @@ export default function CreateDog() {
         {
             value: 'No',
             label: 'No',
+        },
+    ];
+
+    const sizes = [
+        {
+            value: 'XX-Small',
+            label: 'XX-Small (Fewer than 5 lbs)',
+        },
+        {
+            value: 'X-Small',
+            label: 'X-Small (5-12 lbs)',
+        },
+        {
+            value: 'Small',
+            label: 'Small (13-24 lbs)',
+        },
+        {
+            value: 'Medium',
+            label: 'Medium (25-59 lbs)',
+        },
+        {
+            value: 'Large',
+            label: 'Large (60-99 lbs)',
+        },
+        {
+            value: 'X-Large',
+            label: 'X-Large (101 lbs or more)',
         },
     ];
 
@@ -159,13 +214,14 @@ export default function CreateDog() {
                                 label="Birthday"
                                 id="fullWidth"
                                 inputFormat="MM/DD/YYYY"
-                                value={value}
-                                disableFuture="true"
-                                onChange={handleChange}
+                                value={birthday}
+                                disableFuture
+                                onChange={(event) => setBirthday(event.target.value)}
                                 renderInput={(params) => <TextField {...params} />}
                                 helperText="Please select your dog's birthday."
                             />
-                            <TextField
+
+                            {/* <TextField
                                 required
                                 id="fullWidth"
                                 select
@@ -179,14 +235,31 @@ export default function CreateDog() {
                                         {option.label}
                                     </MenuItem>
                                 ))}
-                            </TextField>
+                            </TextField> */}
+
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Sex</InputLabel>
+                                <Select
+                                    required
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={sex}
+                                    label="Sex"
+                                    onChange={(event) => setSex(event.target.value)}
+                                >
+                                    <MenuItem value={'Male'}>Male</MenuItem>
+                                    <MenuItem value={'Female'}>Female</MenuItem>
+                                    {/* <MenuItem value={30}>Thirty</MenuItem> */}
+                                </Select>
+                            </FormControl>
+
                             <TextField
                                 required
                                 id="outlined-select-fixed"
                                 select
                                 label="Is your dog spayed/neutered?"
                                 value={fix}
-                                onChange={handleChange}
+                                onChange={(event) => setFix(event.target.value)}
                                 helperText="Please select yes or no."
                             >
                                 {fixed.map((option) => (
@@ -207,25 +280,25 @@ export default function CreateDog() {
                                     <FormGroup>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={aggressive} onChange={handleChange} name="aggressive" />
+                                                <Checkbox checked={aggressive} onChange={(event) => handleChange(event)} name="aggressive" />
                                             }
                                             label="Aggressive"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={confident} onChange={handleChange} name="confident" />
+                                                <Checkbox checked={confident} onChange={(event) => handleChange(event)} name="confident" />
                                             }
                                             label="Confident"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={outgoing} onChange={handleChange} name="outgoing" />
+                                                <Checkbox checked={outgoing} onChange={(event) => handleChange(event)} name="outgoing" />
                                             }
                                             label="Outgoing"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={adaptable} onChange={handleChange} name="adaptable" />
+                                                <Checkbox checked={adaptable} onChange={(event) => handleChange(event)} name="adaptable" />
                                             }
                                             label="Adaptable"
                                         />
@@ -233,19 +306,19 @@ export default function CreateDog() {
                                     <FormGroup>
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={insecure} onChange={handleChange} name="insecure" />
+                                                <Checkbox checked={insecure} onChange={(event) => handleChange(event)} name="insecure" />
                                             }
                                             label="Insecure"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={independent} onChange={handleChange} name="independent" />
+                                                <Checkbox checked={independent} onChange={(event) => handleChange(event)} name="independent" />
                                             }
                                             label="Independent"
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox checked={laidback} onChange={handleChange} name="laidback" />
+                                                <Checkbox checked={laidback} onChange={(event) => handleChange(event)} name="laidback" />
                                             }
                                             label="Laidback"
                                         />
@@ -254,18 +327,49 @@ export default function CreateDog() {
                                 </FormControl>
                             </Box>
 
+                            {/* <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    value={weight}
+                                    onChange={handleChange('weight')}
+                                    endAdornment={<InputAdornment position="end">lb</InputAdornment>}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    inputProps={{
+                                        'aria-label': 'weight',
+                                    }}
+                                />
+                                <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
+                            </FormControl> */}
+
                             <TextField
                                 required
                                 id="outlined-basic"
                                 variant="outlined"
                                 label="Weight"
+                                onChange={(event) => setWeight(event.target.value)}
                                 helperText="Please enter your dog's weight in lbs."
-                                // InputProps={{
-                                //     startAdornment: <InputAdornment position="end">lbs</InputAdornment>
-                                // }}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">lbs</InputAdornment>
+                            }}
                             />
 
                             <TextField
+                                required
+                                id="fullWidth"
+                                select
+                                label="Size"
+                                value={size}
+                                onChange={(event) => setSize(event.target.value)}
+                                helperText="Please select your dog's general size."
+                            >
+                                {sizes.map((option) => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                            {/* <TextField
                                 required
                                 id="outlined-select-fixed"
                                 select
@@ -273,7 +377,7 @@ export default function CreateDog() {
                                 value={fix}
                                 onChange={handleChange}
                                 helperText="Please select your dog's general size."
-                            />
+                            /> */}
                         </Box>
 
                         <Box
@@ -300,10 +404,10 @@ export default function CreateDog() {
                                 rows={4}
                             />
                             <Stack direction="row" spacing={2}>
-                            <Button variant="contained">
-                                Submit
-                            </Button>
-                        </Stack>
+                                <Button variant="contained">
+                                    Submit
+                                </Button>
+                            </Stack>
                         </Box>
 
                     </Grid>
@@ -311,7 +415,4 @@ export default function CreateDog() {
             </div>
         </LocalizationProvider>
     );
-
-    // export default function CreateDog() {
-
 }
