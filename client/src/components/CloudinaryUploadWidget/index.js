@@ -1,7 +1,7 @@
 import DogImageUploadWidget from './DogImageUploadWidget';
-import OwnerImageUploadWidget from './OwnerImageUploadWidget';
+//import OwnerImageUploadWidget from './OwnerImageUploadWidget';
 
 export {
    DogImageUploadWidget,
-   OwnerImageUploadWidget,
+   //OwnerImageUploadWidget,
 }

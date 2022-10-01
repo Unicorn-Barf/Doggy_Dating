@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDogId, storeDog } from "../../slices/dogSlice";
 
 const CloudinaryUploadWidget = () => {
+   // two cases to handle:
+   //    uploading image to an existing dog
+   //    uploading image to dog being created
+
    const dispatch = useDispatch();
    let dogId = useSelector(getDogId);
    if(!dogId) {
