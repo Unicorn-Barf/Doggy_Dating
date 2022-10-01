@@ -6,6 +6,7 @@ query GetDog($dogId: ID!) {
     getDog(dogId: $dogId) {
       _id
       name
+      breed
       birthday
       sex
       weight
@@ -17,5 +18,3 @@ query GetDog($dogId: ID!) {
     }
   }
 `;
-
-  
