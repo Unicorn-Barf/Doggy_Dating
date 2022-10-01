@@ -2,7 +2,7 @@ const { Dog, Conversation } = require('../../models');
 
 /*-------Query-------*/
 const conversationQuery = {
-   getConversationsByDogId: async (parent, args, context) => {
+   getAllConversationsByDogId: async (parent, args, context) => {
       try {
          const dog = await Dog.findById(args.dogId);
          const conversations = await Conversation.find().where('_id').in(dog.conversationIds).exec();
@@ -13,8 +13,9 @@ const conversationQuery = {
    },
    getConversationById: async (parent, args, context) => {
       try {
-         const conversation = await Conversation.findById(args._id);
-         return conversation;
+         const conversation = await Conversation.findById(args.conversationId);
+         const messages = conversation.messages;
+         return messages;
       } catch(error) {
          console.error(error);
       }
@@ -51,13 +52,42 @@ const conversationMutation = {
          const conversation = await Conversation.findByIdAndUpdate(
             args.conversationId,
             {
-               $addToSet: {
+               $push: {
                   messages: args.message,
                },
             },
             {
                new: true,
             },
+         );
+         return conversation;
+      } catch(error) {
+         console.error(error);
+      }
+   },
+   addDogToConversation: async (parent, args, context) => {
+      try {
+         await Dog.findByIdAndUpdate(
+            args.dogId,
+            {
+               $push: {
+                  conversationIds: args.conversationId,
+               }
+            },
+            {
+               new: true,
+            }
+         );
+         const conversation = await Conversation.findByIdAndUpdate(
+            args.conversationId,
+            {
+               $push: {
+                  dogIds: args.dogId,
+               }
+            },
+            {
+               new: true,
+            }
          );
          return conversation;
       } catch(error) {

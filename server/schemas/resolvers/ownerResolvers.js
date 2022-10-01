@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError } = require('apollo-server-express');
+const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -20,9 +20,9 @@ const ownerQuery = {
    },
    getOwner: async (parent, args, context) => {
       try {
-         const { username, _id } = args;
+         const { username, ownerId } = args;
          return await Owner.findOne({
-            $or: [{ _id: _id }, { username }],
+            $or: [{ _id: ownerId }, { username }],
          });
       } catch (error) {
          console.error(error);
@@ -40,12 +40,14 @@ const ownerQuery = {
 /*-------Mutation-------*/
 const ownerMutation = {
    login: async (parent, args, context) => {
-      const owner = await Owner.findOne({ $or: [{ username }, { email }] });
+      const owner = await Owner.findOne({ $or: [{ username: args.username }, { email: args.email }] });
+      console.log(owner);
       if (!owner) {
          throw new AuthenticationError('Error logging in!');
       }
 
-      const passwordCheck = await owner.passwordCheck(password);
+      const passwordCheck = await owner.passwordCheck(args.password);
+      console.log(passwordCheck);
       if (!passwordCheck) {
          throw new AuthenticationError('Error logging in!');
       }
@@ -55,15 +57,8 @@ const ownerMutation = {
    },
    postOwner: async (parent, args, context) => {
       try {
-         const { username, email, password, firstName, lastName, sex, birthday } = args.owner;
          const owner = await Owner.create({
-            username: username,
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            sex: sex,
-            birthday: Date.parse(birthday),
+            ...args.owner
          });
          if (!owner) {
             throw Error('Error in creating owner');
@@ -85,7 +80,8 @@ const ownerMutation = {
                new: true,
             }
          );
-         return owner;
+         const token = signToken(owner);
+         return { token, owner };
       } catch (error) {
          console.error(error);
       }
@@ -103,7 +99,25 @@ const ownerMutation = {
       } catch (error) {
          console.error(error);
       }
-   }
+   },
+   addOwnerImage: async (parent, args, context) => {
+      try {
+         const owner = await Owner.findByIdAndUpdate(
+            context.owner._id,
+            {
+               $push: {
+                  images: args.imageURL,
+               }
+            },
+            {
+               new: true,
+            }
+         );
+         return owner;
+      } catch(error) {
+         console.error(error);
+      }
+   },
 }
 
 
