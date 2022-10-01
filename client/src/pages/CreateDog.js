@@ -160,6 +160,4 @@ export default function CreateDog() {
         </LocalizationProvider>
     );
 
-    // export default function CreateDog() {
-
 }
