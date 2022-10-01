@@ -10,12 +10,6 @@ import { GET_DOG_BY_ID } from '../utils/queries';
 // const { useSlotProps } = require("@mui/base");
 
 
-// const DogProfile = (props) => {
-// console.log(props.dogname);
-
-// return <h1> {props.dogname}</h1>;
-// }
-
 // const { loading, data } = useQuery(GET_ME);
 // console.log(data);
 // let userData = data?.me || {};
@@ -24,25 +18,35 @@ import { GET_DOG_BY_ID } from '../utils/queries';
 //     variables: { breed },
 //   });
 
-function DogProfile () {
-    const { dogId } = useParams();
-    console.log(dogId);
-    const { data } = useQuery(GET_DOG_BY_ID, { variables: { dogId }
-    });
-    console.log(data);
 
-    const dog = { ...data.getDog };
+
+function DogProfile() {
+    const { dogId } = useParams();
+    // console.log(dogId);
+    // const { loading, data } = useQuery(GET_DOG_BY_ID, { variables: { dogId }
+    const dogData = useQuery(GET_DOG_BY_ID, {
+        variables: { dogId }
+    });
+
+    const dog = dogData.data?.getDog || {};
+
+    // console.log(data);
 
     return (
         <>
-        <h1> {dog.name}</h1>
+            {dogData.loading
+                ? <h1>loading</h1>
+                : <h1>{dog.name}</h1>
+            }
 
-        <button onClick={() => {
- 
-        }}
-        >
-            playdate
-        </button>
+
+
+            <button onClick={() => {
+
+            }}
+            >
+                playdate
+            </button>
         </>
     )
 }
