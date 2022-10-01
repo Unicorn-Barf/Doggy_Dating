@@ -114,7 +114,7 @@ export default function CreateDog() {
                         id="outlined-basic"
                         label="Name"
                         variant="outlined"
-                        helperText="Please enter your dog's name."
+                        helperText="Please enter your dog's name here."
                     />
                     <MobileDatePicker
                         label="Birthday"
