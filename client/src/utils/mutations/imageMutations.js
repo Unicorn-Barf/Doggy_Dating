@@ -1,16 +1,8 @@
-//Move into their respective mutation files and delete this file
 import { gql } from "@apollo/client";
-export const LOGIN_USER = gql`
-mutation Mutation($password: String!, $username: String, $email: String) {
-    login(password: $password, username: $username, email: $email) {
-      token
-    }
-  }
-`;
 
 export const UPLOAD_DOG_IMAGES = gql`
-mutation Mutation($dogId: ID!, $imageURL: [String]!) {
-   addDogImage(dogId: $dogId, imageURL: $imageURL) {
+mutation Mutation($dogId: ID!, $imageUrl: [String]!) {
+   addDogImage(dogId: $dogId, imageURL: $imageUrl) {
       _id
       name
       breed

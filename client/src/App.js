@@ -7,6 +7,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
 import CreateDog from "./pages/CreateDog";
+import DogSettings from "./pages/DogSettings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -39,6 +40,10 @@ function App() {
         <Route
           path="/create-dog"
           element={<CreateDog />}
+        />
+        <Route
+          path="/dogs/settings"
+          element={<DogSettings />}
         />
         <Route
           path="*"
