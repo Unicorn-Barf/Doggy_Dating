@@ -6,6 +6,8 @@ import Profile from "./pages/Profile";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
+import CreateDog from "./pages/CreateDog";
+import Settings from "./pages/Settings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -34,6 +36,14 @@ function App() {
         <Route
           path="/chat"
           element={<Chat />}
+        />
+        <Route
+          path="/create-dog"
+          element={<CreateDog />}
+        />
+        <Route
+          path="/settings"
+          element={<Settings />}
         />
         <Route
           path="*"
