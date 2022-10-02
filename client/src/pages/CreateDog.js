@@ -1,10 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,14 +10,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
-// import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
@@ -66,14 +59,6 @@ export default function CreateDog() {
                 setDescript(value);
                 break;
         };
-
-        // setBirthday();
-        // setSex(newSex);
-        // setFix(newFix);
-        // setPersonality({
-        //     ...personality,
-        //     [newPersonality.target.name]: newPersonality.target.checked,
-        // });
     };
 
     const ITEM_HEIGHT = 48;
@@ -136,59 +121,6 @@ export default function CreateDog() {
                         justifyContent="center"
                         style={{ minHeight: "100vh" }}
                     >
-                        {/* <p>Sign up using the form below.</p>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& > :not(style)': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Username"
-                            variant="outlined"
-                            helperText="Please create a username."
-                        />
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="First Name"
-                            variant="outlined"
-                            helperText="Please enter your first name."
-                        />
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Last Name"
-                            variant="outlined"
-                            helperText="Please enter your last name."
-                        />
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Email"
-                            variant="outlined"
-                            helperText="Please enter your email address."
-                        />
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Create Password"
-                            variant="outlined"
-                            helperText="Please create a password."
-                        />
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Confirm Password"
-                            variant="outlined"
-                            helperText="Please type your password again."
-                        />
-
-                    </Box> */}
                         <h2>Register a Dog</h2>
                         <p>Enter your dog's info.</p>
                         <Box
@@ -221,7 +153,6 @@ export default function CreateDog() {
                                 <InputLabel id="simple-select-label">Sex</InputLabel>
                                 <Select
                                     required
-                                    // labelId="demo-simple-select-label"
                                     id="simple-select"
                                     value={sex}
                                     label="Sex"
@@ -287,32 +218,6 @@ export default function CreateDog() {
                                     endAdornment: <InputAdornment position="end">lbs</InputAdornment>
                                 }}
                             />
-
-                            {/* <TextField
-                                required
-                                id="fullWidth"
-                                select
-                                label="Size"
-                                value={size}
-                                onChange={(event) => setSize(event.target.value)}
-                                helperText="Please select your dog's general size."
-                            >
-                                {sizes.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
-
-                            {/* <TextField
-                                required
-                                id="outlined-select-fixed"
-                                select
-                                label="Size"
-                                value={fix}
-                                onChange={handleChange}
-                                helperText="Please select your dog's general size."
-                            /> */}
                         </Box>
 
                         <Box
