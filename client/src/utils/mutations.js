@@ -17,7 +17,6 @@ mutation Mutation($username: String!, $email: String!, $password: String!, $firs
     }
   }
 }
-
 `;
 
 export const UPLOAD_DOG_IMAGES = gql`
