@@ -123,6 +123,7 @@ function Signup() {
             onChange={handleInputChange}
             value={userFormData.email}
           />
+          {/* ADD BIRTHDAY TEXTFIELD HERE. */}
           <TextField
             required
             id="outlined-basic"
