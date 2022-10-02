@@ -288,7 +288,7 @@ export default function CreateDog() {
                                 }}
                             />
 
-                            <TextField
+                            {/* <TextField
                                 required
                                 id="fullWidth"
                                 select
@@ -302,7 +302,7 @@ export default function CreateDog() {
                                         {option.label}
                                     </MenuItem>
                                 ))}
-                            </TextField>
+                            </TextField> */}
 
                             {/* <TextField
                                 required
