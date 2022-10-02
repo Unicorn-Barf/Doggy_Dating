@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
+import ListItemText from '@mui/material/ListItemText';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -27,20 +28,13 @@ import { Grid } from '@mui/material';
 
 export default function CreateDog() {
     const [name, setName] = React.useState('');
-    const [birthday, setBirthday] = React.useState(dayjs('2014-08-18T21:11:54'));
+    const [birthday, setBirthday] = React.useState(dayjs('2014-08-18'));
     const [sex, setSex] = React.useState('');
     const [fix, setFix] = React.useState([]);
     const [weight, setWeight] = React.useState('');
     const [size, setSize] = React.useState([]);
-    const [personality, setPersonality] = React.useState({
-        aggressive: false,
-        confident: false,
-        outgoing: false,
-        adaptable: false,
-        insecure: false,
-        independent: false,
-        laidback: false,
-    });
+    const [personality, setPersonality] = React.useState([]);
+    const [descript, setDescript] = React.useState([]);
 
     const handleChange = (event) => {
         const { label, value } = event.target;
@@ -54,7 +48,7 @@ export default function CreateDog() {
             case "Sex":
                 setSex(value);
                 break;
-            case "Is your dog spayed/neutered?":
+            case "Fix":
                 setFix(value);
                 break;
             case "Weight":
@@ -63,9 +57,14 @@ export default function CreateDog() {
             case "Size":
                 setSize(value);
                 break;
-            // case "Tell us about your pet.":
-            //     setDescript(value);
-            //     break;
+            case "Personality":
+                setPersonality(
+                    typeof value === 'string' ? value.split(',') : value,
+                );
+                break;
+            case "Tell us about your pet.":
+                setDescript(value);
+                break;
         };
 
         // setBirthday();
@@ -77,29 +76,26 @@ export default function CreateDog() {
         // });
     };
 
-    const { aggressive, confident, outgoing, adaptable, insecure, independent, laidback } = personality;
-    const error = [aggressive, confident, outgoing, adaptable, insecure, independent, laidback].filter((v) => v).length !== 1;
-
-    // const sexes = [
-    //     {
-    //         value: 'Male',
-    //         label: 'Male',
-    //     },
-    //     {
-    //         value: 'Female',
-    //         label: 'Female',
-    //     },
-    // ];
-
-    const fixed = [
-        {
-            value: 'Yes',
-            label: 'Yes',
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
         },
-        {
-            value: 'No',
-            label: 'No',
-        },
+    };
+
+    const personalities = [
+        'Aggressive',
+        'Confident',
+        'Outgoing',
+        'Adaptable',
+        'Insecure',
+        'Independent',
+        'Laid Back',
+
     ];
 
     const sizes = [
@@ -193,6 +189,7 @@ export default function CreateDog() {
                         />
 
                     </Box> */}
+                        <h2>Register a Dog</h2>
                         <p>Enter your dog's info.</p>
                         <Box
                             component="form"
@@ -216,33 +213,16 @@ export default function CreateDog() {
                                 inputFormat="MM/DD/YYYY"
                                 value={birthday}
                                 disableFuture
-                                onChange={(event) => setBirthday(event.target.value)}
-                                renderInput={(params) => <TextField {...params} />}
-                                helperText="Please select your dog's birthday."
+                                onChange={(newBirthday) => setBirthday(newBirthday)}
+                                renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
                             />
 
-                            {/* <TextField
-                                required
-                                id="fullWidth"
-                                select
-                                label="Sex"
-                                value={sex}
-                                onChange={handleChange}
-                                helperText="Please select your dog's sex."
-                            >
-                                {sexes.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
-
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Sex</InputLabel>
+                            <FormControl required>
+                                <InputLabel id="simple-select-label">Sex</InputLabel>
                                 <Select
                                     required
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    // labelId="demo-simple-select-label"
+                                    id="simple-select"
                                     value={sex}
                                     label="Sex"
                                     onChange={(event) => setSex(event.target.value)}
@@ -250,95 +230,51 @@ export default function CreateDog() {
                                     <MenuItem value={'Male'}>Male</MenuItem>
                                     <MenuItem value={'Female'}>Female</MenuItem>
                                 </Select>
+                                <FormHelperText>Please select your dog's sex.</FormHelperText>
                             </FormControl>
 
-                            <TextField
-                                required
-                                id="outlined-select-fixed"
-                                select
-                                label="Is your dog spayed/neutered?"
-                                value={fix}
-                                onChange={(event) => setFix(event.target.value)}
-                                helperText="Please select yes or no."
-                            >
-                                {fixed.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            <FormControl required>
+                                <InputLabel id="simple-select-label">Spayed/neutered?</InputLabel>
+                                <Select
+                                    required
+                                    labelId="simple-select-label"
+                                    id="simple-select"
+                                    value={fix}
+                                    label="Fix"
+                                    onChange={(event) => setFix(event.target.value)}
+                                >
+                                    <MenuItem value={'Yes'}>Yes</MenuItem>
+                                    <MenuItem value={'No'}>No</MenuItem>
+                                </Select>
+                                <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
+                            </FormControl>
+
                             <Box sx={{ display: 'flex' }}>
                                 <FormControl
                                     required
-                                    error={error}
-                                    component="fieldset"
-                                    // sx={{ m: 3 }}
-                                    variant="standard"
+                                    sx={{ width: "100%" }}
                                 >
-                                    <FormLabel component="legend">Personality</FormLabel>
-                                    <FormGroup>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={aggressive} onChange={(event) => handleChange(event)} name="aggressive" />
-                                            }
-                                            label="Aggressive"
-                                        />
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={confident} onChange={(event) => handleChange(event)} name="confident" />
-                                            }
-                                            label="Confident"
-                                        />
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={outgoing} onChange={(event) => handleChange(event)} name="outgoing" />
-                                            }
-                                            label="Outgoing"
-                                        />
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={adaptable} onChange={(event) => handleChange(event)} name="adaptable" />
-                                            }
-                                            label="Adaptable"
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={insecure} onChange={(event) => handleChange(event)} name="insecure" />
-                                            }
-                                            label="Insecure"
-                                        />
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={independent} onChange={(event) => handleChange(event)} name="independent" />
-                                            }
-                                            label="Independent"
-                                        />
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox checked={laidback} onChange={(event) => handleChange(event)} name="laidback" />
-                                            }
-                                            label="Laidback"
-                                        />
-                                    </FormGroup>
+                                    <InputLabel id="multiple-checkbox-label">Personality</InputLabel>
+                                    <Select
+                                        labelId="multiple-checkbox-label"
+                                        id="multiple-checkbox"
+                                        multiple
+                                        value={personality}
+                                        onChange={(event) => setPersonality(event.target.value)}
+                                        input={<OutlinedInput label="Personality" />}
+                                        renderValue={(selected) => selected.join(', ')}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {personalities.map((personality) => (
+                                            <MenuItem key={personality} value={personality}>
+                                                <Checkbox unchecked={personality.indexOf(personality) > -1} />
+                                                <ListItemText primary={personality} />
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                     <FormHelperText>Please check all that apply.</FormHelperText>
                                 </FormControl>
                             </Box>
-
-                            {/* <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    value={weight}
-                                    onChange={handleChange('weight')}
-                                    endAdornment={<InputAdornment position="end">lb</InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    inputProps={{
-                                        'aria-label': 'weight',
-                                    }}
-                                />
-                                <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
-                            </FormControl> */}
 
                             <TextField
                                 required
@@ -346,10 +282,10 @@ export default function CreateDog() {
                                 variant="outlined"
                                 label="Weight"
                                 onChange={(event) => setWeight(event.target.value)}
-                                helperText="Please enter your dog's weight in lbs."
-                            InputProps={{
-                                endAdornment: <InputAdornment position="end">lbs</InputAdornment>
-                            }}
+                                helperText="Please enter your dog's weight."
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">lbs</InputAdornment>
+                                }}
                             />
 
                             <TextField
