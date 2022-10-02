@@ -19,7 +19,6 @@ const typeDefs = gql`
       username: String!
       email: String!
       password: String!
-      confirmPassword: String!
       firstName: String!
       lastName: String!
       sex: String!
@@ -40,6 +39,7 @@ const typeDefs = gql`
 
    type Dog {
       _id: ID
+      ownerId: ID
       name: String
       breed: String
       birthday: String
