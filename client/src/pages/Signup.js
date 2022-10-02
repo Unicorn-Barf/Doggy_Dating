@@ -1,21 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import dayjs from "dayjs";
 import { TextField, Button } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import MenuItem from "@mui/material/MenuItem";
 import { SIGNUP_USER } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
+
 function Signup() {
-  const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
-  const [sex, setSex] = React.useState([]);
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstname: "",
@@ -23,9 +15,8 @@ function Signup() {
     email: "",
     password: "",
     confirmpassword: "",
-    birthday: "",
-    sex: "",
   });
+
   const [signUpUser] = useMutation(SIGNUP_USER);
 
   const handleInputChange = (event) => {
@@ -36,6 +27,7 @@ function Signup() {
       [name]: value, //
     });
   };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const validates = (values) => {
@@ -48,47 +40,41 @@ function Signup() {
         passerrors.password = "Password is required";
       } else if (!regexp.test(values.password)) {
         passerrors.password =
-          "passsword must contain atleast one uppercase,lowercase,number,special character";
+          "Password must contain at least one uppercase letter, lowercase letter, number, and special character";
       } else if (values.password.length < 4) {
-        passerrors.password = "Password must me more than 4 characters";
+        passerrors.password = "Password must me more than 4 characters long.";
       } else if (values.password.length > 6) {
-        passerrors.password = "Password cannot be more than 6 characters";
+        passerrors.password = "Password cannot be more than 6 characters long.";
       }
+
       if (!values.confirmpassword) {
         passerrors.confirmpassword = "Password is required";
       } else if (!regexp.test(values.confirmpassword)) {
         passerrors.confirmpassword =
-          "passsword must contain atleast one uppercase,lowercase,number,special character";
+          "Password must contain at least one uppercase letter, lowercase letter, number, and special character.";
       } else if (values.confirmpassword.length < 4) {
-        passerrors.confirmpassword = "Password must me more than 4 characters";
+        passerrors.confirmpassword = "Password must me more than 4 characters long.";
       } else if (values.confirmpassword.length > 6) {
         passerrors.confirmpassword =
-          "Password cannot be more than 6 characters";
+          "Password cannot be more than 6 characters long.";
       }
-      if (values.password !== values.confirmpassword){
-        passerrors.confirmpassword = "Passwords must match";
-    }
+
+      if (values.password !== values.confirmpassword) {
+        passerrors.confirmpassword = "Passwords must match.";
+      }
       return passerrors;
     };
+
     const passerrors = validates(userFormData);
     console.log(passerrors);
     console.log(userFormData);
   };
 
-  const sexes = [
-    {
-      value: "Male",
-      label: "Male",
-    },
-    {
-      value: "Female",
-      label: "Female",
-    },
-  ];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
-        <p>Sign up using the form below.</p>
+        <h2>Sign Up for Bone Buddies!</h2>
+        <p>Complete the form below to create an account.</p>
         <Box
           component="form"
           sx={{
@@ -157,39 +143,6 @@ function Signup() {
             onChange={handleInputChange}
             value={userFormData.confirmpassword}
           />
-        </Box>
-        <p>Enter your dog's info.</p>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "25ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <MobileDatePicker
-            label="Birthday"
-            inputFormat="MM/DD/YYYY"
-            value={value}
-            renderInput={(params) => <TextField {...params} />}
-            helperText="Please select your dog's birthday."
-            name="birthday"
-          />
-          <TextField
-            required
-            id="outlined-select-sex"
-            select
-            label="Sex"
-            value={sex}
-            helperText="Please select your dog's sex."
-            name="sex"
-          >
-            {sexes.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
           <Button
             sx={{ my: 2 }}
             fullWidth
@@ -197,11 +150,13 @@ function Signup() {
             type="button"
             onClick={handleFormSubmit}
           >
-            Signup
+            Sign Up
           </Button>
         </Box>
+        
       </div>
     </LocalizationProvider>
   );
 }
+
 export default Signup;
