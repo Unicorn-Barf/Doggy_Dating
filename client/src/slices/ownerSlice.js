@@ -22,7 +22,7 @@ const ownerSlice = createSlice({
 
 // Action creators for use with dispatch in components
 // i.e. dispatch(starMe())
-export const { starMe } = ownerSlice.actions;
+export const { starMe, storeOwner } = ownerSlice.actions;
 
 // you can write custom selectors
 export const isOwnerStarred = (state) => state.owner.star;
