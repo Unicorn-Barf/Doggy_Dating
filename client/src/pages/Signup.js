@@ -1,22 +1,35 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
+import dayjs from "dayjs";
 import { TextField, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { SIGNUP_USER } from "../utils/mutations";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import MenuItem from "@mui/material/MenuItem";
+import { SIGNUP_USER } from "../utils/mutations/index";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-
+import Auth from "../utils/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { storeOwner } from "../slices/ownerSlice";
 function Signup() {
+  const dispatch = useDispatch();
+  const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
+  const [sex, setSex] = React.useState([]);
   const [userFormData, setUserFormData] = useState({
     username: "",
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmpassword: "",
+    birthday: "10/12/2021",
+    sex: "",
   });
-
   const [signUpUser] = useMutation(SIGNUP_USER);
 
   const handleInputChange = (event) => {
@@ -27,7 +40,6 @@ function Signup() {
       [name]: value, //
     });
   };
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const validates = (values) => {
@@ -40,41 +52,66 @@ function Signup() {
         passerrors.password = "Password is required";
       } else if (!regexp.test(values.password)) {
         passerrors.password =
-          "Password must contain at least one uppercase letter, lowercase letter, number, and special character";
-      } else if (values.password.length < 4) {
-        passerrors.password = "Password must me more than 4 characters long.";
-      } else if (values.password.length > 6) {
-        passerrors.password = "Password cannot be more than 6 characters long.";
+          "passsword must contain atleast one uppercase,lowercase,number,special character";
+      } else if (values.password.length < 8) {
+        passerrors.password = "Password must be more than 8 characters";
+      } else if (values.password.length > 30) {
+        passerrors.password = "Password cannot be more than 30 characters";
       }
-
-      if (!values.confirmpassword) {
-        passerrors.confirmpassword = "Password is required";
-      } else if (!regexp.test(values.confirmpassword)) {
-        passerrors.confirmpassword =
-          "Password must contain at least one uppercase letter, lowercase letter, number, and special character.";
-      } else if (values.confirmpassword.length < 4) {
-        passerrors.confirmpassword = "Password must me more than 4 characters long.";
-      } else if (values.confirmpassword.length > 6) {
-        passerrors.confirmpassword =
-          "Password cannot be more than 6 characters long.";
-      }
-
       if (values.password !== values.confirmpassword) {
-        passerrors.confirmpassword = "Passwords must match.";
+        passerrors.confirmpassword = "Passwords must match";
       }
       return passerrors;
     };
-
-    const passerrors = validates(userFormData);
-    console.log(passerrors);
-    console.log(userFormData);
+    try {
+      const passerrors = validates(userFormData);
+      if (Object.keys(passerrors).length > 0) {
+        throw new Error(
+          `validation failed ${passerrors.confirmpassword || ""} and ${
+            passerrors.confirmpassword || ""
+          }`
+        );
+      }
+      console.log(userFormData);
+      const { data, error } = await signUpUser({
+        variables: {
+          owner: userFormData,
+        },
+      });
+      Auth.login(data.postOwner.token);
+      const loggedInOwner = data.postOwner.owner;
+      console.log(loggedInOwner);
+      dispatch(
+        storeOwner({
+          ...loggedInOwner,
+        })
+      );
+    } catch (err) {
+      return console.log(err);
+    }
+    // console.log(passerrors);
   };
-
+  // username: String!
+  // email: String!
+  // password: String!
+  // firstName: String!
+  // lastName: String!
+  // sex: String!
+  // birthday: String!
+  const sexes = [
+    {
+      value: "Male",
+      label: "Male",
+    },
+    {
+      value: "Female",
+      label: "Female",
+    },
+  ];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
-        <h2>Sign Up for Bone Buddies!</h2>
-        <p>Complete the form below to create an account.</p>
+        <p>Sign up using the form below.</p>
         <Box
           component="form"
           sx={{
@@ -99,9 +136,9 @@ function Signup() {
             label="First Name"
             variant="outlined"
             helperText="Please enter your first name."
-            name="firstname"
+            name="firstName"
             onChange={handleInputChange}
-            value={userFormData.firstname}
+            value={userFormData.firstName}
           />
           <TextField
             required
@@ -109,9 +146,9 @@ function Signup() {
             label="Last Name"
             variant="outlined"
             helperText="Please enter your last name."
-            name="lastname"
+            name="lastName"
             onChange={handleInputChange}
-            value={userFormData.lastname}
+            value={userFormData.lastName}
           />
           <TextField
             required
@@ -143,6 +180,43 @@ function Signup() {
             onChange={handleInputChange}
             value={userFormData.confirmpassword}
           />
+        </Box>
+        <p>Enter your dog's info.</p>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <MobileDatePicker
+            label="Birthday"
+            inputFormat="MM/DD/YYYY"
+            value={userFormData.birthday}
+            renderInput={(params) => <TextField {...params} />}
+            helperText="Please select your dog's birthday."
+            name="birthday"
+            onChange={(birthday) =>
+              setUserFormData({ ...userFormData, birthday })
+            }
+          />
+          <TextField
+            required
+            id="outlined-select-sex"
+            select
+            label="Sex"
+            value={sex}
+            helperText="Please select your dog's sex."
+            name="sex"
+            onChange={(e) => setSex(e.target.value)}
+          >
+            {sexes.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
             sx={{ my: 2 }}
             fullWidth
@@ -150,13 +224,11 @@ function Signup() {
             type="button"
             onClick={handleFormSubmit}
           >
-            Sign Up
+            Signup
           </Button>
         </Box>
-        
       </div>
     </LocalizationProvider>
   );
 }
-
 export default Signup;
