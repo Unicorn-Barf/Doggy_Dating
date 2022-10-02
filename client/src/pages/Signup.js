@@ -1,22 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import dayjs from "dayjs";
 import { TextField, Button } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import MenuItem from "@mui/material/MenuItem";
 import { SIGNUP_USER } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 
 function Signup() {
-  const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
-  const [sex, setSex] = React.useState([]);
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstname: "",
@@ -24,8 +15,6 @@ function Signup() {
     email: "",
     password: "",
     confirmpassword: "",
-    birthday: "",
-    sex: "",
   });
 
   const [signUpUser] = useMutation(SIGNUP_USER);
