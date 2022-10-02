@@ -8,14 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 
-const GET_Mess = gql`
-query Query($conversationId: ID!) {
-  getConversationById(conversationId: $conversationId) {
-    message
-    dogId
-  }
-}
-`;
+
 
 const GET_MESSAGES = gql`
 subscription MessageSent {
@@ -48,7 +41,7 @@ mutation Mutation($conversationId: ID!, $message: PostMessage) {
 `;
 
 const Text = ({user}) =>{
-    const {data} = useSubscription(GET_MESSAGES)
+    const {data} = useSubscription(GET_MESSAGES);
     console.log(data, 'DATAAAAAAAAAAAA!!');
     if(!data){
         return null;
