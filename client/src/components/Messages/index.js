@@ -18,13 +18,18 @@ query Query($conversationId: ID!) {
 `;
 
 const GET_MESSAGES = gql`
-  subscription {
+subscription MessageSent {
+  messageSent {
+    _id
+    dogIds
     messages {
-      id
-      user
-      text
+      dogId
+      message
+      createdAt
+      messageId
     }
   }
+}
 `;
 
 const POST_MESSAGE = gql`
@@ -44,6 +49,7 @@ mutation Mutation($conversationId: ID!, $message: PostMessage) {
 
 const Text = ({user}) =>{
     const {data} = useSubscription(GET_MESSAGES)
+    console.log(data, 'DATAAAAAAAAAAAA!!');
     if(!data){
         return null;
     }
@@ -64,20 +70,23 @@ const Text = ({user}) =>{
 const Messages = () => {
     const [user, setUser] = useState("Victoria");
     const [text, setText] = useState("");
+    const [messages, setMessages] = useState("")
     const [postMessage] = useMutation(POST_MESSAGE)
-    const sendMessage=()=>{
+    const sendMessage = async () => {
       const PostMessage = {
         dogId: "633803594950ea4a2c76c2b6",
         message: text
       };
       console.log(PostMessage);
       if(text.length>0 && user.length >0){
-        postMessage({
+        const { data } = await postMessage({
           variables:{
             message: {...PostMessage},
             conversationId: '6337e95a5223045e30bf0203'
           }
-        })
+        });
+        console.log(data);
+        setMessages(data);
         setText("");
       }else{
         alert("Missing fields!")
@@ -88,7 +97,7 @@ const Messages = () => {
     return(
         <Container>
           <h3>Welcome to DevThoughts! A simple chat app for the GraphQL series!</h3>
-          <Text user={user}/>
+          <Text user={messages}/>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <TextField onChange={(e)=>{
