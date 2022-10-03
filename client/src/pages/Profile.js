@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom';
 
 import { useQuery } from "@apollo/client";
 
-import { GET_DOG_BY_ID } from '../utils/queries';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { IconButton } from '@mui/material';
+import { GET_DOG_BY_DOG_ID } from '../utils/queries/index.js';
 
 // const { useSlotProps } = require("@mui/base");
 
@@ -26,7 +26,7 @@ function DogProfile() {
     const { dogId } = useParams();
     // console.log(dogId);
     // const { loading, data } = useQuery(GET_DOG_BY_ID, { variables: { dogId }
-    const dogData = useQuery(GET_DOG_BY_ID, {
+    const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
     });
 
