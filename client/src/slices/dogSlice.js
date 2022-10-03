@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-   dog: {
+   data: {
       _id: null,
    },
 }
@@ -11,7 +11,7 @@ const dogSlice = createSlice({
    initialState,
    reducers: {
       storeDog(state, action) {
-         state.dog = action.payload;
+         state.dog.data = action.payload;
       }
    }
 });
@@ -19,7 +19,7 @@ const dogSlice = createSlice({
 export const { storeDog } = dogSlice.actions;
 
 // Custom Selectors
-export const getDog = (state) => state.dog;
-export const getDogId = (state) => state.dog._id;
+export const getDog = (state) => state.dog.data;
+export const getDogId = (state) => state.dog.data._id;
 
 export default dogSlice.reducer;
