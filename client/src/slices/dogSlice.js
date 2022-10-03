@@ -18,6 +18,8 @@ const dogSlice = createSlice({
 
 export const { storeDog } = dogSlice.actions;
 
+// Custom Selectors
+export const getDog = (state) => state.dog;
 export const getDogId = (state) => state.dog._id;
 
 export default dogSlice.reducer;

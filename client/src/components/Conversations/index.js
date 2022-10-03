@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useMutation, useQuery, useSubscription, gql } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID } from '../../utils/queries';
 
-const GET_CONVERSATIONS_SUB = gql`
-`;
+// const GET_CONVERSATIONS_SUB = gql`
+// `;
 
 // Testing Variables
 const dogId = '63373a64b8c198305855caa3';
