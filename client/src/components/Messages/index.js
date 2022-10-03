@@ -59,7 +59,7 @@ const Text = ({ conversationId }) => {
   const convoQuery = useQuery(GET_CONVERSATION_BY_ID,
     { variables: { conversationId } });
 
-  let convo = convoQuery.data.getConversationById;
+  let convo = convoQuery.data?.getConversationById || [];
 
   const { data } = useSubscription(GET_MESSAGES_SUB,
     { variables: { conversationId } },
@@ -93,7 +93,6 @@ const Messages = () => {
       dogId: "633803594950ea4a2c76c2b6",
       message: text
     };
-    console.log(PostMessage);
     if (text.length > 0 && user.length > 0) {
       const { data } = await postMessage({
         variables: {
