@@ -15,6 +15,9 @@ import PetsIcon from '@mui/icons-material/Pets';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
 import './navbar.css';
+import { useDispatch } from 'react-redux';
+import { storeDogs, storeCurrentDog } from '../../slices/dogSlice';
+import { storeOwner } from '../../slices/ownerSlice';
 
 const loggedOutPages = ['Home', 'Signin', 'Signup'];
 const loggedInPages = ['Home', 'profile/:id', 'create-dog', 'dogs/settings', 'chat', 'SignOut'];
@@ -22,6 +25,7 @@ const loggedInPages = ['Home', 'profile/:id', 'create-dog', 'dogs/settings', 'ch
 // const dropDownPages = ['SignOut'];
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +39,13 @@ const Navbar = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const handleLogOut = () => {
+        dispatch(storeDogs({}));
+        dispatch(storeCurrentDog({}));
+        dispatch(storeOwner({}));
+        Auth.logout();
+    }
 
     // const handleCloseUserMenu = () => {
     //     setAnchorElUser(null);
@@ -146,6 +157,15 @@ const Navbar = () => {
                                     </Link>
                                 </Button>
                             ))}
+                            <Button
+                                key={page}
+                                onClick={handleLogOut}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                {/* <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>
+                                        {page}
+                                    </Link> */}
+                            </Button>
                         </Box>
                     )}
 
