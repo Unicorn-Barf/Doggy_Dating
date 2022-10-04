@@ -19,5 +19,25 @@ mutation Signup($owner: PostOwnerInput!) {
     }
   }
 `;
+export const LOGIN_USER = gql`
+mutation LOGIN($password: String!, $username: String, $email: String) {
+   login(password: $password, username: $username, email: $email) {
+     token
+     owner {
+       _id
+       username
+       firstName
+       lastName
+       sex
+       email
+       about
+       birthday
+       images
+       lon
+       lat
+     }
+   }
+ }
+`;
 
  

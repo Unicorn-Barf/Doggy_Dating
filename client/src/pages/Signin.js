@@ -3,8 +3,10 @@ import { Container, Grid, Paper, TextField, Button } from "@mui/material";
 import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
+import { useDispatch, useSelector } from "react-redux";
 
 const Signin = () => {
+  const dispatch = useDispatch();
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
@@ -16,7 +18,7 @@ const Signin = () => {
     event.preventDefault();
     const { name, value } = event.target;
     setUserFormData({
-      ...userFormData, //access the properties which is name and email
+      ...userFormData, //access the properties which is email and password
       [name]: value, //
     });
   };
@@ -40,8 +42,15 @@ const Signin = () => {
         },
       });
       Auth.login(data.login.token);
+      const signUpOwner = data.postOwner.owner;
+      console.log(signUpOwner);
+      dispatch(
+        {
+          ...signUpOwner,
+        }
+      )
     } catch (error) {
-      console.log(error);
+      return console.log(error);
     }
 
     setUserFormData({
