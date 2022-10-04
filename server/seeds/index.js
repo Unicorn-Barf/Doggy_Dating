@@ -1,4 +1,5 @@
 const db = require('../config/connection');
+const mongoose = require('mongoose');
 const { Owner, Dog, Conversation } = require('../models');
 const getOwnerData = require('./ownerData');
 const getDogData = require('./dogData');
@@ -28,11 +29,12 @@ db.once('open', async () => {
         let allOwners = await Owner.find({});
 
         for (let i=0; i<dogData.length; i++) {
-            dogData[i].ownerId = allOwners[i]._id;
+            dogData[i].ownerId = new mongoose.Types.ObjectId(allOwners[i]._id);
             const newDog = await Dog.create(dogData[i]);
-            
+            // Create ObjectId for dogIds array
+            const dogId = new mongoose.Types.ObjectId(newDog._id);
             // Add Dog id to owner dogIds array
-            allOwners[i].dogIds = [newDog._id];
+            allOwners[i].dogIds = [dogId];
             await allOwners[i].save();
         }
         // const dogs = await Dog.insertMany(dogData);
