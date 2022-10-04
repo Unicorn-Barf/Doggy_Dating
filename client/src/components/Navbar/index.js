@@ -13,8 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Link } from 'react-router-dom';
+import Auth from '../../utils/auth';
 
-const pages = ['Home', 'sign-in', 'profile/:id', 'create-dog', 'dogs/settings'];
+const loggedOutPages = ['Home', 'sign-in', 'sign-up'];
+const loggedInPages = ['Home', 'sign-in', 'profile/:id', 'create-dog', 'dogs/settings', 'chat'];
 const settings = ['Sign Out'];
 
 const Navbar = () => {
@@ -88,15 +90,26 @@ const Navbar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <Link style={{textDecoration: "none", color: "white"}} to={`/${page}`}>
-                                            {page}
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            {Auth.loggedIn()
+                                ? loggedInPages.map((page) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
+                                            <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>
+                                                {page}
+                                            </Link>
+                                        </Typography>
+                                    </MenuItem>
+                                ))
+                                : loggedOutPages.map((page) => (
+                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">
+                                            <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>
+                                                {page}
+                                            </Link>
+                                        </Typography>
+                                    </MenuItem>
+                                ))
+                            }
                         </Menu>
                     </Box>
                     <PetsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -118,49 +131,53 @@ const Navbar = () => {
                     >
                         Bone Buddies
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                <Link style={{textDecoration: "none", color: "white"}} to={`/${page}`}>
-                                    {page}
-                                </Link>
-                            </Button>
-                        ))}
-                    </Box>
+                    {Auth.loggedIn() && (
+                        <div>
+                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                                {loggedInPages.map((page) => (
+                                    <Button
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>
+                                            {page}
+                                        </Link>
+                                    </Button>
+                                ))}
+                            </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </Box>
+                        </div>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

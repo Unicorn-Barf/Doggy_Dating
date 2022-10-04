@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+
 export const SIGNUP_USER = gql `
 mutation Signup($owner: PostOwnerInput!) {
     postOwner(owner: $owner) {
@@ -19,6 +20,7 @@ mutation Signup($owner: PostOwnerInput!) {
     }
   }
 `;
+
 export const LOGIN_USER = gql`
 mutation LOGIN($password: String!, $username: String, $email: String) {
    login(password: $password, username: $username, email: $email) {
