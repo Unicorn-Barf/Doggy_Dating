@@ -11,4 +11,5 @@ export {
    SIGNUP_USER,
    LOGIN_USER,
    CREATE_DOG,
+   POST_MESSAGE,
 }
