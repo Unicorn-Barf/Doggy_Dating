@@ -1,9 +1,12 @@
 import React, { useState } from "react"
 import { Container, Grid, Paper, TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { getOwnerData } from "../slices/ownerSlice";
+import { useSelector } from "react-redux";
+import AuthService from "../utils/auth";
 
+const OwnerSettings = () => {
 
-const Settings = () => {
-
+   const ownerData = AuthService.getProfile();
    const testProfileData = [{name: "Owner"}, {name: "Sparky"},{name: "Spot"}];
 
    const [userFormData, setUserFormData] = useState({
@@ -35,7 +38,7 @@ const Settings = () => {
    }
 
    const handleFormSubmit = async (event) => {
-
+      console.log(ownerData)
    }
 
    const handleProfileChange = async (event) => {
@@ -48,22 +51,7 @@ const Settings = () => {
 
    return (
       <>
-         <FormControl fullWidth style={{marginTop: "15px"}}>
-            <InputLabel>Profile</InputLabel>
-            <Select
-               id="profile-selector"
-               name="profile"
-               value={profile.name}
-               onChange={handleProfileChange}
-            >
-               {
-                  testProfileData.map((item, key) => {
-                     return <MenuItem key={key} value={item.name}>{item.name}</MenuItem>
-                  })
-               }
-            </Select>
-         </FormControl>
-         <div>
+         <FormControl>
             <TextField
                sx={{ my: 1}}
                type="text"
@@ -164,9 +152,12 @@ const Settings = () => {
                value={userFormData.confirmPassword}
                variant="outlined"
             />
-         </div>
+            <Button onClick={handleFormSubmit}>
+               Submit
+            </Button>
+         </FormControl>
       </>
    )
 }
 
-export default Settings;
+export default OwnerSettings;
