@@ -12,7 +12,6 @@ const Signin = () => {
     password: "",
   });
 
-  // const [validate] = useState(false);
   const [loginUser] = useMutation(LOGIN_USER);
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -25,30 +24,31 @@ const Signin = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const validateEmail = userFormData.email;
-    const validatePassword = userFormData.password;
-    if (!validateEmail) {
-      alert("Please enter your email");
-      return;
-    } else if (!validatePassword) {
-      alert("Please enter your password");
-      return;
-    }
 
+
+    // const checkEmail = userFormData.email;
+    // const checkPassword = userFormData.password;
+    // if (!checkEmail || !checkPassword) {
+    //   alert("Please enter your email and password");
+    //   return;
+    // } else if (checkEmail === null) {
+    //   alert("Please enter your email");
+    // } else if (checkPassword === null) {
+    //   alert("Please enter your password");
+    // }
+    // return;
     try {
       const { data } = await loginUser({
         variables: {
-          ...userFormData
+          ...userFormData,
         },
       });
       Auth.login(data.login.token);
       const signUpOwner = data.postOwner.owner;
       console.log(signUpOwner);
-      dispatch(
-        {
-          ...signUpOwner,
-        }
-      )
+      dispatch({
+        ...signUpOwner,
+      });
     } catch (error) {
       return console.log(error);
     }
@@ -58,7 +58,7 @@ const Signin = () => {
       password: "",
     });
   };
-  
+
   return (
     <div>
       <Container maxWidth="sm">
@@ -77,10 +77,12 @@ const Signin = () => {
                 name="email"
                 fullWidth
                 label="Email"
-                placeholder="email address"
+                placeholder="username or email address"
                 onChange={handleInputChange}
                 value={userFormData.email}
                 variant="outlined"
+                helperText="Incorrect entry."
+                id="outlined-error-helper-text"
               />
             </Grid>
             <Grid item>

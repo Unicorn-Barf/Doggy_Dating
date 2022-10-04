@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import dayjs from "dayjs";
-import { TextField, Button } from "@mui/material";
+import { Container, TextField, Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,14 +20,14 @@ function Signup() {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
+  const [confirmpassword, setConfirmPassword] = React.useState('');
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    confirmpassword: "",
-    birthday: "10/12/2021",
+    birthday: "2024/06/09",
     sex: "",
   });
   const [signUpUser] = useMutation(SIGNUP_USER);
@@ -73,9 +73,12 @@ function Signup() {
         );
       }
       console.log(userFormData);
+      userFormData.birthday = userFormData.birthday.toString();
       const { data, error } = await signUpUser({
         variables: {
-          owner: userFormData,
+          owner: {
+            ...userFormData,
+          },
         },
       });
       Auth.login(data.postOwner.token);
@@ -87,7 +90,7 @@ function Signup() {
         })
       );
     } catch (err) {
-      return console.log(err);
+      console.log(err);
     }
     // console.log(passerrors);
   };
@@ -110,7 +113,7 @@ function Signup() {
   ];
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div>
+      <Container maxWidth="sm">
         <p>Sign up using the form below.</p>
         <Box
           component="form"
@@ -177,11 +180,10 @@ function Signup() {
             variant="outlined"
             helperText="Please type your password again."
             name="confirmpassword"
-            onChange={handleInputChange}
-            value={userFormData.confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmpassword}
           />
         </Box>
-        <p>Enter your dog's info.</p>
         <Box
           component="form"
           sx={{
@@ -191,8 +193,10 @@ function Signup() {
           autoComplete="off"
         >
           <MobileDatePicker
+            id="date"
             label="Birthday"
-            inputFormat="MM/DD/YYYY"
+            type="date"
+            defaultValue="2017-05-24"
             value={userFormData.birthday}
             renderInput={(params) => <TextField {...params} />}
             helperText="Please select your dog's birthday."
@@ -206,10 +210,10 @@ function Signup() {
             id="outlined-select-sex"
             select
             label="Sex"
-            value={sex}
+            value={userFormData.sex}
             helperText="Please select your dog's sex."
             name="sex"
-            onChange={(e) => setSex(e.target.value)}
+            onChange={handleInputChange}
           >
             {sexes.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -227,7 +231,7 @@ function Signup() {
             Signup
           </Button>
         </Box>
-      </div>
+      </Container>
     </LocalizationProvider>
   );
 }
