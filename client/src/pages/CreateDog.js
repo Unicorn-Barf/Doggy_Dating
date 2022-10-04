@@ -54,51 +54,41 @@ export default function CreateDog() {
         tags: '',
     });
 
-    const handleChange = (event) => {
-        const { label, value } = event.target;
-        switch (label) {
-            case "Name":
-                setName(value);
-                break;
-            case "Birthday":
-                setBirthday(value);
-                break;
-            case "Sex":
-                setSex(value);
-                break;
-            case "Fix":
-                setFix(value);
-                break;
-            case "Weight":
-                setWeight(value);
-                break;
-            case "Size":
-                setSize(value);
-                break;
-            // case "Personality":
-            //     console.log('Personality change!');
-            //     // const {
-            //     //     target: { value },
-            //     //   } = event;
-            //     setPersonality(
-            //         typeof value === 'string' ? value.split(',') : value,
-            //     );
-            //     break;
-            case "Tell us about your pet.":
-                setDescript(value);
-                break;
-        };
-    };
-
-    const handlePersonalityChange = (event) => {
-        const {
-          target: { value },
-        } = event;
-        setPersonality(
-          // On autofill we get a stringified value.
-          typeof value === 'string' ? value.split(',') : value,
-        );
-      };
+    // const handleChange = (event) => {
+    //     const { label, value } = event.target;
+    //     switch (label) {
+    //         case "Name":
+    //             setName(value);
+    //             break;
+    //         case "Birthday":
+    //             setBirthday(value);
+    //             break;
+    //         case "Sex":
+    //             setSex(value);
+    //             break;
+    //         case "Fix":
+    //             setFix(value);
+    //             break;
+    //         case "Weight":
+    //             setWeight(value);
+    //             break;
+    //         case "Size":
+    //             setSize(value);
+    //             break;
+    //         // case "Personality":
+    //         //     console.log('Personality change!');
+    //         //     // const {
+    //         //     //     target: { value },
+    //         //     //   } = event;
+    //         //     setPersonality(
+    //         //         typeof value === 'string' ? value.split(',') : value,
+    //         //     );
+    //         //     break;
+    //         case "Tell us about your pet.":
+    //             setDescript(value);
+    //             break;
+    //     };
+    // };
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -147,6 +137,16 @@ export default function CreateDog() {
             label: 'X-Large (101 lbs or more)',
         },
     ];
+
+    const handlePersonalityChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setPersonality(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
 
     const handleInputChange = (event) => {
         console.log('Changing...');
@@ -209,7 +209,7 @@ export default function CreateDog() {
                                 value={dogFormData.birthday}
                                 name="birthday"
                                 disableFuture
-                                onChange={(birthday) => setDogFormData( { ...dogFormData, birthday } )}
+                                onChange={(birthday) => setDogFormData({ ...dogFormData, birthday })}
                                 renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
                             />
 
