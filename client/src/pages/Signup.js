@@ -28,7 +28,7 @@ function Signup() {
     lastName: "",
     email: "",
     password: "",
-    // birthday: "2024/06/09",
+    birthday: "2024/06/09",
     // sex: "",
   });
 
@@ -195,7 +195,7 @@ function Signup() {
             value={confirmpassword}
           />
         </Box>
-        {/* <Box
+        <Box
           component="form"
           sx={{
             "& > :not(style)": { m: 1, width: "25ch" },
@@ -210,13 +210,13 @@ function Signup() {
             defaultValue="2017-05-24"
             value={userFormData.birthday}
             renderInput={(params) => <TextField {...params} />}
-            helperText="Please select your dog's birthday."
+            helperText="Please select your birthday."
             name="birthday"
             onChange={(birthday) =>
               setUserFormData({ ...userFormData, birthday })
             }
           />
-          <TextField
+          {/* <TextField
             required
             id="outlined-select-sex"
             select
@@ -241,7 +241,7 @@ function Signup() {
           >
             Sign Up
           </Button>
-        {/* </Box> */}
+        </Box>
       </Container>
     </LocalizationProvider>
   );

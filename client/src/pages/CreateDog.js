@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,13 +18,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
-import { Grid } from '@mui/material';
+import { FormControlLabel, Grid } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_DOG } from '../utils/mutations';
-import { storeDog } from '../slices/dogSlice';
+import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
+import Auth from '../utils/auth';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
@@ -37,11 +39,14 @@ export default function CreateDog() {
     const [size, setSize] = React.useState([]);
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
+    const ownerId = Auth.getProfile();
+    console.log(ownerId);
     const [dogFormData, setDogFormData] = React.useState({
         name: '',
         breed: '',
-        birthday: '',
+        birthday: '08/14/2014',
         sex: '',
+        isFixed: true,
         weight: 15,
         personality: '',
         about: '',
@@ -70,16 +75,30 @@ export default function CreateDog() {
             case "Size":
                 setSize(value);
                 break;
-            case "Personality":
-                setPersonality(
-                    typeof value === 'string' ? value.split(',') : value,
-                );
-                break;
+            // case "Personality":
+            //     console.log('Personality change!');
+            //     // const {
+            //     //     target: { value },
+            //     //   } = event;
+            //     setPersonality(
+            //         typeof value === 'string' ? value.split(',') : value,
+            //     );
+            //     break;
             case "Tell us about your pet.":
                 setDescript(value);
                 break;
         };
     };
+
+    const handlePersonalityChange = (event) => {
+        const {
+          target: { value },
+        } = event;
+        setPersonality(
+          // On autofill we get a stringified value.
+          typeof value === 'string' ? value.split(',') : value,
+        );
+      };
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -130,23 +149,26 @@ export default function CreateDog() {
     ];
 
     const handleInputChange = (event) => {
+        console.log('Changing...');
         event.preventDefault();
+        const { name, value } = event.target;
+        console.log(name);
         setDogFormData({
             ...dogFormData,
+            [name]: value,
         })
     };
 
     const handleFormSubmit = async (event) => {
-        const { data, error } = await createDog({
-            variables: {
-                dog: {
-                    ...dogFormData,
-                }
-            }
-        });
+        // const { data, error } = await createDog({
+        //     variables: {
+        //         dog: {
+        //             ...dogFormData,
+        //         }
+        //     }
+        // });
+        console.log(dogFormData);
     };
-
-    dispatch(storeDog());
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -174,6 +196,9 @@ export default function CreateDog() {
                                 required
                                 id="fullWidth"
                                 label="Name"
+                                value={dogFormData.name}
+                                name="name"
+                                onChange={handleInputChange}
                                 variant="outlined"
                                 helperText="Please enter your dog's name."
                             />
@@ -181,9 +206,10 @@ export default function CreateDog() {
                                 label="Birthday"
                                 id="fullWidth"
                                 inputFormat="MM/DD/YYYY"
-                                value={birthday}
+                                value={dogFormData.birthday}
+                                name="birthday"
                                 disableFuture
-                                onChange={(newBirthday) => setBirthday(newBirthday)}
+                                onChange={(birthday) => setDogFormData( { ...dogFormData, birthday } )}
                                 renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
                             />
 
@@ -192,9 +218,10 @@ export default function CreateDog() {
                                 <Select
                                     required
                                     id="simple-select"
-                                    value={sex}
+                                    value={dogFormData.sex}
+                                    name="sex"
                                     label="Sex"
-                                    onChange={(event) => setSex(event.target.value)}
+                                    onChange={handleInputChange}
                                 >
                                     <MenuItem value={'Male'}>Male</MenuItem>
                                     <MenuItem value={'Female'}>Female</MenuItem>
@@ -208,40 +235,39 @@ export default function CreateDog() {
                                     required
                                     // labelId="simple-select-label"
                                     id="simple-select"
-                                    value={fix}
+                                    value={dogFormData.isFixed}
+                                    name="isFixed"
                                     label="Fix"
-                                    onChange={(event) => setFix(event.target.value)}
+                                    onChange={handleInputChange}
                                 >
-                                    <MenuItem value={'Yes'}>Yes</MenuItem>
-                                    <MenuItem value={'No'}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </Select>
                                 <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
                             </FormControl>
 
                             <Box sx={{ display: 'flex' }}>
-                                <FormControl
-                                    required
-                                    sx={{ width: "100%" }}
-                                >
+                                <FormControl sx={{ m: 1, width: 400 }}>
                                     <InputLabel id="multiple-checkbox-label">Personality</InputLabel>
                                     <Select
+                                        required
                                         labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
+                                        label="Personality"
                                         value={personality}
-                                        onChange={(event) => setPersonality(event.target.value)}
+                                        onChange={handlePersonalityChange}
                                         input={<OutlinedInput label="Personality" />}
                                         renderValue={(selected) => selected.join(', ')}
                                         MenuProps={MenuProps}
                                     >
-                                        {personalities.map((personality) => (
-                                            <MenuItem key={personality} value={personality}>
-                                                <Checkbox {...personality.indexOf(personality) > -1} />
-                                                <ListItemText primary={personality} />
+                                        {personalities.map((batman) => (
+                                            <MenuItem key={batman} value={batman}>
+                                                <Checkbox checked={personality.indexOf(batman) > -1} />
+                                                <ListItemText primary={batman} />
                                             </MenuItem>
                                         ))}
                                     </Select>
-                                    <FormHelperText>Please check all that apply.</FormHelperText>
                                 </FormControl>
                             </Box>
 
@@ -250,7 +276,9 @@ export default function CreateDog() {
                                 id="outlined-basic"
                                 variant="outlined"
                                 label="Weight"
-                                onChange={(event) => setWeight(event.target.value)}
+                                value={dogFormData.weight}
+                                name="weight"
+                                onChange={handleInputChange}
                                 helperText="Please enter your dog's weight."
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">lbs</InputAdornment>
@@ -277,12 +305,17 @@ export default function CreateDog() {
                             <TextField
                                 id="outlined-multiline-static"
                                 label="Tell us about your pet."
+                                value={dogFormData.about}
+                                name="about"
                                 placeholder="Add dog description here."
                                 multiline
                                 rows={4}
                             />
                             <Stack direction="row" spacing={2}>
-                                <Button variant="contained">
+                                <Button
+                                    variant="contained"
+                                    onClick={handleFormSubmit}
+                                >
                                     Submit
                                 </Button>
                             </Stack>
@@ -290,7 +323,7 @@ export default function CreateDog() {
 
                     </Grid>
                 </Container>
-            </div>
-        </LocalizationProvider>
+            </div >
+        </LocalizationProvider >
     );
 }

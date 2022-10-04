@@ -158,7 +158,7 @@ const Navbar = () => {
                                 </Button>
                             ))}
                             <Button
-                                key={page}
+                                // key={page}
                                 onClick={handleLogOut}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >

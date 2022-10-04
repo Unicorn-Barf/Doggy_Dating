@@ -23,6 +23,9 @@ const dogSchema = new Schema({
       enum: ['Male', 'Female', 'Prefer not to say'],
       required: true,
    },
+   isFixed: {
+      type: Boolean,
+   },
    weight: {
       type: Number,
    },

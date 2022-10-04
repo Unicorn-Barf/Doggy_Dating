@@ -122,7 +122,7 @@ const Signin = () => {
                   type="button"
                   onClick={handleFormSubmit}
                 >
-                  SignIn
+                  Sign In
                 </Button>
               </Grid>
             </Grid>
