@@ -25,17 +25,6 @@ import { CREATE_DOG } from '../utils/mutations';
 
 export default function CreateDog() {
     const [createDog] = useMutation(CREATE_DOG);
-    const [dogFormData, setDogFormData] = useState({
-        name: '',
-        breed: '',
-        birthday: '',
-        sex: '',
-        weight: 15,
-        personality: '',
-        about: '',
-        images: {},
-        tags: '',
-    })
 
     const [name, setName] = React.useState('');
     const [birthday, setBirthday] = React.useState(dayjs('2014-08-18'));
@@ -45,7 +34,17 @@ export default function CreateDog() {
     const [size, setSize] = React.useState([]);
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
-    // const [checked, setChecked] = React.useState([false]);
+    const [dogFormData, setDogFormData] = React.useState({
+        name: '',
+        breed: '',
+        birthday: '',
+        sex: '',
+        weight: 15,
+        personality: '',
+        about: '',
+        images: [],
+        tags: '',
+    });
 
     const handleChange = (event) => {
         const { label, value } = event.target;
@@ -138,7 +137,7 @@ export default function CreateDog() {
         const { data, error } = await createDog({
             variables: {
                 newDog: {
-                    ...userFormData,
+                    ...dogFormData,
                 }
             }
         });
