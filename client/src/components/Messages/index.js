@@ -20,10 +20,10 @@ const Text = ({ messages }) => {
 
   return (
     <div style={{ marginBottom: "5rem" }}>
-      {messages.map(({ dogId, message }) => {
+      {messages.map(({ dogId, message, messageId, _id }) => {
         return (
-          <div key={dogId} style={{ textAlign: dog._id === dogId ? "right" : "left" }}>
-            <p style={{ marginBottom: "0.3rem" }}>{dogId}</p>
+          <div key={_id} style={{ textAlign: dog._id === dogId ? "right" : "left" }}>
+            <p style={{ marginBottom: "0.3rem" }}>{`dogId: ${dogId} _id: ${_id}`}</p>
             <Chip style={{ fontSize: "0.9rem" }} color={dog._id === dogId ? "primary" : "secondary"} label={message} />
           </div>
         )
@@ -43,17 +43,24 @@ const Messages = ({ conversationId }) => {
   const convoQuery = useQuery(GET_CONVERSATION_BY_ID,
     { variables: { conversationId } });
 
+  // Handle subscription for messages
+  convoQuery.subscribeToMore({
+    document: GET_MESSAGES_SUB,
+    variables: { conversationId },
+    updateQuery: (prev, { subscriptionData }) => {
+      if (!subscriptionData.data) return prev;
+      const newMessages = subscriptionData.data.messageSent.messages;
+      return newMessages;
+    }
+  });
+
   let messages = convoQuery.data?.getConversationById || [];
 
-  const { data } = useSubscription(GET_MESSAGES_SUB,
-    { variables: { conversationId } },
-  );
+  console.log(messages, 'DATAAAAAAAAAAAA!!');
+  // if (!data) {
+  //   return null;
+  // }
 
-  console.log(data, 'DATAAAAAAAAAAAA!!');
-  if (!data) {
-    return null;
-  }
-  
   const sendMessage = async () => {
     const PostMessage = {
       dogId: "633803594950ea4a2c76c2b6",
@@ -63,7 +70,7 @@ const Messages = ({ conversationId }) => {
       const { data } = await postMessage({
         variables: {
           message: { ...PostMessage },
-          conversationId: '6337e95a5223045e30bf0203'
+          conversationId
         }
       });
       console.log(data);
