@@ -29,7 +29,7 @@ function Signup() {
     email: "",
     password: "",
     birthday: "2024/06/09",
-    sex: "",
+    // sex: "",
   });
 
   const [signUpUser] = useMutation(SIGNUP_USER);
@@ -120,7 +120,7 @@ function Signup() {
   //     label: "Female",
   //   },
   // ];
-  
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Container maxWidth="sm">

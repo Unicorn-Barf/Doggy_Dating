@@ -20,8 +20,23 @@ import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
+import { useMutation } from '@apollo/client';
+import { CREATE_DOG } from '../utils/mutations';
 
 export default function CreateDog() {
+    const [createDog] = useMutation(CREATE_DOG);
+    const [dogFormData, setDogFormData] = useState({
+        name: '',
+        breed: '',
+        birthday: '',
+        sex: '',
+        weight: 15,
+        personality: '',
+        about: '',
+        images: {},
+        tags: '',
+    })
+
     const [name, setName] = React.useState('');
     const [birthday, setBirthday] = React.useState(dayjs('2014-08-18'));
     const [sex, setSex] = React.useState('');
@@ -83,7 +98,6 @@ export default function CreateDog() {
         'Insecure',
         'Independent',
         'Laid Back',
-
     ];
 
     const sizes = [
@@ -112,6 +126,25 @@ export default function CreateDog() {
             label: 'X-Large (101 lbs or more)',
         },
     ];
+
+    const handleInputChange = (event) => {
+        event.preventDefault();
+        setDogFormData({
+            ...dogFormData,
+        })
+    };
+
+    const handleFormSubmit = async (event) => {
+        const { data, error } = await createDog({
+            variables: {
+                newDog: {
+                    ...userFormData,
+                }
+            }
+        });
+    };
+
+    
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
