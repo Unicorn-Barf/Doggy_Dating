@@ -22,8 +22,11 @@ import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_DOG } from '../utils/mutations';
+import { storeDog } from '../slices/dogSlice';
+import { useDispatch } from 'react-redux';
 
 export default function CreateDog() {
+    const dispatch = useDispatch();
     const [createDog] = useMutation(CREATE_DOG);
 
     const [name, setName] = React.useState('');
@@ -136,14 +139,14 @@ export default function CreateDog() {
     const handleFormSubmit = async (event) => {
         const { data, error } = await createDog({
             variables: {
-                newDog: {
+                dog: {
                     ...dogFormData,
                 }
             }
         });
     };
 
-    
+    dispatch(storeDog());
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

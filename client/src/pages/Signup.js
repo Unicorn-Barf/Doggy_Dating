@@ -28,7 +28,7 @@ function Signup() {
     lastName: "",
     email: "",
     password: "",
-    birthday: "2024/06/09",
+    // birthday: "2024/06/09",
     // sex: "",
   });
 
@@ -79,7 +79,7 @@ function Signup() {
 
       console.log(userFormData);
 
-      userFormData.birthday = userFormData.birthday.toString();
+      // userFormData.birthday = userFormData.birthday.toString();
       const { data, error } = await signUpUser({
         variables: {
           owner: {
