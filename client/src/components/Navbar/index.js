@@ -40,7 +40,7 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar id="navbar" position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
