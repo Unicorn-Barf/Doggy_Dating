@@ -1,5 +1,5 @@
 const { Dog, Conversation } = require('../../models');
-const { PubSub } = require('graphql-subscriptions');
+const { PubSub, withFilter } = require('graphql-subscriptions');
 
 // Apollo Subscriptions Utility
 const pubsub = new PubSub();
@@ -35,7 +35,7 @@ const conversationMutation = {
          //put this conversation id in every dog
          for (let i = 0; i < args.dogIds.length; i++) {
             console.log(args.dogIds[i]);
-            await Dog.findByIdAndUpdate(
+            const dog = await Dog.findByIdAndUpdate(
                args.dogIds[i],
                {
                   $addToSet: {
@@ -46,6 +46,9 @@ const conversationMutation = {
                   new: true,
                },
             );
+
+            // Publish Subscription Event for each dog
+            pubsub.publish(`UPDATED_CONVERSATION`, dog);
          }
          return conversation;
       } catch (error) {
@@ -65,10 +68,10 @@ const conversationMutation = {
                new: true,
             },
          );
-         console.log(conversation);
+
          // Publish Subscription Event
          const { dogIds, _id, messages } = conversation;
-         pubsub.publish('NEW_MESSAGE', {  dogIds, _id, messages });
+         pubsub.publish(`NEW_MESSAGE`, { dogIds, _id, messages });
 
          return conversation;
       } catch (error) {
@@ -77,7 +80,7 @@ const conversationMutation = {
    },
    addDogToConversation: async (parent, args, context) => {
       try {
-         await Dog.findByIdAndUpdate(
+         const dog = await Dog.findByIdAndUpdate(
             args.dogId,
             {
                $push: {
@@ -99,6 +102,9 @@ const conversationMutation = {
                new: true,
             }
          );
+
+         // Publish Subscription Event
+         pubsub.publish(`UPDATED_CONVERSATION`, dog);
          return conversation;
       } catch (error) {
          console.error(error);
@@ -109,8 +115,23 @@ const conversationMutation = {
 /*-------Subscription-------*/
 const conversationSubscription = {
    messageSent: {
-      subscribe: () => pubsub.asyncIterator(['NEW_MESSAGE']),
+      subscribe: withFilter(
+         () => pubsub.asyncIterator(['NEW_MESSAGE']),
+         (payload, variables) => {
+            // Only push update for relevent Dogs
+            return (payload._id === variables.conversationId);
+         }
+      )
    },
+   conversationUpdated: {
+      subscribe: withFilter(
+         () => pubsub.asyncIterator(['UPDATED_CONVERSATION']),
+         (payload, variables) => {
+            // Only push update for relevant Dog
+            return (payload._id === variables.dogId)
+         }
+      )
+   }
 }
 
 
