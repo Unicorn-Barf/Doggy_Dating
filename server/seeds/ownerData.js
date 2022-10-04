@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
-const { randNumInRange } = require('../utils/mathHelpers');
+const { randNumInRange } = require('../utils/seedUtils');
 
 
 // function to fetch random user data
