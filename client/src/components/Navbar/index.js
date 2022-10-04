@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Link } from 'react-router-dom';
 
-const pages = ['Home', 'Signin', 'Profile'];
-const settings = ['Signout'];
+const pages = ['Home', 'sign-in', 'profile/:id', 'create-dog', 'dogs/settings'];
+const settings = ['Sign Out'];
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -75,12 +75,12 @@ const Navbar = () => {
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'left',
+                                horizontal: 'right',
                             }}
                             keepMounted
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'left',
+                                horizontal: 'right',
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
@@ -166,4 +166,5 @@ const Navbar = () => {
         </AppBar>
     );
 };
+
 export default Navbar;

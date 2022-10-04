@@ -18,6 +18,8 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
+import '../styles/root.css';
+// import './styles/pages.css';
 
 export default function CreateDog() {
     const [name, setName] = React.useState('');
@@ -112,7 +114,7 @@ export default function CreateDog() {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div>
+            <div className='main-container'>
                 <Container maxWidth="sm">
                     <Grid
                         container

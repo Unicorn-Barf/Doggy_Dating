@@ -26,11 +26,11 @@ function App() {
           element={<Profile />}
         />
         <Route
-          path="/signin"
+          path="/sign-in"
           element={<Signin />}
         />
         <Route
-          path="/signup"
+          path="/sign-up"
           element={<Signup />}
         />
         <Route
