@@ -11,34 +11,78 @@ import { useSelector } from "react-redux";
 
 const DogSettings = () => {
 
-   const dog = useSelector(getDog);
+   const { dogId}  = useParams();
 
    const [ putDog ] = useMutation(PUT_DOG);
 
    const [dogFormData, setdogFormData] = useState({});
 
+   const [dogName, setDogName] = useState("");
+   const [dogBreed, setDogBreed] = useState("");
+   const [dogSex, setDogSex] = useState("");
+   const [dogWeight, setDogWeight] = useState("");
+   const [dogBirthday, setDogBirthday] = useState("");
+   const [dogHeadline, setDogHeadline] = useState("");
+   const [dogAbout, setDogAbout] = useState("");
+
+
    const handleInputChange = async (event) => {
-      event.preventDefault();
-      const { name, value } = event.target;
-      setdogFormData({
-         ...dogFormData,
-         [name]: value,
-      });
+      if(event.target.name === 'name') {
+         setDogName(event.target.value);
+      }
+      if(event.target.name === 'breed') {
+         setDogBreed(event.target.value);
+      }
+      if(event.target.name === 'sex') {
+         setDogSex(event.target.value);
+      }
+      if(event.target.name === 'birthday') {
+         setDogBirthday(event.target.value);
+      }
+      if(event.target.name === 'headline') {
+         setDogHeadline(event.target.value);
+      }
+      if(event.target.name === 'about') {
+         setDogAbout(event.target.value);
+      }
+      console.log(event.target);
    }
 
    const handleFormSubmit = async (event) => {
-      console.log(dog);
-      console.log(dogFormData);
-      // try {
-      //    const { putDogData } = await putDog({
-      //       variables: {
-      //          dogId: dogId,
-      //          dog: dogFormData,
-      //       }
-      //    });
-      // } catch (error) {
-      //    console.error(error);
-      // }
+      //console.log(dog);
+      const PutDogInput = {};
+      if(dogName !== "") {
+         PutDogInput.name = dogName;
+      }
+      if(dogBreed !== "") {
+         PutDogInput.breed = dogBreed;
+      }
+      if(dogBirthday !== "") {
+         PutDogInput.birthday = dogBirthday;
+      }
+      if(dogSex !== "") {
+         PutDogInput.sex = dogSex;
+      }
+      if(dogWeight !== "") {
+         PutDogInput.weight = parseInt(dogWeight);
+      }
+      if(dogHeadline !== "") {
+         PutDogInput.headline = dogHeadline;
+      }
+      if(dogAbout !== "") {
+         PutDogInput.about = dogAbout;
+      }
+      console.log(PutDogInput);
+      try {
+         const { putDogData } = await putDog({
+            variables: {
+               dogId: dogId,
+               dog: PutDogInput,
+            }
+         });
+      } catch (error) {
+         console.error(error);
+      }
    }
 
    return (
