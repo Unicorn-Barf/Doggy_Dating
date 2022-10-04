@@ -20,7 +20,7 @@ const Conversations = () => {
 
     
     let convos = data?.getAllConversationsByDogId || [];
-    console.log(data);
+    console.log(convos);
 
     return (
         <div>
