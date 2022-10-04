@@ -16,6 +16,7 @@ import { useState } from "react";
 import Auth from "../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOwner } from "../slices/ownerSlice";
+
 function Signup() {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
@@ -30,6 +31,7 @@ function Signup() {
     birthday: "2024/06/09",
     sex: "",
   });
+
   const [signUpUser] = useMutation(SIGNUP_USER);
 
   const handleInputChange = (event) => {
@@ -40,6 +42,7 @@ function Signup() {
       [name]: value, //
     });
   };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const validates = (values) => {
@@ -63,6 +66,7 @@ function Signup() {
       }
       return passerrors;
     };
+
     try {
       const passerrors = validates(userFormData);
       if (Object.keys(passerrors).length > 0) {
@@ -72,7 +76,9 @@ function Signup() {
           }`
         );
       }
+
       console.log(userFormData);
+
       userFormData.birthday = userFormData.birthday.toString();
       const { data, error } = await signUpUser({
         variables: {
@@ -81,9 +87,11 @@ function Signup() {
           },
         },
       });
+
       Auth.login(data.postOwner.token);
       const loggedInOwner = data.postOwner.owner;
       console.log(loggedInOwner);
+
       dispatch(
         storeOwner({
           ...loggedInOwner,
@@ -94,6 +102,7 @@ function Signup() {
     }
     // console.log(passerrors);
   };
+
   // username: String!
   // email: String!
   // password: String!
@@ -101,19 +110,21 @@ function Signup() {
   // lastName: String!
   // sex: String!
   // birthday: String!
-  const sexes = [
-    {
-      value: "Male",
-      label: "Male",
-    },
-    {
-      value: "Female",
-      label: "Female",
-    },
-  ];
+  // const sexes = [
+  //   {
+  //     value: "Male",
+  //     label: "Male",
+  //   },
+  //   {
+  //     value: "Female",
+  //     label: "Female",
+  //   },
+  // ];
+  
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Container maxWidth="sm">
+        <h2>Sign Up for Bone Buddies</h2>
         <p>Sign up using the form below.</p>
         <Box
           component="form"
@@ -163,7 +174,6 @@ function Signup() {
             onChange={handleInputChange}
             value={userFormData.email}
           />
-          {/* ADD BIRTHDAY TEXTFIELD HERE. */}
           <TextField
             required
             id="outlined-basic"
@@ -185,7 +195,7 @@ function Signup() {
             value={confirmpassword}
           />
         </Box>
-        <Box
+        {/* <Box
           component="form"
           sx={{
             "& > :not(style)": { m: 1, width: "25ch" },
@@ -221,7 +231,7 @@ function Signup() {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> */}
           <Button
             sx={{ my: 2 }}
             fullWidth
@@ -229,11 +239,12 @@ function Signup() {
             type="button"
             onClick={handleFormSubmit}
           >
-            Signup
+            Sign Up
           </Button>
-        </Box>
+        {/* </Box> */}
       </Container>
     </LocalizationProvider>
   );
 }
+
 export default Signup;

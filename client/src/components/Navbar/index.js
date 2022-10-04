@@ -16,9 +16,10 @@ import { Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
 import './navbar.css';
 
-const loggedOutPages = ['Home', 'sign-in', 'sign-up'];
-const loggedInPages = ['Home', 'profile/:id', 'create-dog', 'dogs/settings', 'chat'];
-const settings = ['Sign Out'];
+const loggedOutPages = ['Home', 'Signin', 'Signup'];
+const loggedInPages = ['Home', 'profile/:id', 'create-dog', 'dogs/settings', 'chat', 'SignOut'];
+
+// const dropDownPages = ['SignOut'];
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -27,17 +28,17 @@ const Navbar = () => {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
+    // const handleOpenUserMenu = (event) => {
+    //     setAnchorElUser(event.currentTarget);
+    // };
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    // const handleCloseUserMenu = () => {
+    //     setAnchorElUser(null);
+    // };
 
     return (
         <AppBar id="navbar" position="static">
@@ -148,9 +149,9 @@ const Navbar = () => {
                         </Box>
                     )}
 
-                    {Auth.loggedIn() && (
+                    {/* {Auth.loggedIn() && (
                         <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
+                            <Tooltip title="Open dropDownPages">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                                 </IconButton>
@@ -171,14 +172,17 @@ const Navbar = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                {dropDownPages.map((dropDownPage) => (
+                                    <MenuItem key={dropDownPage} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">{dropDownPage}</Typography>
+                                        <Link style={{ textDecoration: "none", color: "white" }} to={`/${dropDownPage}`}>
+                                        {dropDownPage}
+                                    </Link>
                                     </MenuItem>
                                 ))}
                             </Menu>
                         </Box>
-                    )}
+                    )} */}
                 </Toolbar>
             </Container>
         </AppBar>

@@ -19,7 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
 import '../styles/root.css';
-// import './styles/pages.css';
+import './styles/pages.css';
 
 export default function CreateDog() {
     const [name, setName] = React.useState('');
@@ -30,6 +30,7 @@ export default function CreateDog() {
     const [size, setSize] = React.useState([]);
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
+    // const [checked, setChecked] = React.useState([false]);
 
     const handleChange = (event) => {
         const { label, value } = event.target;
@@ -152,7 +153,7 @@ export default function CreateDog() {
                             />
 
                             <FormControl required>
-                                <InputLabel id="simple-select-label">Sex</InputLabel>
+                                <InputLabel className="simple-select-label">Sex</InputLabel>
                                 <Select
                                     required
                                     id="simple-select"
@@ -167,10 +168,10 @@ export default function CreateDog() {
                             </FormControl>
 
                             <FormControl required>
-                                <InputLabel id="simple-select-label">Spayed/neutered?</InputLabel>
+                                <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
                                 <Select
                                     required
-                                    labelId="simple-select-label"
+                                    // labelId="simple-select-label"
                                     id="simple-select"
                                     value={fix}
                                     label="Fix"
@@ -200,7 +201,7 @@ export default function CreateDog() {
                                     >
                                         {personalities.map((personality) => (
                                             <MenuItem key={personality} value={personality}>
-                                                <Checkbox unchecked={personality.indexOf(personality) > -1} />
+                                                <Checkbox {...personality.indexOf(personality) > -1} />
                                                 <ListItemText primary={personality} />
                                             </MenuItem>
                                         ))}

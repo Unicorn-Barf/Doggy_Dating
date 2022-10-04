@@ -11,6 +11,7 @@ import DogSettings from "./pages/DogSettings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SignOut from "./pages/SignOut";
 
 export default function App() {
   return (
@@ -32,6 +33,10 @@ export default function App() {
         <Route
           path="/sign-up"
           element={<Signup />}
+        />
+        <Route 
+        path="/sign-out"
+        element={<SignOut />}
         />
         <Route
           path="/chat"
