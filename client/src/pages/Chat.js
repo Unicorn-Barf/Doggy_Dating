@@ -4,10 +4,8 @@ import Conversations from "../components/Conversations";
 
 
 
-const Chat = () => {
-    // test variables
-    let conversationId = '6337e95a5223045e30bf0203';
-
+const Chat = ({ conversationId = '6337e95a5223045e30bf0203' }) => {
+    
     const [toggleChat, setToggleChat] = useState(true);
     return (
         <div>

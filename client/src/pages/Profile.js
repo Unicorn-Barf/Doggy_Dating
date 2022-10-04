@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import Carousel from 'react-material-ui-carousel';
 // import { Paper, Button } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+
+import { GET_CONVERSATIONS_BY_DOG_ID, GET_DOG_BY_DOG_ID } from '../utils/queries';
+import { CREATE_CONVO } from '../utils/mutations';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { IconButton, Grid, Box } from '@mui/material';
-import { GET_DOG_BY_DOG_ID } from '../utils/queries';
 
 
-
+let myDogId = "633bac1663a38b67c5635360";
 
 // const { useSlotProps } = require("@mui/base");
 
@@ -27,11 +29,14 @@ import { GET_DOG_BY_DOG_ID } from '../utils/queries';
 
 function DogProfile() {
     const { dogId } = useParams();
+    const [isRedirect, setIsRedirect] = useState(false);
     // console.log(dogId);
     // const { loading, data } = useQuery(GET_DOG_BY_ID, { variables: { dogId }
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
     });
+
+    const [createConvo] = useMutation(CREATE_CONVO);
 
     const dog = dogData.data?.getDog || {};
 
@@ -41,13 +46,41 @@ function DogProfile() {
     // let dogSize = (dog.weight) {
     //     if ()
     // }
+    const convoQuery = useQuery(GET_CONVERSATIONS_BY_DOG_ID, {
+        variables: { dogId }
+    });
+
+    const initiatePlaydate = async () => {
+        let convoId;
+        console.log(convoQuery.data.getAllConversationsByDogId);
+        let convoArr = convoQuery.data?.getAllConversationsByDogId || [];
+        if (convoArr.length > 0) {
+            for (let i = 0; i < convoArr.length; i++) {
+                if (convoArr[i].dogIds.includes(dogId) && convoArr[i].dogIds.includes(myDogId)) {
+                    convoId = convoArr[i]._id;
+                    break;
+                }
+            }
+        } else {
+            try {
+                const { data } = await createConvo({
+                    variables: { dogIds: [dogId, myDogId] },
+                });
+                convoId = data.postConversation._id;
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setIsRedirect(true);
+    };
 
     return (
         <>
-            <img src={dog.images} />
             <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} column={16}>
-                <Grid xs={8}>
+                <img src={dog.images} />
+                <Grid container spacing={2} column={16} padding={2}>
+                    <Grid item xs={6}>
                         {dogData.loading
                             ? <h1>loading</h1>
                             : <h1>{dog.name} <IconButton aria-label="fingerprint" color="secondary">
@@ -61,29 +94,19 @@ function DogProfile() {
 
                         {/* let date= moment.unix(dog.birthday);
                     date.format(how i want date to be formatted) */}
-                </Grid>
-                <Grid xs={8}>
+
+                    </Grid>
+
+                    <Grid item xs={6}>
                         <h3>{dog.ownerId}</h3>
 
-                        <button onClick={(event) => {
-                            if (event) {
-                                // go to chat;
-                                alert("go to chat");
-                                return;
-                            }
-                            // if user click on this button
-                            // take current user to user on this account
-                            // mutation PostConversation($dogIds: [ID]) {
-                            //   postConversation(dogIds: $dogIds) {
-
-                        }
+                        <button onClick={(event) => initiatePlaydate(event)
                         }
                         >
                             playdate
                         </button>
-                    {/* </Item> */}
+                    </Grid>
                 </Grid>
-            </Grid>
             </Box>
         </>
 
@@ -118,3 +141,9 @@ export default DogProfile;
             // },
             //         </>
             //         {dog.sex} </h3> */}
+
+
+                        // if user click on this button
+                            // take current user to user on this account
+                            // mutation PostConversation($dogIds: [ID]) {
+                            //   postConversation(dogIds: $dogIds) {
