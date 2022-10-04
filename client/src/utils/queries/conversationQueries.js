@@ -14,3 +14,14 @@ query GetAllConversationsByDogId($dogId: ID!) {
     }
   }
 `;
+
+export const GET_CONVERSATION_BY_ID = gql`
+query GetConversationById($conversationId: ID!) {
+  getConversationById(conversationId: $conversationId) {
+    messageId
+    dogId
+    message
+    createdAt
+  }
+}
+`;
