@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const dogNames = require('dog-names');
-const { randNumInRange } = require('../utils/mathHelpers');
+const { randNumInRange, capFirstLetter } = require('../utils/seedUtils');
 
 
 // Function to fetch random dog data
@@ -17,7 +17,9 @@ const getDogData = async () => {
     let breedArr = [];
 
     for (const breed in breedsObj) {
-        if (breedsObj[breed].length === 0) breedArr.push(breed);
+        if (breedsObj[breed].length === 0) {
+            breedArr.push(breed);
+        }
         else {
             for (const type of breedsObj[breed]) {
                 breedArr.push(type + ' ' + breed);
@@ -29,12 +31,13 @@ const getDogData = async () => {
     for (let i = 0; i < 100; i++) {
         const dog = {};
 
-        // Get Sex
-        dog.sex = gender[randNumInRange(0, 1)];
-
         // Get Name
         if (dog.sex === 'Male') dog.name = dogNames.maleRandom();
         else dog.name = dogNames.femaleRandom();
+
+        // Get Breed
+        const breed = breedArr[randNumInRange(0, breedArr.length - 1)];
+        dog.breed = capFirstLetter(breed);
 
         // Get Birthday
         const yearMillis = 1000 * 60 * 60 * 24 * 365;
@@ -42,9 +45,11 @@ const getDogData = async () => {
         const birthday = new Date(Date.now() - millisAgo);
         dog.birthday = birthday;
 
-        // Get Breed
-        const breed = breedArr[randNumInRange(0, breedArr.length - 1)];
-        dog.breed = breed;
+        // Get Sex
+        dog.sex = gender[randNumInRange(0, 1)];
+
+        // Get Random Weight (might not align with breed, lol...)
+        dog.weight = randNumInRange(10, 120);
 
         // Get Image url
         let imageData;
