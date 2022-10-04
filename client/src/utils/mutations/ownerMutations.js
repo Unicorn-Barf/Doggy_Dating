@@ -35,6 +35,7 @@ mutation LOGIN($password: String!, $username: String, $email: String) {
        images
        lon
        lat
+       dogIds
      }
    }
  }

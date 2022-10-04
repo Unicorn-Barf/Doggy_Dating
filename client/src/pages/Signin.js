@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Container, Grid, Paper, TextField, Button } from "@mui/material";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
-import { useDispatch, useSelector } from "react-redux";
+import { GET_ALL_DOGS_BY_OWNER_ID } from "../utils/queries";
+import { useDispatch } from "react-redux";
+import { storeOwner } from "../slices/ownerSlice";
+import { storeDogs, storeCurrentDog }  from "../slices/dogSlice";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -13,6 +16,13 @@ const Signin = () => {
   });
 
   const [loginUser] = useMutation(LOGIN_USER);
+  const [ getDogs, { loading, error, data } ] = useLazyQuery(GET_ALL_DOGS_BY_OWNER_ID, {
+    onCompleted: (data) => {
+      dispatch(storeCurrentDog({...data.getAllDogsByOwner[0]}));
+      dispatch(storeDogs(data.getAllDogsByOwner));
+    },
+  }); 
+
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -43,12 +53,20 @@ const Signin = () => {
           ...userFormData,
         },
       });
+
       Auth.login(data.login.token);
-      const signUpOwner = data.postOwner.owner;
-      console.log(signUpOwner);
-      dispatch({
-        ...signUpOwner,
-      });
+      const signedInOwner = data.login.owner;
+      // Store Logged In owner in Global State
+      dispatch(storeOwner({
+        ...signedInOwner,
+      }));
+
+      if (signedInOwner.dogIds.length > 0) {
+        getDogs({
+          variables: { ownerId: signedInOwner._id }
+        });
+      }
+
     } catch (error) {
       return console.log(error);
     }
