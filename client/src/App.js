@@ -43,7 +43,7 @@ function App() {
           element={<CreateDog />}
         />
         <Route
-          path="/dog/settigns"
+          path="/dog/settings"
           element={<DogSettings />}
         />
         <Route
