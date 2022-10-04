@@ -1,0 +1,20 @@
+:root {
+    --dark-purp: #22162B;
+    --light-purp: #451F55;
+    --violet: #724E91;
+    --pink: #E54F6D;
+    --yellow: #F8C630;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Chicle', cursive;
+}
+
+.main-container {
+    margin-top: 10px;
+    margin-bottom: 75px;
+}
