@@ -58,7 +58,7 @@ function Signup() {
       } else if (values.password.length > 30) {
         passerrors.password = "Password cannot be more than 30 characters";
       }
-      if (values.password !== values.confirmpassword) {
+      if (values.password !== confirmpassword) {
         passerrors.confirmpassword = "Passwords must match";
       }
       return passerrors;
