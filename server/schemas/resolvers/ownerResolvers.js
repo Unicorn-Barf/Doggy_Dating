@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
+const { AuthenticationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/

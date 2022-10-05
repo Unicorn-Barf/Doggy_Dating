@@ -9,29 +9,17 @@ import { GET_CONVERSATIONS_BY_DOG_ID, GET_DOG_BY_DOG_ID } from '../utils/queries
 import { CREATE_CONVO } from '../utils/mutations';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { IconButton, Grid, Box } from '@mui/material';
+import { IconButton, Grid, Box, Button } from '@mui/material';
+import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
 
 
 let myDogId = "633bac1663a38b67c5635360";
 
-// const { useSlotProps } = require("@mui/base");
 
-
-// const { loading, data } = useQuery(GET_ME);
-// console.log(data);
-// let userData = data?.me || {};
-
-// const { loading, error, data } = useQuery(GET_DOG_PHOTO, {
-//     variables: { breed },
-//   });
-
-
-
+// setting up and grabbing dogId to be used for chat feature
 function DogProfile() {
     const { dogId } = useParams();
     const [isRedirect, setIsRedirect] = useState(false);
-    // console.log(dogId);
-    // const { loading, data } = useQuery(GET_DOG_BY_ID, { variables: { dogId }
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
     });
@@ -40,12 +28,6 @@ function DogProfile() {
 
     const dog = dogData.data?.getDog || {};
 
-    // console.log(data);
-
-    // if loading component () show spinning (premade) if not, load the component (ie return)
-    // let dogSize = (dog.weight) {
-    //     if ()
-    // }
     const convoQuery = useQuery(GET_CONVERSATIONS_BY_DOG_ID, {
         variables: { dogId }
     });
@@ -75,11 +57,19 @@ function DogProfile() {
         setIsRedirect(true);
     };
 
+    // for whether or not the user can edit dog right on profile
+    // const editDogProfile = () => {
+    //     if (!dog.dogId === dog.ownerId ? showButton : null ) 
+    //     // if ownerId matches the dogId on the page, then button will not show
+    //     // if ownerId does not match the dogId on the page, then the button will show
+    //     // when clicked on the button, will reroute user to edit dog/owner profile page
+    // } else 
+
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <img src={dog.images} />
-                <Grid container spacing={2} column={16} padding={2}>
+                <div style={{ display: 'flex', justifyContent: 'center'}}><img src={dog.images}/></div>
+                <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
                     <Grid item xs={6}>
                         {dogData.loading
                             ? <h1>loading</h1>
@@ -100,11 +90,9 @@ function DogProfile() {
                     <Grid item xs={6}>
                         <h3>{dog.ownerId}</h3>
 
-                        <button onClick={(event) => initiatePlaydate(event)
-                        }
-                        >
-                            playdate
-                        </button>
+                        <Button size="medium" variant="contained" style={{ marginRight: 10 }} onClick={(event) => initiatePlaydate(event)}> playdate </Button>
+
+                        <Button variant="contained" onClick={(event) => (event)}> edit dog </Button>
                     </Grid>
                 </Grid>
             </Box>
@@ -114,36 +102,5 @@ function DogProfile() {
 }
 
 
-
 export default DogProfile;
 
-
-
-
-
-            // {/* {dogData.loading
-            //     ? <h1>loading</h1>
-            //     : <h1>{dog.name}, {dog.birthday}</h1>
-            // } */}
-
-            // {/* add a mutation. favorite is a form. if true, color star, if false line*/}
-
-            // {/* wrap this in container */}
-            // {/* {dog.data.loading
-            //     ? <h3>{dog.breed}
-            //         <>
-            //             {dog.weight ? =< 22
-            //                 : <p>small</p>
-            //                     ? > 23 && =< 55
-            //             :<p>medium</p>
-            //             ? < 55
-            //             :<p>large</p>
-            // },
-            //         </>
-            //         {dog.sex} </h3> */}
-
-
-                        // if user click on this button
-                            // take current user to user on this account
-                            // mutation PostConversation($dogIds: [ID]) {
-                            //   postConversation(dogIds: $dogIds) {
