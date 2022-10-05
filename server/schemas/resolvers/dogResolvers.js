@@ -47,7 +47,7 @@ const dogQuery = {
 const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
-         console.log(`I'm hit!`);
+         
          const dog = await Dog.create({
             ...args.dog
          });
