@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-// import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import InputLabel from '@mui/material/InputLabel';
@@ -40,7 +39,6 @@ export default function CreateDog() {
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
     const ownerId = Auth.getProfile().data._id;
-    console.log(ownerId);
     const [dogFormData, setDogFormData] = React.useState({
         name: '',
         breed: '',
@@ -124,16 +122,12 @@ export default function CreateDog() {
     // ERROR HERE
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        console.log(ownerId);
-        console.log(personality);
-        console.log({ ...dogFormData, ownerId, personality });
         try {
             const { data } = await createDog({
                 variables: {
                     dog: { ...dogFormData, ownerId, personality, weight: parseInt(dogFormData.weight) }
                 }
             });
-            console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -289,7 +283,8 @@ export default function CreateDog() {
                             noValidate
                             autoComplete="off"
                         >
-                            {/* <Stack
+                            {/* FOR FUTURE DEVELOPMENT
+                                <Stack
                                 direction="row"
                                 alignItems="center"
                                 spacing={2}
