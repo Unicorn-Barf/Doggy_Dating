@@ -15,7 +15,10 @@ const getOwnerData = async () => {
     const parsedUsers = await users.json();
 
     for (const user of parsedUsers) {
-        
+        // Format lat & lon
+        const lat = user.address.coordinates.lat.toString();
+        const lon = user.address.coordinates.lng.toString();
+
         const editedUser = {
             username: user.username,
             email: user.email,
@@ -25,6 +28,8 @@ const getOwnerData = async () => {
             sex: gender[randNumInRange(0, 2)],
             birthday: user.date_of_birth,
             images: [user.avatar],
+            lat,
+            lon
         }
         // Add to the owner array
         ownerData.push(editedUser);
