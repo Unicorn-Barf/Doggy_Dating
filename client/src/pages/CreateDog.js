@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
+// import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 import ListItemText from '@mui/material/ListItemText';
 import InputLabel from '@mui/material/InputLabel';
@@ -18,12 +18,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
-import { FormControlLabel, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_DOG } from '../utils/mutations';
-import { storeDogs } from '../slices/dogSlice';
+// import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 
@@ -47,11 +47,11 @@ export default function CreateDog() {
         birthday: '08/14/2014',
         sex: '',
         isFixed: true,
-        weight: 15,
+        weight: 0,
         personality: '',
         about: '',
         images: [],
-        tags: '',
+        tags: [],
     });
 
     // const handleChange = (event) => {
@@ -202,6 +202,16 @@ export default function CreateDog() {
                                 variant="outlined"
                                 helperText="Please enter your dog's name."
                             />
+                            <TextField
+                                required
+                                id="fullWidth"
+                                label="Breed"
+                                value={dogFormData.breed}
+                                name="breed"
+                                onChange={handleInputChange}
+                                variant="outlined"
+                                helperText="What is/are your dogs breed(s)?"
+                            />
                             <MobileDatePicker
                                 label="Birthday"
                                 id="fullWidth"
@@ -223,6 +233,7 @@ export default function CreateDog() {
                                     label="Sex"
                                     onChange={handleInputChange}
                                 >
+                                    <MenuItem disabled value="">Select an option here.</MenuItem>
                                     <MenuItem value={'Male'}>Male</MenuItem>
                                     <MenuItem value={'Female'}>Female</MenuItem>
                                 </Select>
@@ -247,8 +258,8 @@ export default function CreateDog() {
                             </FormControl>
 
                             <Box sx={{ display: 'flex' }}>
-                                <FormControl sx={{ m: 1, width: 400 }}>
-                                    <InputLabel id="multiple-checkbox-label">Personality</InputLabel>
+                                <FormControl sx={{ width: '100%' }}>
+                                    <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
                                         required
                                         labelId="multiple-checkbox-label"
@@ -268,6 +279,7 @@ export default function CreateDog() {
                                             </MenuItem>
                                         ))}
                                     </Select>
+                                    <FormHelperText>Please select all that apply.</FormHelperText>
                                 </FormControl>
                             </Box>
 
@@ -294,13 +306,18 @@ export default function CreateDog() {
                             noValidate
                             autoComplete="off"
                         >
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            {/* <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={2}
+                                justifyContent="center"
+                            >
                                 <p>Upload your dog's image here.</p>
                                 <Button variant="contained" component="label">
                                     Tap/Click to Upload
                                     <input hidden accept="image/*" multiple type="file" />
                                 </Button>
-                            </Stack>
+                            </Stack> */}
 
                             <TextField
                                 id="outlined-multiline-static"
@@ -310,8 +327,13 @@ export default function CreateDog() {
                                 placeholder="Add dog description here."
                                 multiline
                                 rows={4}
+                                onChange={handleInputChange}
                             />
-                            <Stack direction="row" spacing={2}>
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                                justifyContent="center"
+                            >
                                 <Button
                                     variant="contained"
                                     onClick={handleFormSubmit}
