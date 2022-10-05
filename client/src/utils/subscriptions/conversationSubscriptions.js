@@ -14,3 +14,18 @@ subscription MessageSent($conversationId: ID!) {
   }
 }
 `;
+
+export const GET_CONVERSATIONS_SUB = gql`
+subscription Subscription($dogId: ID!) {
+  conversationUpdated(dogId: $dogId) {
+    _id
+    dogIds
+    messages {
+      messageId
+      dogId
+      message
+      createdAt
+    }
+  }
+}
+`;

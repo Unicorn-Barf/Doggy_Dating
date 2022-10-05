@@ -1,5 +1,6 @@
-import { GET_MESSAGES_SUB } from "./conversationSubscriptions";
+import { GET_MESSAGES_SUB, GET_CONVERSATIONS_SUB } from "./conversationSubscriptions";
 
 export {
     GET_MESSAGES_SUB,
+    GET_CONVERSATIONS_SUB,
 }
