@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID } from '../../utils/queries';
 import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
 import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
 
 
-const Conversations = () => {
-
+const Conversations = ({ setConversationId, setToggleChat }) => {
+    const navigate = useNavigate();
     const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
     console.log(dogId);
 
@@ -26,15 +27,30 @@ const Conversations = () => {
         }
     })
 
-    
+
     let convos = convosQuery.data?.getAllConversationsByDogId || [];
     console.log(convos);
+
+    const handleChatRoute = (event) => {
+        console.log(event.target.textContent);
+        setConversationId(event.target.textContent);
+        setToggleChat(true);
+    }
 
     return (
         <div>
             <h1>These are your Conversations</h1>
             {convos.map((convo) => {
-                return ( <h2 key={convo._id}>{convo._id}</h2>)})
+                return (
+                        <h2
+                            name="mee"
+                            key={convo._id}
+                            onClick={handleChatRoute}
+                        >
+                            {convo._id}
+                        </h2>
+                )
+            })
             }
         </div>
 

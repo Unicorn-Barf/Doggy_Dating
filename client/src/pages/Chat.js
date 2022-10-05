@@ -5,12 +5,12 @@ import Conversations from "../components/Conversations";
 
 
 
-const Chat = () => {
-    let initialConvoId = useLocation().state?.convoId || null;
-    let initialToggle = useLocation().state?.toggle || false;
+const Chat = ({convoId = null, toggle = false}) => {
+    let initialConvoId = useLocation().state?.convoId || convoId;
+    let initialToggle = useLocation().state?.toggle || toggle;
     const [toggleChat, setToggleChat] = useState(initialToggle);
     const [conversationId, setConversationId] = useState(initialConvoId);
-    console.log(conversationId);
+    console.log(conversationId, toggleChat);
     return (
         <div>
             <h1>Chat Screen</h1>
@@ -33,8 +33,8 @@ const Chat = () => {
 
 
             {toggleChat
-                ? <Messages convoId={conversationId} />
-                : <Conversations />}
+                ? <Messages conversationId={conversationId} />
+                : <Conversations setConversationId={setConversationId} setToggleChat={setToggleChat}/>}
 
 
         </div>
