@@ -138,7 +138,7 @@ const typeDefs = gql`
 
    type Subscription {
       messageSent(conversationId: ID!): Conversation
-      conversationUpdated(dogId: ID!): Dog
+      conversationUpdated(dogId: ID!): Conversation
    }
 `
 
