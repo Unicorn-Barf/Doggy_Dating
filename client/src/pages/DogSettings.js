@@ -110,16 +110,6 @@ const DogSettings = () => {
                   value={dogBreed}
                   variant="outlined"
                />
-               {/* <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="sex"
-                  fullWidth
-                  label="Sex"
-                  onChange={handleInputChange}
-                  value={dogSex}
-                  variant="outlined"
-               /> */}
                <FormControl>
                   <InputLabel id="select-sex-label">Sex</InputLabel>
                   <Select

@@ -1,24 +1,26 @@
 import React, { useState } from "react"
 import { Container, Grid, Paper, TextField, Button, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
-import { getOwnerData } from "../slices/ownerSlice";
-import { useSelector } from "react-redux";
-import AuthService from "../utils/auth";
+import { useMutation } from "@apollo/client";
+import { PUT_OWNER } from "../utils/mutations";
+import { getSavedOwner } from "../utils/localStorage";
 
 const OwnerSettings = () => {
 
-   const ownerData = AuthService.getProfile();
-   const testProfileData = [{name: "Owner"}, {name: "Sparky"},{name: "Spot"}];
+   const sexes = ['Male', 'Female', 'Prefer not to say'];
 
-   const [username, setUsername] = useState("");
-   const [email, setEmail] = useState("");
-   const [currentPassword, setCurrentPassword] = useState("");
-   const [newPassword, setNewPassword] = useState("");
-   const [confirmPassword, setConfirmPassword] = useState("");
-   const [firstName, setFirstName] = useState("");
-   const [lastName, setLastName] = useState("");
-   const [sex, setSex] = useState("");
-   const [birthday, setBirthday] = useState("");
-   const [about, setAbout] = useState("");
+   const ownerData = getSavedOwner();
+   const [putOwner] = useMutation(PUT_OWNER);
+
+   const [username, setUsername] = useState(ownerData.username);
+   const [email, setEmail] = useState(ownerData.email);
+   // const [currentPassword, setCurrentPassword] = useState("");
+   // const [newPassword, setNewPassword] = useState("");
+   // const [confirmPassword, setConfirmPassword] = useState("");
+   const [firstName, setFirstName] = useState(ownerData.firstName);
+   const [lastName, setLastName] = useState(ownerData.lastName);
+   const [sex, setSex] = useState(ownerData.sex ? ownerData.sex : "");
+   const [birthday, setBirthday] = useState(Date(ownerData.birthday ? ownerData.birthday : ""));
+   const [about, setAbout] = useState(ownerData.about ? ownerData.about : "");
 
 
    const [profile, setProfile] = useState({
@@ -35,15 +37,15 @@ const OwnerSettings = () => {
       if(event.target.name === 'email') {
          setEmail(event.target.value);
       }
-      if(event.target.name === 'currentPassword') {
-         setCurrentPassword(event.target.value);
-      }
-      if(event.target.name === 'newPassword') {
-         setNewPassword(event.target.value);
-      }
-      if(event.target.name === 'confirmPassword') {
-         setConfirmPassword(event.target.value);
-      }
+      // if(event.target.name === 'currentPassword') {
+      //    setCurrentPassword(event.target.value);
+      // }
+      // if(event.target.name === 'newPassword') {
+      //    setNewPassword(event.target.value);
+      // }
+      // if(event.target.name === 'confirmPassword') {
+      //    setConfirmPassword(event.target.value);
+      // }
       if(event.target.name === 'firstName') {
          setFirstName(event.target.value);
       }
@@ -63,7 +65,43 @@ const OwnerSettings = () => {
 
    const handleFormSubmit = async (event) => {
       const PutOwnerInput = {};
-
+      //set PutOwnerInput
+      if(username !== "") {
+         PutOwnerInput.username = username;
+      }
+      if(email !== "") {
+         PutOwnerInput.email = email;
+      }
+      if(firstName !== "") {
+         PutOwnerInput.firstName = firstName;
+      }
+      if(lastName !== "") {
+         PutOwnerInput.lastName = lastName;
+      }
+      if(sex !== "") {
+         PutOwnerInput.sex = sex;
+      }
+      if(birthday !== "") {
+         PutOwnerInput.birthday = birthday;
+      }
+      if(about !== "") {
+         PutOwnerInput.about = about;
+      }
+      try {
+         const { putOwnerData } = await putOwner({
+            variables: {
+               owner: PutOwnerInput,
+            }
+         });
+         if(putOwnerData) {
+            
+         }
+      } catch(error) {
+         console.error(error);
+      }
+      //send put request
+      //if success, update local storage
+      
       console.log(ownerData)
    }
 
@@ -90,7 +128,7 @@ const OwnerSettings = () => {
                variant="outlined"
                value={email}
             />
-            <TextField
+            {/* <TextField
                sx={{ my: 1}}
                type="text"
                name="currentPassword"
@@ -119,7 +157,7 @@ const OwnerSettings = () => {
                onChange={handleInputChange}
                variant="outlined"
                value={confirmPassword}
-            />
+            /> */}
             <TextField
                sx={{ my: 1}}
                type="text"
@@ -140,16 +178,22 @@ const OwnerSettings = () => {
                variant="outlined"
                value={lastName}
             />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="sex"
-               fullWidth
-               placeholder="sex"
-               onChange={handleInputChange}
-               variant="outlined"
-               value={sex}
-            />
+            <FormControl>
+                  <InputLabel id="select-sex-label">Sex</InputLabel>
+                  <Select
+                     labelId="select-sex-label"
+                     label="Sex"
+                     name="sex"
+                     onChange={handleInputChange}
+                     value={sex}
+                  >
+                     {
+                        sexes.map((item, key) => {
+                           return <MenuItem key={key} value={item}>{item}</MenuItem>
+                        })
+                     }
+                  </Select>
+               </FormControl>
             <TextField
                sx={{ my: 1}}
                type="text"
