@@ -54,42 +54,6 @@ export default function CreateDog() {
         tags: [],
     });
 
-    // const handleChange = (event) => {
-    //     const { label, value } = event.target;
-    //     switch (label) {
-    //         case "Name":
-    //             setName(value);
-    //             break;
-    //         case "Birthday":
-    //             setBirthday(value);
-    //             break;
-    //         case "Sex":
-    //             setSex(value);
-    //             break;
-    //         case "Fix":
-    //             setFix(value);
-    //             break;
-    //         case "Weight":
-    //             setWeight(value);
-    //             break;
-    //         case "Size":
-    //             setSize(value);
-    //             break;
-    //         // case "Personality":
-    //         //     console.log('Personality change!');
-    //         //     // const {
-    //         //     //     target: { value },
-    //         //     //   } = event;
-    //         //     setPersonality(
-    //         //         typeof value === 'string' ? value.split(',') : value,
-    //         //     );
-    //         //     break;
-    //         case "Tell us about your pet.":
-    //             setDescript(value);
-    //             break;
-    //     };
-    // };
-
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -149,17 +113,27 @@ export default function CreateDog() {
     };
 
     const handleInputChange = (event) => {
-        console.log('Changing...');
         event.preventDefault();
         const { name, value } = event.target;
-        console.log(name);
         setDogFormData({
             ...dogFormData,
             [name]: value,
         })
     };
 
+    // ERROR HERE
     const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        const validates = (values => {
+            // regexr.com/2rhq7
+            const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+
+
+
+
+
+
+        });
         // const { data, error } = await createDog({
         //     variables: {
         //         dog: {
@@ -324,7 +298,7 @@ export default function CreateDog() {
                                 label="Tell us about your pet."
                                 value={dogFormData.about}
                                 name="about"
-                                placeholder="Add dog description here."
+                                placeholder="Add your dog's description here."
                                 multiline
                                 rows={4}
                                 onChange={handleInputChange}

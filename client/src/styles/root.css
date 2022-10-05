@@ -18,3 +18,7 @@ h1, h2 {
     margin-top: 10px;
     margin-bottom: 75px;
 }
+
+button {
+    background-color: var(--pink);
+}
