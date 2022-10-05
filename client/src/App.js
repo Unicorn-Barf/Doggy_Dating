@@ -12,7 +12,6 @@ import OwnerSettings from "./pages/OwnerSettings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import SignOut from "./pages/SignOut";
 
 export default function App() {
   return (
