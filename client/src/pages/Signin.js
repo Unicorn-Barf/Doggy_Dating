@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, redirect } from 'react-router-dom'
 import { Container, Grid, Paper, TextField, Button } from "@mui/material";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
@@ -7,9 +8,11 @@ import { GET_ALL_DOGS_BY_OWNER_ID } from "../utils/queries";
 import { useDispatch } from "react-redux";
 import { storeOwner } from "../slices/ownerSlice";
 import { storeDogs, storeCurrentDog }  from "../slices/dogSlice";
+import { saveOwner, saveDogArr, setCurrentDogIndex } from "../utils/localStorage";
 
 const Signin = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
@@ -20,6 +23,9 @@ const Signin = () => {
     onCompleted: (data) => {
       dispatch(storeCurrentDog({...data.getAllDogsByOwner[0]}));
       dispatch(storeDogs(data.getAllDogsByOwner));
+      saveDogArr(data.getAllDogsByOwner);
+      setCurrentDogIndex(0);
+      // navigate('/home');
     },
   }); 
 
@@ -34,8 +40,6 @@ const Signin = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-
     // const checkEmail = userFormData.email;
     // const checkPassword = userFormData.password;
     // if (!checkEmail || !checkPassword) {
@@ -56,10 +60,11 @@ const Signin = () => {
 
       Auth.login(data.login.token);
       const signedInOwner = data.login.owner;
-      // Store Logged In owner in Global State
+      // Store Logged In owner in Global State & local storage
       dispatch(storeOwner({
         ...signedInOwner,
       }));
+      saveOwner(signedInOwner);
 
       if (signedInOwner.dogIds.length > 0) {
         getDogs({
@@ -95,11 +100,11 @@ const Signin = () => {
                 name="email"
                 fullWidth
                 label="Email"
-                placeholder="username or email address"
+                placeholder="email address"
                 onChange={handleInputChange}
                 value={userFormData.email}
                 variant="outlined"
-                helperText="Incorrect entry."
+                helperText=""
                 id="outlined-error-helper-text"
               />
             </Grid>
