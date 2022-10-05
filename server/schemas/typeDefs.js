@@ -30,6 +30,8 @@ const typeDefs = gql`
    input PutOwnerInput {
       username: String
       email: String
+      currentPassword: String
+      newPassword: String
       firstName: String
       lastName: String
       sex: String
@@ -118,7 +120,7 @@ const typeDefs = gql`
       login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput!): Auth
-      putOwner(owner: PutOwnerInput!): Auth
+      putOwner(owner: PutOwnerInput!): Owner
       deleteOwner(password: String!): Owner
       addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner
