@@ -22,7 +22,7 @@ function App() {
           element={<Home />}
         />
         <Route
-          path="/profile/:id"
+          path="/profile/:dogId"
           element={<Profile />}
         />
         <Route
