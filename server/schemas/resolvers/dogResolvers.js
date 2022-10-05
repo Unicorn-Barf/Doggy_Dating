@@ -52,8 +52,7 @@ const dogMutation = {
             ...args.dog
          });
          const postDog = await Owner.findByIdAndUpdate(context.owner._id, { $addToSet:{ dogIds: dog._id } }, { new: true });
-         console.log(dog);
-         console.log(postDog);
+         
          return dog;
       } catch (error) {
          console.error(error);
