@@ -33,7 +33,9 @@ const dogQuery = {
             throw new UserInputError('Cannot have both ownerId and username');
          }
          const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
+
          const dogs = await Dog.find({ ownerId: owner._id });
+
          return dogs;
       } catch(error) {
          console.error(error);
@@ -56,21 +58,17 @@ const dogMutation = {
    },
    putDog: async (parent, args, context) => {
       try {
-         const dog = await Dog.findById(args.dogId);
-         if(dog.ownerId === context.owner._id) {
-            const updatedDog = await Dog.findByIdAndUpdate(
-               args.dogId,
-               {
-                  ...args.dog
-               },
-               {
-                  new: true
-               }
-            );
-            return updatedDog;
-         } else {
-            throw new ForbiddenError('You cannot edit this dog');
-         }
+         const updatedDog = await Dog.findByIdAndUpdate(
+            args.dogId,
+            {
+               ...args.dog
+            },
+            {
+               new: true,
+               omitUndefined: true,
+            }
+         );
+         return updatedDog;
       } catch(error) {
          console.error(error);
       }

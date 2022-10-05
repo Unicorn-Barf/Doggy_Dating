@@ -13,6 +13,7 @@ const typeDefs = gql`
       about: String
       birthday: String
       images: [String]
+      dogIds: [ID]
    }
 
    input PostOwnerInput {
@@ -29,6 +30,8 @@ const typeDefs = gql`
    input PutOwnerInput {
       username: String
       email: String
+      currentPassword: String
+      newPassword: String
       firstName: String
       lastName: String
       sex: String
@@ -114,12 +117,10 @@ const typeDefs = gql`
    }
 
    type Mutation {
-      login(username: String!, email: String!, password: String!): Auth
-      signUp(username: String!, email: String!, password: String!, firstName: String!, lastName: String!, sex: String!, birthday: String!): Auth
-
+      login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput!): Auth
-      putOwner(owner: PutOwnerInput!): Auth
+      putOwner(owner: PutOwnerInput!): Owner
       deleteOwner(password: String!): Owner
       addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner
@@ -135,7 +136,8 @@ const typeDefs = gql`
    }
 
    type Subscription {
-      messageSent: Conversation
+      messageSent(conversationId: ID!): Conversation
+      conversationUpdated(dogId: ID!): Dog
    }
 `
 
