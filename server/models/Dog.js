@@ -20,7 +20,7 @@ const dogSchema = new Schema({
    },
    sex: {
       type: String,
-      enum: ['Male', 'Female', 'Prefer not to say'],
+      enum: ['Male', 'Female'],
       required: true,
    },
    isFixed: {

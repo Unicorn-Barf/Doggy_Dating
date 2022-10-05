@@ -39,7 +39,7 @@ export default function CreateDog() {
     const [size, setSize] = React.useState([]);
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
-    const ownerId = Auth.getProfile();
+    const ownerId = Auth.getProfile().data._id;
     console.log(ownerId);
     const [dogFormData, setDogFormData] = React.useState({
         name: '',
@@ -48,9 +48,9 @@ export default function CreateDog() {
         sex: '',
         isFixed: true,
         weight: 0,
-        personality: '',
+        // personality: [],
         about: '',
-        images: [],
+        // images: [],
         tags: [],
     });
 
@@ -124,16 +124,24 @@ export default function CreateDog() {
     // ERROR HERE
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        const validates = (values => {
-            // regexr.com/2rhq7
-            const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+        console.log(ownerId);
+        console.log(personality);
+        console.log({ ...dogFormData, ownerId, personality });
+        try {
+            const { data } = await createDog({
+                variables: {
+                    dog: { ...dogFormData, ownerId, personality, weight: parseInt(dogFormData.weight) }
+                }
+            });
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
 
-
-
-
-
-
-        });
+        // const validates = (values => {
+        //     // regexr.com/2rhq7
+        //     const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+        // });
         // const { data, error } = await createDog({
         //     variables: {
         //         dog: {
@@ -241,15 +249,16 @@ export default function CreateDog() {
                                         multiple
                                         label="Personality"
                                         value={personality}
+                                        name="personality"
                                         onChange={handlePersonalityChange}
                                         input={<OutlinedInput label="Personality" />}
                                         renderValue={(selected) => selected.join(', ')}
                                         MenuProps={MenuProps}
                                     >
-                                        {personalities.map((batman) => (
-                                            <MenuItem key={batman} value={batman}>
-                                                <Checkbox checked={personality.indexOf(batman) > -1} />
-                                                <ListItemText primary={batman} />
+                                        {personalities.map((traits) => (
+                                            <MenuItem key={traits} value={traits}>
+                                                <Checkbox checked={personality.indexOf(traits) > -1} />
+                                                <ListItemText primary={traits} />
                                             </MenuItem>
                                         ))}
                                     </Select>

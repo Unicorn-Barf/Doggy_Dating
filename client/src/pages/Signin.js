@@ -25,7 +25,7 @@ const Signin = () => {
       dispatch(storeDogs(data.getAllDogsByOwner));
       saveDogArr(data.getAllDogsByOwner);
       setCurrentDogIndex(0);
-      // navigate('/home');
+      navigate('/home');
     },
   }); 
 
