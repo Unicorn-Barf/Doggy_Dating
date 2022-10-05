@@ -16,5 +16,23 @@ query GetAllDogsByOwner($ownerId: ID, $username: String) {
      images
      tags
    }
- }
+ } 
+`;
+export const GET_ALL_DOGS = gql`
+query GetAllDogs {
+  getAllDogs {
+    _id
+    ownerId
+    name
+    breed
+    birthday
+    sex
+    weight
+    personality
+    headline
+    about
+    images
+    tags
+  }
+}
 `;

@@ -40,8 +40,6 @@ const Signin = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-
     // const checkEmail = userFormData.email;
     // const checkPassword = userFormData.password;
     // if (!checkEmail || !checkPassword) {
@@ -102,11 +100,11 @@ const Signin = () => {
                 name="email"
                 fullWidth
                 label="Email"
-                placeholder="username or email address"
+                placeholder="email address"
                 onChange={handleInputChange}
                 value={userFormData.email}
                 variant="outlined"
-                helperText="Incorrect entry."
+                helperText=""
                 id="outlined-error-helper-text"
               />
             </Grid>
