@@ -47,13 +47,12 @@ const dogQuery = {
 const dogMutation = {
    postDog: async (parent, args, context) => {
       try {
-         console.log(`I'm hit!`);
+         
          const dog = await Dog.create({
             ...args.dog
          });
          const postDog = await Owner.findByIdAndUpdate(context.owner._id, { $addToSet:{ dogIds: dog._id } }, { new: true });
-         console.log(dog);
-         console.log(postDog);
+         
          return dog;
       } catch (error) {
          console.error(error);

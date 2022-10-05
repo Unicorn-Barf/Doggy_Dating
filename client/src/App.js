@@ -35,10 +35,6 @@ export default function App() {
           path="/sign-up"
           element={<Signup />}
         />
-        <Route 
-        path="/sign-out"
-        element={<SignOut />}
-        />
         <Route
           path="/chat"
           element={<Chat />}
