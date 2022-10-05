@@ -32,8 +32,8 @@ const Conversations = ({ setConversationId, setToggleChat }) => {
     console.log(convos);
 
     const handleChatRoute = (event) => {
-        console.log(event.target.textContent);
-        setConversationId(event.target.textContent);
+        console.log(event.target.dataset.convoid);
+        setConversationId(event.target.dataset.convoid);
         setToggleChat(true);
     }
 
@@ -43,8 +43,8 @@ const Conversations = ({ setConversationId, setToggleChat }) => {
             {convos.map((convo) => {
                 return (
                         <h2
-                            name="mee"
                             key={convo._id}
+                            data-convoid={convo._id}
                             onClick={handleChatRoute}
                         >
                             {convo._id}
