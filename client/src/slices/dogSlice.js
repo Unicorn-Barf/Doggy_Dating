@@ -15,7 +15,7 @@ const dogSlice = createSlice({
          state.currentDog = action.payload;
       },
       storeDogs(state, action) {
-         state.dogArray = [...action.payload]
+         state.dogArray = [...action.payload];
       }
    }
 });
