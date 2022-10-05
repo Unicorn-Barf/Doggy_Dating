@@ -30,6 +30,7 @@ const typeDefs = gql`
    input PutOwnerInput {
       username: String
       email: String
+      password: String
       firstName: String
       lastName: String
       sex: String

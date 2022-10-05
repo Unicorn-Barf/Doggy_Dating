@@ -1,21 +1,20 @@
 import React, { useState } from "react"
-import { Container, TextField, Button, FormControl } from "@mui/material";
+import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { GET_DOG_BY_ID } from '../utils/queries';
 import { PUT_DOG } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import AuthService from "../utils/auth";
-import { useParams } from 'react-router-dom';
+import { Form, useParams } from 'react-router-dom';
 import { getDog } from "../slices/dogSlice";
 import { useSelector } from "react-redux";
 
 
 const DogSettings = () => {
 
-   const { dogId}  = useParams();
+   const sexes = ['Male', 'Female'];
 
-   const [ putDog ] = useMutation(PUT_DOG);
-
-   const [dogFormData, setdogFormData] = useState({});
+   const { dogId } = useParams();
+   const [putDog] = useMutation(PUT_DOG);
 
    const [dogName, setDogName] = useState("");
    const [dogBreed, setDogBreed] = useState("");
@@ -25,24 +24,26 @@ const DogSettings = () => {
    const [dogHeadline, setDogHeadline] = useState("");
    const [dogAbout, setDogAbout] = useState("");
 
-
    const handleInputChange = async (event) => {
-      if(event.target.name === 'name') {
+      if (event.target.name === 'name') {
          setDogName(event.target.value);
       }
-      if(event.target.name === 'breed') {
+      if (event.target.name === 'breed') {
          setDogBreed(event.target.value);
       }
-      if(event.target.name === 'sex') {
+      if (event.target.name === 'sex') {
          setDogSex(event.target.value);
       }
-      if(event.target.name === 'birthday') {
+      if (event.target.name === 'weight') {
+         setDogWeight(event.target.value);
+      }
+      if (event.target.name === 'birthday') {
          setDogBirthday(event.target.value);
       }
-      if(event.target.name === 'headline') {
+      if (event.target.name === 'headline') {
          setDogHeadline(event.target.value);
       }
-      if(event.target.name === 'about') {
+      if (event.target.name === 'about') {
          setDogAbout(event.target.value);
       }
       console.log(event.target);
@@ -51,25 +52,25 @@ const DogSettings = () => {
    const handleFormSubmit = async (event) => {
       //console.log(dog);
       const PutDogInput = {};
-      if(dogName !== "") {
+      if (dogName !== "") {
          PutDogInput.name = dogName;
       }
-      if(dogBreed !== "") {
+      if (dogBreed !== "") {
          PutDogInput.breed = dogBreed;
       }
-      if(dogBirthday !== "") {
+      if (dogBirthday !== "") {
          PutDogInput.birthday = dogBirthday;
       }
-      if(dogSex !== "") {
+      if (dogSex !== "") {
          PutDogInput.sex = dogSex;
       }
-      if(dogWeight !== "") {
+      if (dogWeight !== "") {
          PutDogInput.weight = parseInt(dogWeight);
       }
-      if(dogHeadline !== "") {
+      if (dogHeadline !== "") {
          PutDogInput.headline = dogHeadline;
       }
-      if(dogAbout !== "") {
+      if (dogAbout !== "") {
          PutDogInput.about = dogAbout;
       }
       console.log(PutDogInput);
@@ -94,9 +95,9 @@ const DogSettings = () => {
                   type="text"
                   name="name"
                   fullWidth
-                  placeholder="Name"
+                  label="Name"
                   onChange={handleInputChange}
-                  value={dogFormData.name === null ? "" : dogFormData.name}
+                  value={dogName}
                   variant="outlined"
                />
                <TextField
@@ -104,29 +105,56 @@ const DogSettings = () => {
                   type="text"
                   name="breed"
                   fullWidth
-                  placeholder="Breed"
+                  label="Breed"
                   onChange={handleInputChange}
-                  value={dogFormData.breed === null ? "" : dogFormData.breed}
+                  value={dogBreed}
                   variant="outlined"
                />
-               <TextField
+               {/* <TextField
                   sx={{ my: 1 }}
                   type="text"
                   name="sex"
                   fullWidth
-                  placeholder="Sex"
+                  label="Sex"
                   onChange={handleInputChange}
-                  value={dogFormData.sex === null ? "" : dogFormData.sex}
+                  value={dogSex}
+                  variant="outlined"
+               /> */}
+               <FormControl>
+                  <InputLabel id="select-sex-label">Sex</InputLabel>
+                  <Select
+                     labelId="select-sex-label"
+                     label="Sex"
+                     name="sex"
+                     onChange={handleInputChange}
+                     value={dogSex}
+                  >
+                     {
+                        sexes.map((item, key) => {
+                           return <MenuItem key={key} value={item}>{item}</MenuItem>
+                        })
+                     }
+                  </Select>
+               </FormControl>
+               <TextField
+                  sx={{ my: 1 }}
+                  type="text"
+                  name="weight"
+                  fullWidth
+                  label="weight"
+                  onChange={handleInputChange}
+                  value={dogWeight}
                   variant="outlined"
                />
+
                <TextField
                   sx={{ my: 1 }}
                   type="text"
                   name="birthday"
                   fullWidth
-                  placeholder="Birthday"
+                  label="Birthday"
                   onChange={handleInputChange}
-                  value={dogFormData.birthday === null ? "" : dogFormData.birthday}
+                  value={dogBirthday}
                   variant="outlined"
                />
                <TextField
@@ -134,9 +162,9 @@ const DogSettings = () => {
                   type="text"
                   name="headline"
                   fullWidth
-                  placeholder="Headline"
+                  label="Headline"
                   onChange={handleInputChange}
-                  value={dogFormData.headline === null ? "" : dogFormData.headline}
+                  value={dogHeadline}
                   variant="outlined"
                />
                <TextField
@@ -144,9 +172,9 @@ const DogSettings = () => {
                   type="text"
                   name="about"
                   fullWidth
-                  placeholder="About"
+                  label="About"
                   onChange={handleInputChange}
-                  value={dogFormData.about === null ? "" : dogFormData.about}
+                  value={dogAbout}
                   variant="outlined"
                />
                <Button onClick={handleFormSubmit}>

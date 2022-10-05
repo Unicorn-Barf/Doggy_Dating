@@ -48,7 +48,7 @@ function App() {
         />
         <Route
          path="/owner/settings"
-         element={<OwnerSettings/>}
+         element={<OwnerSettings />}
         />
         <Route
           path="*"

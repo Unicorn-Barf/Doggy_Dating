@@ -9,19 +9,17 @@ const OwnerSettings = () => {
    const ownerData = AuthService.getProfile();
    const testProfileData = [{name: "Owner"}, {name: "Sparky"},{name: "Spot"}];
 
-   const [userFormData, setUserFormData] = useState({
-      username: "",
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      sex: "",
-      birthday: "",
-      about: "",
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-   });
+   const [username, setUsername] = useState("");
+   const [email, setEmail] = useState("");
+   const [currentPassword, setCurrentPassword] = useState("");
+   const [newPassword, setNewPassword] = useState("");
+   const [confirmPassword, setConfirmPassword] = useState("");
+   const [firstName, setFirstName] = useState("");
+   const [lastName, setLastName] = useState("");
+   const [sex, setSex] = useState("");
+   const [birthday, setBirthday] = useState("");
+   const [about, setAbout] = useState("");
+
 
    const [profile, setProfile] = useState({
       name: "",
@@ -31,22 +29,42 @@ const OwnerSettings = () => {
       event.preventDefault();
       const { name, value } = event.target;
       console.log(name, value);
-      setUserFormData({
-         ...userFormData,
-         [name]: value,
-      });
+      if(event.target.name === 'username') {
+         setUsername(event.target.value);
+      }
+      if(event.target.name === 'email') {
+         setEmail(event.target.value);
+      }
+      if(event.target.name === 'currentPassword') {
+         setCurrentPassword(event.target.value);
+      }
+      if(event.target.name === 'newPassword') {
+         setNewPassword(event.target.value);
+      }
+      if(event.target.name === 'confirmPassword') {
+         setConfirmPassword(event.target.value);
+      }
+      if(event.target.name === 'firstName') {
+         setFirstName(event.target.value);
+      }
+      if(event.target.name === 'lastName') {
+         setLastName(event.target.value);
+      }
+      if(event.target.name === 'sex') {
+         setSex(event.target.value);
+      }
+      if(event.target.name === 'birthday') {
+         setBirthday(event.target.value);
+      }
+      if(event.target.name === 'about') {
+         setAbout(event.target.value);
+      }
    }
 
    const handleFormSubmit = async (event) => {
-      console.log(ownerData)
-   }
+      const PutOwnerInput = {};
 
-   const handleProfileChange = async (event) => {
-      const { name, value } = event.target;
-      console.log(name, value);
-      setProfile({
-         name: value,
-      })
+      console.log(ownerData)
    }
 
    return (
@@ -59,8 +77,8 @@ const OwnerSettings = () => {
                fullWidth
                placeholder="Username"
                onChange={handleInputChange}
-               value={userFormData.username}
                variant="outlined"
+               value={username}
             />
             <TextField
                sx={{ my: 1}}
@@ -69,58 +87,8 @@ const OwnerSettings = () => {
                fullWidth
                placeholder="email"
                onChange={handleInputChange}
-               value={userFormData.email}
                variant="outlined"
-            />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="firstName"
-               fullWidth
-               placeholder="firstName"
-               onChange={handleInputChange}
-               value={userFormData.firstName}
-               variant="outlined"
-            />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="lastName"
-               fullWidth
-               placeholder="lastName"
-               onChange={handleInputChange}
-               value={userFormData.lastName}
-               variant="outlined"
-            />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="sex"
-               fullWidth
-               placeholder="sex"
-               onChange={handleInputChange}
-               value={userFormData.sex}
-               variant="outlined"
-            />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="birthday"
-               fullWidth
-               placeholder="birthday"
-               onChange={handleInputChange}
-               value={userFormData.birthday}
-               variant="outlined"
-            />
-            <TextField
-               sx={{ my: 1}}
-               type="text"
-               name="about"
-               fullWidth
-               placeholder="about"
-               onChange={handleInputChange}
-               value={userFormData.about}
-               variant="outlined"
+               value={email}
             />
             <TextField
                sx={{ my: 1}}
@@ -129,8 +97,8 @@ const OwnerSettings = () => {
                fullWidth
                placeholder="currentPassword"
                onChange={handleInputChange}
-               value={userFormData.currentPassword}
                variant="outlined"
+               value={currentPassword}
             />
             <TextField
                sx={{ my: 1}}
@@ -139,8 +107,8 @@ const OwnerSettings = () => {
                fullWidth
                placeholder="newPassword"
                onChange={handleInputChange}
-               value={userFormData.newPassword}
                variant="outlined"
+               value={newPassword}
             />
             <TextField
                sx={{ my: 1}}
@@ -149,8 +117,58 @@ const OwnerSettings = () => {
                fullWidth
                placeholder="confirmPassword"
                onChange={handleInputChange}
-               value={userFormData.confirmPassword}
                variant="outlined"
+               value={confirmPassword}
+            />
+            <TextField
+               sx={{ my: 1}}
+               type="text"
+               name="firstName"
+               fullWidth
+               placeholder="firstName"
+               onChange={handleInputChange}
+               variant="outlined"
+               value={firstName}
+            />
+            <TextField
+               sx={{ my: 1}}
+               type="text"
+               name="lastName"
+               fullWidth
+               placeholder="lastName"
+               onChange={handleInputChange}
+               variant="outlined"
+               value={lastName}
+            />
+            <TextField
+               sx={{ my: 1}}
+               type="text"
+               name="sex"
+               fullWidth
+               placeholder="sex"
+               onChange={handleInputChange}
+               variant="outlined"
+               value={sex}
+            />
+            <TextField
+               sx={{ my: 1}}
+               type="text"
+               name="birthday"
+               fullWidth
+               placeholder="birthday"
+               onChange={handleInputChange}
+               variant="outlined"
+               value={birthday}
+            />
+            <TextField
+               sx={{ my: 1}}
+               type="text"
+               name="about"
+               fullWidth
+               placeholder="about"
+               onChange={handleInputChange}
+               variant="outlined"
+               value={about}
             />
             <Button onClick={handleFormSubmit}>
                Submit
