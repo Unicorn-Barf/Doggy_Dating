@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
+const { AuthenticationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -41,7 +41,7 @@ const ownerQuery = {
 const ownerMutation = {
    login: async (parent, args, context) => {
       const owner = await Owner.findOne({ $or: [{ username: args.username }, { email: args.email }] });
-      console.log(owner);
+
       if (!owner) {
          throw new AuthenticationError('Error logging in!');
       }

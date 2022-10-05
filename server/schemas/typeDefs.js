@@ -13,6 +13,7 @@ const typeDefs = gql`
       about: String
       birthday: String
       images: [String]
+      dogIds: [ID]
    }
 
    input PostOwnerInput {
