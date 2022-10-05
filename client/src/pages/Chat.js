@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom';
 import Messages from '../components/Messages';
 import Conversations from "../components/Conversations";
 
 
 
-const Chat = ({ conversationId = null }) => {
-    
-    const [toggleChat, setToggleChat] = useState(false);
+const Chat = () => {
+    let initialConvoId = useLocation().state?.convoId || null;
+    let initialToggle = useLocation().state?.toggle || false;
+    const [toggleChat, setToggleChat] = useState(initialToggle);
+    const [conversationId, setConversationId] = useState(initialConvoId);
+    console.log(conversationId);
     return (
         <div>
             <h1>Chat Screen</h1>
@@ -29,7 +33,7 @@ const Chat = ({ conversationId = null }) => {
 
 
             {toggleChat
-                ? <Messages conversationId={conversationId} />
+                ? <Messages convoId={conversationId} />
                 : <Conversations />}
 
 
