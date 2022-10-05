@@ -29,7 +29,7 @@ const ownerSchema = new Schema({
    sex: {
       type: String,
       enum: ['Male', 'Female', 'Prefer not to say'],
-      required: true,
+      // required: true,
    },
    birthday: {
       type: Date,

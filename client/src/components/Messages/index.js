@@ -36,7 +36,7 @@ const Messages = ({ conversationId }) => {
   // Local State
   const [user, setUser] = useState("Victoria");
   const [text, setText] = useState("");
-
+  console.log(conversationId, 'Messages Component');
   // GraphQL Hooks
   const [postMessage] = useMutation(POST_MESSAGE);
 

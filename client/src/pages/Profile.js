@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import Carousel from 'react-material-ui-carousel';
 // import { Paper, Button } from '@mui/material';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -11,14 +11,16 @@ import { CREATE_CONVO } from '../utils/mutations';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { IconButton, Grid, Box, Button } from '@mui/material';
 import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
-
+import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
 let myDogId = "633bac1663a38b67c5635360";
 
 
 // setting up and grabbing dogId to be used for chat feature
 function DogProfile() {
+    const navigate = useNavigate();
     const { dogId } = useParams();
+    const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
     const [isRedirect, setIsRedirect] = useState(false);
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
@@ -54,7 +56,14 @@ function DogProfile() {
                 console.log(error);
             }
         }
-        setIsRedirect(true);
+        // setIsRedirect(true);
+        // Navigate also sending the convoId to next component.
+        navigate('/chat', {
+            state: {
+                convoId,
+                toggle: true,
+            }
+        });
     };
 
     // for whether or not the user can edit dog right on profile
