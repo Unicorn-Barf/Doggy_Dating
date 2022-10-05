@@ -11,7 +11,7 @@ export {
    SIGNUP_USER,
    POST_MESSAGE,
    CREATE_CONVO,
-   LOGIN_USER
+   LOGIN_USER,
    PUT_DOG,
    PUT_OWNER
 }
