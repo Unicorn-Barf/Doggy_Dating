@@ -14,3 +14,18 @@ mutation Mutation($conversationId: ID!, $message: PostMessage) {
   }
 }
 `;
+
+export const CREATE_CONVO = gql`
+mutation PostConversation($dogIds: [ID]) {
+  postConversation(dogIds: $dogIds) {
+    _id
+    dogIds
+    messages {
+      messageId
+      dogId
+      message
+      createdAt
+    }
+  }
+}
+`;
