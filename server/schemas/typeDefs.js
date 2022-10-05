@@ -13,6 +13,7 @@ const typeDefs = gql`
       about: String
       birthday: String
       images: [String]
+      dogIds: [ID]
    }
 
    input PostOwnerInput {
@@ -21,7 +22,7 @@ const typeDefs = gql`
       password: String!
       firstName: String!
       lastName: String!
-      sex: String!
+      sex: String
       birthday: String!
       images: [String]
    }
@@ -29,6 +30,8 @@ const typeDefs = gql`
    input PutOwnerInput {
       username: String
       email: String
+      currentPassword: String
+      newPassword: String
       firstName: String
       lastName: String
       sex: String
@@ -59,6 +62,7 @@ const typeDefs = gql`
       birthday: String!
       sex: String!
       weight: Int!
+      isFixed: Boolean
       personality: [String]
       headline: String
       about: String
@@ -117,7 +121,7 @@ const typeDefs = gql`
       login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput!): Auth
-      putOwner(owner: PutOwnerInput!): Auth
+      putOwner(owner: PutOwnerInput!): Owner
       deleteOwner(password: String!): Owner
       addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner

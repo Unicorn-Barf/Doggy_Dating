@@ -18,8 +18,18 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
+import '../styles/root.css';
+import './styles/pages.css';
+import { useMutation } from '@apollo/client';
+import { CREATE_DOG } from '../utils/mutations';
+// import { storeDogs } from '../slices/dogSlice';
+import { useDispatch } from 'react-redux';
+import Auth from '../utils/auth';
 
 export default function CreateDog() {
+    const dispatch = useDispatch();
+    const [createDog] = useMutation(CREATE_DOG);
+
     const [name, setName] = React.useState('');
     const [birthday, setBirthday] = React.useState(dayjs('2014-08-18'));
     const [sex, setSex] = React.useState('');
@@ -28,38 +38,19 @@ export default function CreateDog() {
     const [size, setSize] = React.useState([]);
     const [personality, setPersonality] = React.useState([]);
     const [descript, setDescript] = React.useState([]);
-
-    const handleChange = (event) => {
-        const { label, value } = event.target;
-        switch (label) {
-            case "Name":
-                setName(value);
-                break;
-            case "Birthday":
-                setBirthday(value);
-                break;
-            case "Sex":
-                setSex(value);
-                break;
-            case "Fix":
-                setFix(value);
-                break;
-            case "Weight":
-                setWeight(value);
-                break;
-            case "Size":
-                setSize(value);
-                break;
-            case "Personality":
-                setPersonality(
-                    typeof value === 'string' ? value.split(',') : value,
-                );
-                break;
-            case "Tell us about your pet.":
-                setDescript(value);
-                break;
-        };
-    };
+    const ownerId = Auth.getProfile().data._id;
+    const [dogFormData, setDogFormData] = React.useState({
+        name: '',
+        breed: '',
+        birthday: '08/14/2014',
+        sex: '',
+        isFixed: true,
+        weight: 0,
+        // personality: [],
+        about: '',
+        // images: [],
+        tags: [],
+    });
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -80,7 +71,6 @@ export default function CreateDog() {
         'Insecure',
         'Independent',
         'Laid Back',
-
     ];
 
     const sizes = [
@@ -110,9 +100,55 @@ export default function CreateDog() {
         },
     ];
 
+    const handlePersonalityChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setPersonality(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const handleInputChange = (event) => {
+        event.preventDefault();
+        const { name, value } = event.target;
+        setDogFormData({
+            ...dogFormData,
+            [name]: value,
+        })
+    };
+
+    // ERROR HERE
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const { data } = await createDog({
+                variables: {
+                    dog: { ...dogFormData, ownerId, personality, weight: parseInt(dogFormData.weight) }
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+        // const validates = (values => {
+        //     // regexr.com/2rhq7
+        //     const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+        // });
+        // const { data, error } = await createDog({
+        //     variables: {
+        //         dog: {
+        //             ...dogFormData,
+        //         }
+        //     }
+        // });
+        console.log(dogFormData);
+    };
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div>
+            <div className='main-container'>
                 <Container maxWidth="sm">
                     <Grid
                         container
@@ -136,28 +172,44 @@ export default function CreateDog() {
                                 required
                                 id="fullWidth"
                                 label="Name"
+                                value={dogFormData.name}
+                                name="name"
+                                onChange={handleInputChange}
                                 variant="outlined"
                                 helperText="Please enter your dog's name."
+                            />
+                            <TextField
+                                required
+                                id="fullWidth"
+                                label="Breed"
+                                value={dogFormData.breed}
+                                name="breed"
+                                onChange={handleInputChange}
+                                variant="outlined"
+                                helperText="What is/are your dogs breed(s)?"
                             />
                             <MobileDatePicker
                                 label="Birthday"
                                 id="fullWidth"
                                 inputFormat="MM/DD/YYYY"
-                                value={birthday}
+                                value={dogFormData.birthday}
+                                name="birthday"
                                 disableFuture
-                                onChange={(newBirthday) => setBirthday(newBirthday)}
+                                onChange={(birthday) => setDogFormData({ ...dogFormData, birthday })}
                                 renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
                             />
 
                             <FormControl required>
-                                <InputLabel id="simple-select-label">Sex</InputLabel>
+                                <InputLabel className="simple-select-label">Sex</InputLabel>
                                 <Select
                                     required
                                     id="simple-select"
-                                    value={sex}
+                                    value={dogFormData.sex}
+                                    name="sex"
                                     label="Sex"
-                                    onChange={(event) => setSex(event.target.value)}
+                                    onChange={handleInputChange}
                                 >
+                                    <MenuItem disabled value="">Select an option here.</MenuItem>
                                     <MenuItem value={'Male'}>Male</MenuItem>
                                     <MenuItem value={'Female'}>Female</MenuItem>
                                 </Select>
@@ -165,45 +217,46 @@ export default function CreateDog() {
                             </FormControl>
 
                             <FormControl required>
-                                <InputLabel id="simple-select-label">Spayed/neutered?</InputLabel>
+                                <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
                                 <Select
                                     required
-                                    labelId="simple-select-label"
+                                    // labelId="simple-select-label"
                                     id="simple-select"
-                                    value={fix}
+                                    value={dogFormData.isFixed}
+                                    name="isFixed"
                                     label="Fix"
-                                    onChange={(event) => setFix(event.target.value)}
+                                    onChange={handleInputChange}
                                 >
-                                    <MenuItem value={'Yes'}>Yes</MenuItem>
-                                    <MenuItem value={'No'}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </Select>
                                 <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
                             </FormControl>
 
                             <Box sx={{ display: 'flex' }}>
-                                <FormControl
-                                    required
-                                    sx={{ width: "100%" }}
-                                >
-                                    <InputLabel id="multiple-checkbox-label">Personality</InputLabel>
+                                <FormControl sx={{ width: '100%' }}>
+                                    <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
+                                        required
                                         labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
+                                        label="Personality"
                                         value={personality}
-                                        onChange={(event) => setPersonality(event.target.value)}
+                                        name="personality"
+                                        onChange={handlePersonalityChange}
                                         input={<OutlinedInput label="Personality" />}
                                         renderValue={(selected) => selected.join(', ')}
                                         MenuProps={MenuProps}
                                     >
-                                        {personalities.map((personality) => (
-                                            <MenuItem key={personality} value={personality}>
-                                                <Checkbox unchecked={personality.indexOf(personality) > -1} />
-                                                <ListItemText primary={personality} />
+                                        {personalities.map((traits) => (
+                                            <MenuItem key={traits} value={traits}>
+                                                <Checkbox checked={personality.indexOf(traits) > -1} />
+                                                <ListItemText primary={traits} />
                                             </MenuItem>
                                         ))}
                                     </Select>
-                                    <FormHelperText>Please check all that apply.</FormHelperText>
+                                    <FormHelperText>Please select all that apply.</FormHelperText>
                                 </FormControl>
                             </Box>
 
@@ -212,7 +265,9 @@ export default function CreateDog() {
                                 id="outlined-basic"
                                 variant="outlined"
                                 label="Weight"
-                                onChange={(event) => setWeight(event.target.value)}
+                                value={dogFormData.weight}
+                                name="weight"
+                                onChange={handleInputChange}
                                 helperText="Please enter your dog's weight."
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">lbs</InputAdornment>
@@ -228,23 +283,39 @@ export default function CreateDog() {
                             noValidate
                             autoComplete="off"
                         >
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            {/* FOR FUTURE DEVELOPMENT
+                                <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={2}
+                                justifyContent="center"
+                            >
                                 <p>Upload your dog's image here.</p>
                                 <Button variant="contained" component="label">
                                     Tap/Click to Upload
                                     <input hidden accept="image/*" multiple type="file" />
                                 </Button>
-                            </Stack>
+                            </Stack> */}
 
                             <TextField
                                 id="outlined-multiline-static"
                                 label="Tell us about your pet."
-                                placeholder="Add dog description here."
+                                value={dogFormData.about}
+                                name="about"
+                                placeholder="Add your dog's description here."
                                 multiline
                                 rows={4}
+                                onChange={handleInputChange}
                             />
-                            <Stack direction="row" spacing={2}>
-                                <Button variant="contained">
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                                justifyContent="center"
+                            >
+                                <Button
+                                    variant="contained"
+                                    onClick={handleFormSubmit}
+                                >
                                     Submit
                                 </Button>
                             </Stack>
@@ -252,7 +323,7 @@ export default function CreateDog() {
 
                     </Grid>
                 </Container>
-            </div>
-        </LocalizationProvider>
+            </div >
+        </LocalizationProvider >
     );
 }

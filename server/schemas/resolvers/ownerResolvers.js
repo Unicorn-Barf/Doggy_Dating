@@ -1,5 +1,5 @@
 const { Owner } = require('../../models');
-const { AuthenicationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
+const { AuthenticationError, PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require('apollo-server-express');
 const { signToken } = require('../../utils/auth');
 
 /*-------Query-------*/
@@ -41,7 +41,7 @@ const ownerQuery = {
 const ownerMutation = {
    login: async (parent, args, context) => {
       const owner = await Owner.findOne({ $or: [{ username: args.username }, { email: args.email }] });
-      console.log(owner);
+
       if (!owner) {
          throw new AuthenticationError('Error logging in!');
       }
@@ -71,17 +71,23 @@ const ownerMutation = {
    },
    putOwner: async (parent, args, context) => {
       try {
-         const owner = await Owner.findByIdAndUpdate(
-            context.owner._id,
-            {
-               ...args.owner
-            },
-            {
-               new: true,
-            }
-         );
-         const token = signToken(owner);
-         return { token, owner };
+         const owner = await Owner.findById(context.owner._id);
+         const passwordCheck = await owner.passwordCheck(args.owner.currentPassword);
+         if(!passwordCheck) {
+            throw new AuthenticationError('Error updating owner');
+         } else {
+            args.owner.password = args.owner.newPassword;
+            const updatedOwner = await Owner.findByIdAndUpdate(
+               context.owner._id,
+               {
+                  ...args.owner
+               },
+               {
+                  new: true,
+               }
+            );
+            return updatedOwner;
+         }
       } catch (error) {
          console.error(error);
       }

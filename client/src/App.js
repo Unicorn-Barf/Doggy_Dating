@@ -8,11 +8,12 @@ import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
 import CreateDog from "./pages/CreateDog";
 import DogSettings from "./pages/DogSettings";
+import OwnerSettings from "./pages/OwnerSettings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-function App() {
+export default function App() {
   return (
     <>
       <Navbar />
@@ -22,15 +23,15 @@ function App() {
           element={<Home />}
         />
         <Route
-          path="/profile/:id"
+          path="/profile/:dogId"
           element={<Profile />}
         />
         <Route
-          path="/signin"
+          path="/sign-in"
           element={<Signin />}
         />
         <Route
-          path="/signup"
+          path="/sign-up"
           element={<Signup />}
         />
         <Route
@@ -42,8 +43,12 @@ function App() {
           element={<CreateDog />}
         />
         <Route
-          path="/dogs/settings"
+          path="/dog/settings/:dogId"
           element={<DogSettings />}
+        />
+        <Route
+         path="/owner/settings"
+         element={<OwnerSettings />}
         />
         <Route
           path="*"
@@ -55,4 +60,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
