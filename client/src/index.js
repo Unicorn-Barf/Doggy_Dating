@@ -10,8 +10,7 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { split } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
-
-import './main.css';
+import './styles/root.css';
 
 // Apollo Subscriptions setup
 const wsLink = new GraphQLWsLink(createClient({

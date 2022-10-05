@@ -12,8 +12,9 @@ import OwnerSettings from "./pages/OwnerSettings";
 // import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SignOut from "./pages/SignOut";
 
-function App() {
+export default function App() {
   return (
     <>
       <Navbar />
@@ -27,11 +28,11 @@ function App() {
           element={<Profile />}
         />
         <Route
-          path="/signin"
+          path="/sign-in"
           element={<Signin />}
         />
         <Route
-          path="/signup"
+          path="/sign-up"
           element={<Signup />}
         />
         <Route
@@ -60,4 +61,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
