@@ -22,7 +22,7 @@ const typeDefs = gql`
       password: String!
       firstName: String!
       lastName: String!
-      sex: String!
+      sex: String
       birthday: String!
       images: [String]
    }

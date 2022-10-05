@@ -1,0 +1,16 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Chicle', cursive;
+}
+
+.main-container {
+    margin-top: 10px;
+    margin-bottom: 75px;
+}
+
+button {
+    background-color: var(--pink);
+}
