@@ -2,29 +2,38 @@ import React, { useState } from "react"
 import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import { GET_DOG_BY_ID } from '../utils/queries';
 import { PUT_DOG } from "../utils/mutations";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useQuery, useMutation } from "@apollo/client";
 import AuthService from "../utils/auth";
 import { Form, useParams } from 'react-router-dom';
 import { getDog } from "../slices/dogSlice";
 import { useSelector } from "react-redux";
+import { getSavedDogArr, getCurrentDogIndex, saveDogArr } from "../utils/localStorage";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 
 
 const DogSettings = () => {
 
+   let dogArray = getSavedDogArr();
+   const currentDog = dogArray[getCurrentDogIndex()];
+   
+   const birthdayDate = new Date(parseInt(currentDog.birthday));
+
    const sexes = ['Male', 'Female'];
 
-   const { dogId } = useParams();
+   const dogId = currentDog._id;
    const [putDog] = useMutation(PUT_DOG);
 
-   const [dogName, setDogName] = useState("");
-   const [dogBreed, setDogBreed] = useState("");
-   const [dogSex, setDogSex] = useState("");
-   const [dogWeight, setDogWeight] = useState("");
-   const [dogBirthday, setDogBirthday] = useState("");
-   const [dogHeadline, setDogHeadline] = useState("");
-   const [dogAbout, setDogAbout] = useState("");
+   const [dogName, setDogName] = useState(currentDog.name ? currentDog.name : "");
+   const [dogBreed, setDogBreed] = useState(currentDog.breed ? currentDog.breed : "");
+   const [dogSex, setDogSex] = useState(currentDog.sex ? currentDog.sex : "");
+   const [dogWeight, setDogWeight] = useState(currentDog.weight ? currentDog.weight : "");
+   const [dogBirthday, setDogBirthday] = useState(currentDog.birthday ? birthdayDate : "");
+   const [dogHeadline, setDogHeadline] = useState(currentDog.headline ? currentDog.headline : "");
+   const [dogAbout, setDogAbout] = useState(currentDog.about ? currentDog.about : "");
 
    const handleInputChange = async (event) => {
+      console.log(event.target);
       if (event.target.name === 'name') {
          setDogName(event.target.value);
       }
@@ -37,9 +46,6 @@ const DogSettings = () => {
       if (event.target.name === 'weight') {
          setDogWeight(event.target.value);
       }
-      if (event.target.name === 'birthday') {
-         setDogBirthday(event.target.value);
-      }
       if (event.target.name === 'headline') {
          setDogHeadline(event.target.value);
       }
@@ -50,7 +56,6 @@ const DogSettings = () => {
    }
 
    const handleFormSubmit = async (event) => {
-      //console.log(dog);
       const PutDogInput = {};
       if (dogName !== "") {
          PutDogInput.name = dogName;
@@ -59,7 +64,7 @@ const DogSettings = () => {
          PutDogInput.breed = dogBreed;
       }
       if (dogBirthday !== "") {
-         PutDogInput.birthday = dogBirthday;
+         PutDogInput.birthday = Date.parse(dogBirthday).toString();
       }
       if (dogSex !== "") {
          PutDogInput.sex = dogSex;
@@ -75,12 +80,16 @@ const DogSettings = () => {
       }
       console.log(PutDogInput);
       try {
-         const { putDogData } = await putDog({
+         const putDogData = await putDog({
             variables: {
                dogId: dogId,
                dog: PutDogInput,
             }
          });
+
+         //update dog in local storage
+         dogArray[getCurrentDogIndex()] = putDogData.data.putDog;
+         saveDogArr(dogArray);
       } catch (error) {
          console.error(error);
       }
@@ -136,17 +145,18 @@ const DogSettings = () => {
                   value={dogWeight}
                   variant="outlined"
                />
+               <LocalizationProvider dateAdapter={AdapterDayjs} name="birthday">
+                  <MobileDatePicker
+                     id="date"
+                     label="Birthday"
+                     type="date"
+                     value={dogBirthday}
+                     renderInput={(params) => <TextField {...params} />}
+                     name="birthday"
+                     onChange={(birthday) => setDogBirthday(birthday)}
+                  />
+               </LocalizationProvider>
 
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="birthday"
-                  fullWidth
-                  label="Birthday"
-                  onChange={handleInputChange}
-                  value={dogBirthday}
-                  variant="outlined"
-               />
                <TextField
                   sx={{ my: 1 }}
                   type="text"
