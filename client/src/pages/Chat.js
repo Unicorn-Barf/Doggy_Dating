@@ -4,9 +4,9 @@ import Conversations from "../components/Conversations";
 
 
 
-const Chat = ({ conversationId = '6337e95a5223045e30bf0203' }) => {
+const Chat = ({ conversationId = null }) => {
     
-    const [toggleChat, setToggleChat] = useState(true);
+    const [toggleChat, setToggleChat] = useState(false);
     return (
         <div>
             <h1>Chat Screen</h1>

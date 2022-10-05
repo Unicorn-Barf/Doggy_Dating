@@ -46,10 +46,9 @@ const conversationMutation = {
                   new: true,
                },
             );
-
-            // Publish Subscription Event for each dog
-            pubsub.publish(`UPDATED_CONVERSATION`, dog);
          }
+         // Publish Subscription Event for each dog
+         pubsub.publish(`UPDATED_CONVERSATION`, conversation);
          return conversation;
       } catch (error) {
          console.error(error);
@@ -104,7 +103,7 @@ const conversationMutation = {
          );
 
          // Publish Subscription Event
-         pubsub.publish(`UPDATED_CONVERSATION`, dog);
+         pubsub.publish(`UPDATED_CONVERSATION`, conversation);
          return conversation;
       } catch (error) {
          console.error(error);
@@ -128,7 +127,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['UPDATED_CONVERSATION']),
          (payload, variables) => {
             // Only push update for relevant Dog
-            return (payload._id === variables.dogId)
+            return (payload.dogIds.includes(variables.dogId))
          }
       )
    }
