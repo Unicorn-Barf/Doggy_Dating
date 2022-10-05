@@ -97,7 +97,7 @@ const Signin = () => {
                 onChange={handleInputChange}
                 value={userFormData.email}
                 variant="outlined"
-                helperText="Incorrect entry."
+                helperText=""
                 id="outlined-error-helper-text"
               />
             </Grid>
