@@ -15,30 +15,36 @@ export default function Home() {
     <div className="main-container">
       {Auth.loggedIn()
         ? (
-          <Grid container spacing={2} justifyContent="center">
-            {dogData.loading ? (
-              <h1>Loading...</h1>
-            ) : (
-              <>
+          <>
+            <div>
+              <h1>Find New Friends</h1>
+              <p>Tap/click a card to learn more about each new, potential friend.</p>
+            </div>
+            <Grid container spacing={2} justifyContent="center">
+              {dogData.loading ? (
+                <h1>Loading...</h1>
+              ) : (
+                <>
 
-                {/* <h1>Find New Furends!</h1> */}
-                {dogArray.map((item, key) => {
-                  return (
-                    <DogCards
-                      key={key}
-                      images={item.images}
-                      name={item.name}
-                      breed={item.breed}
-                      sex={item.sex}
-                      headline={item.headline}
-                      about={item.about}
-                      _id={item._id}
-                    />
-                  );
-                })}
-              </>
-            )}
-          </Grid>
+                  {/* <h1>Find New Furends!</h1> */}
+                  {dogArray.map((item, key) => {
+                    return (
+                      <DogCards
+                        key={key}
+                        images={item.images}
+                        name={item.name}
+                        breed={item.breed}
+                        sex={item.sex}
+                        headline={item.headline}
+                        about={item.about}
+                        _id={item._id}
+                      />
+                    );
+                  })}
+                </>
+              )}
+            </Grid>
+          </>
         ) :
         <MainLoggedOut />
       }

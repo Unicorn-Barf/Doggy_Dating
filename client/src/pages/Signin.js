@@ -1,14 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate, redirect } from 'react-router-dom'
-import { Container, Grid, Paper, TextField, Button } from "@mui/material";
+import { useNavigate, redirect } from "react-router-dom";
+import {
+  Container,
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  FormHelperText,
+  FormControl,
+  useFormControl,
+} from "@mui/material";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
 import { GET_ALL_DOGS_BY_OWNER_ID } from "../utils/queries";
 import { useDispatch } from "react-redux";
 import { storeOwner } from "../slices/ownerSlice";
-import { storeDogs, storeCurrentDog }  from "../slices/dogSlice";
-import { saveOwner, saveDogArr, setCurrentDogIndex } from "../utils/localStorage";
+import { storeDogs, storeCurrentDog } from "../slices/dogSlice";
+import {
+  saveOwner,
+  saveDogArr,
+  setCurrentDogIndex,
+} from "../utils/localStorage";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -17,17 +30,31 @@ const Signin = () => {
     email: "",
     password: "",
   });
-
+  const [validationError, setValidationError] = useState(false);
+  const MyFormHelperText = () => {
+    const { error } = useFormControl() || {};
+    console.log(error);
+    const helperText = React.useMemo(() => {
+      if (error) {
+        return "Invalid credentials!";
+      }
+      return "";
+    }, [error]);
+    return <FormHelperText>{helperText}</FormHelperText>;
+  };
   const [loginUser] = useMutation(LOGIN_USER);
-  const [ getDogs, { loading, error, data } ] = useLazyQuery(GET_ALL_DOGS_BY_OWNER_ID, {
-    onCompleted: (data) => {
-      dispatch(storeCurrentDog({...data.getAllDogsByOwner[0]}));
-      dispatch(storeDogs(data.getAllDogsByOwner));
-      saveDogArr(data.getAllDogsByOwner);
-      setCurrentDogIndex(0);
-      navigate('/home');
-    },
-  }); 
+  const [getDogs, { loading, error, data }] = useLazyQuery(
+    GET_ALL_DOGS_BY_OWNER_ID,
+    {
+      onCompleted: (data) => {
+        dispatch(storeCurrentDog({ ...data.getAllDogsByOwner[0] }));
+        dispatch(storeDogs(data.getAllDogsByOwner));
+        saveDogArr(data.getAllDogsByOwner);
+        setCurrentDogIndex(0);
+        navigate("/home");
+      },
+    }
+  );
 
   const handleInputChange = (event) => {
     event.preventDefault();
@@ -40,17 +67,12 @@ const Signin = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // const checkEmail = userFormData.email;
-    // const checkPassword = userFormData.password;
-    // if (!checkEmail || !checkPassword) {
-    //   alert("Please enter your email and password");
-    //   return;
-    // } else if (checkEmail === null) {
-    //   alert("Please enter your email");
-    // } else if (checkPassword === null) {
-    //   alert("Please enter your password");
-    // }
-    // return;
+    const checkEmail = userFormData.email;
+    const checkPassword = userFormData.password;
+    if (checkEmail.length === 0 || checkPassword.length === 0) {
+      setValidationError(true);
+      return;
+    }
     try {
       const { data } = await loginUser({
         variables: {
@@ -61,17 +83,18 @@ const Signin = () => {
       Auth.login(data.login.token);
       const signedInOwner = data.login.owner;
       // Store Logged In owner in Global State & local storage
-      dispatch(storeOwner({
-        ...signedInOwner,
-      }));
+      dispatch(
+        storeOwner({
+          ...signedInOwner,
+        })
+      );
       saveOwner(signedInOwner);
 
       if (signedInOwner.dogIds.length > 0) {
         getDogs({
-          variables: { ownerId: signedInOwner._id }
+          variables: { ownerId: signedInOwner._id },
         });
       }
-
     } catch (error) {
       return console.log(error);
     }
@@ -94,35 +117,39 @@ const Signin = () => {
           justifyContent="center"
           style={{ maxHeight: "50vh" }}
         >
-          <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
-            <Grid item>
-              <TextField
-                sx={{ my: 1 }}
-                type="text"
-                name="email"
-                // required
-                fullWidth
-                label="Email"
-                placeholder="email address"
-                onChange={handleInputChange}
-                value={userFormData.email}
-                variant="outlined"
-                helperText=""
-                id="outlined-error-helper-text"
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                type="password"
-                name="password"
-                fullWidth
-                label="Password"
-                // required
-                placeholder="password"
-                onChange={handleInputChange}
-                value={userFormData.password}
-                variant="outlined"
-              />
+          <FormControl error={validationError}>
+            <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+              <Grid item>
+                <TextField
+                  sx={{ my: 1 }}
+                  type="text"
+                  name="email"
+                  // required
+                  fullWidth
+                  label="Email"
+                  placeholder="email address"
+                  onChange={handleInputChange}
+                  value={userFormData.email}
+                  variant="outlined"
+                  helperText=""
+                  id="outlined-error-helper-text"
+                  error={validationError}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  type="password"
+                  name="password"
+                  fullWidth
+                  label="Password"
+                  // required
+                  placeholder="password"
+                  onChange={handleInputChange}
+                  value={userFormData.password}
+                  variant="outlined"
+                  error={validationError}
+                />
+              </Grid>
               <Grid item>
                 <Button
                   sx={{ my: 2 }}
@@ -134,8 +161,9 @@ const Signin = () => {
                   Sign In
                 </Button>
               </Grid>
-            </Grid>
-          </Paper>
+              <MyFormHelperText />
+            </Paper>
+          </FormControl>
         </Grid>
       </Container>
     </div>

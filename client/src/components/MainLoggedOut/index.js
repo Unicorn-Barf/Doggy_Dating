@@ -3,6 +3,8 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import DogsPlaying from '../../pages/assets/images/dogs_playing_orange_ball.jpg';
+import '../../pages/styles/pages.css';
 
 export default function MainLoggedOut() {
     return (
@@ -10,6 +12,16 @@ export default function MainLoggedOut() {
             <Grid item xs={6} alignItems="center">
                 <h1>Welcome to Bone Buddies! 🦴🐶</h1>
                 <p>A place where you can find doggone great friends for your great dog!  Set up playdates, make new furends, and build lifelong friendships for your dog.</p>
+
+                <Stack
+                    justifyContent="center"
+                >
+                    <img
+                        src={DogsPlaying}
+                        id="dogsOrangeBall"
+                        style={{ alignSelf: "center" }}
+                    ></img>
+                </Stack>
                 <Stack
                     direction="row"
                     spacing={2}
