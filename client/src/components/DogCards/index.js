@@ -31,11 +31,11 @@ const DogCards = ({
                         {name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {headline}
+                        {headline}<br />
                         {about}
                     </Typography>
                     <Typography variant="body" color="text.secondary">
-                        {breed}, {sex}
+                        {breed}<br />{sex}
                     </Typography>
                 </CardContent>
             </CardActionArea>
