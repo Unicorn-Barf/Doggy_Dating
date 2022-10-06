@@ -24,13 +24,8 @@ const Chat = ({ convoId = null, toggle = false }) => {
                         Back to Conversations
                     </button>
                 )
-                : (
-                    <button
-                        onClick={() => setToggleChat(!toggleChat)}
-                    >
-                        Go to Message
-                    </button>
-                )}
+                : ''
+            }
 
 
             {toggleChat

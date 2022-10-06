@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID } from '../../utils/queries';
 import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
@@ -7,9 +6,8 @@ import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
 
 
 const Conversations = ({ setConversationId, setToggleChat }) => {
-    const navigate = useNavigate();
+
     const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
-    console.log(dogId);
 
     // Query for all Conversations
     // Use subscribe to more for subscriptions to updates
@@ -22,20 +20,24 @@ const Conversations = ({ setConversationId, setToggleChat }) => {
         variables: { dogId },
         updateQuery: (prev, { subscriptionData }) => {
             if (!subscriptionData.data) return prev;
-            const newConversations = subscriptionData;
-            return newConversations;
+            const convo = subscriptionData.data.conversationUpdated;
+            const prevConvos = prev.getAllConversationsByDogId;
+            for (let i=0; i < prevConvos.length; i++) {
+                if (prevConvos[i]._id === convo._id) return prev;
+            };
+            return {
+                getAllConversationsByDogId: [ convo, ...prevConvos ],
+            };
         }
-    })
+    });
 
 
     let convos = convosQuery.data?.getAllConversationsByDogId || [];
-    console.log(convos);
 
     const handleChatRoute = (event) => {
-        console.log(event.target.dataset.convoid);
         setConversationId(event.target.dataset.convoid);
         setToggleChat(true);
-    }
+    };
 
     return (
         <div>
