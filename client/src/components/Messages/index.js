@@ -14,17 +14,15 @@ import { POST_MESSAGE } from '../../utils/mutations';
 import { GET_MESSAGES_SUB } from '../../utils/subscriptions';
 
 
-const Text = ({ messages }) => {
-  const dispatch = useDispatch();
-  const dog = useSelector(getDog);
-
+const Text = ({ messages, myDogId }) => {
+  
   return (
     <div style={{ marginBottom: "5rem" }}>
-      {messages.map(({ dogId, message, messageId, _id }) => {
+      {messages.map(({ dogId, message, messageId }) => {
         return (
-          <div key={_id} style={{ textAlign: dog._id === dogId ? "right" : "left" }}>
-            <p style={{ marginBottom: "0.3rem" }}>{`dogId: ${dogId} _id: ${_id}`}</p>
-            <Chip style={{ fontSize: "0.9rem" }} color={dog._id === dogId ? "primary" : "secondary"} label={message} />
+          <div key={messageId} style={{ textAlign: myDogId === dogId ? "right" : "left" }}>
+            <p style={{ marginBottom: "0.3rem" }}>{`dogId: ${dogId} messageId: ${messageId}`}</p>
+            <Chip style={{ fontSize: "0.9rem" }} color={myDogId === dogId ? "primary" : "secondary"} label={message} />
           </div>
         )
       })}
@@ -32,11 +30,11 @@ const Text = ({ messages }) => {
   )
 }
 
-const Messages = ({ conversationId }) => {
+const Messages = ({ conversationId, myDogId }) => {
   // Local State
   const [user, setUser] = useState("Victoria");
   const [text, setText] = useState("");
-  console.log(conversationId, 'Messages Component');
+
   // GraphQL Hooks
   const [postMessage] = useMutation(POST_MESSAGE);
 
@@ -50,20 +48,18 @@ const Messages = ({ conversationId }) => {
     updateQuery: (prev, { subscriptionData }) => {
       if (!subscriptionData.data) return prev;
       const newMessages = subscriptionData.data.messageSent.messages;
-      return newMessages;
+      console.log(subscriptionData);
+      return [...newMessages];
     }
   });
 
   let messages = convoQuery.data?.getConversationById || [];
 
-  console.log(messages, 'DATAAAAAAAAAAAA!!');
-  // if (!data) {
-  //   return null;
-  // }
+  console.log(messages, 'I hope I subscribe')
 
   const sendMessage = async () => {
     const PostMessage = {
-      dogId: "633803594950ea4a2c76c2b6",
+      dogId: myDogId,
       message: text
     };
     if (text.length > 0 && user.length > 0) {
@@ -82,9 +78,9 @@ const Messages = ({ conversationId }) => {
   }
 
   return (
-    <Container>
+    <Container style={{marginBottom: "200px"}}>
       <h3>Welcome to DevThoughts! A simple chat app for the GraphQL series!</h3>
-      <Text messages={messages} />
+      <Text myDogId={myDogId} messages={messages} />
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <TextField onChange={(e) => {

@@ -48,6 +48,7 @@ const conversationMutation = {
             );
          }
          // Publish Subscription Event for each dog
+         console.log('hit UPDATED_CONVERSATION pubsub');
          pubsub.publish(`UPDATED_CONVERSATION`, conversation);
          return conversation;
       } catch (error) {
@@ -70,7 +71,8 @@ const conversationMutation = {
 
          // Publish Subscription Event
          const { dogIds, _id, messages } = conversation;
-         pubsub.publish(`NEW_MESSAGE`, { dogIds, _id, messages });
+         console.log('hit NEW_MESSAGE pubsub');
+         pubsub.publish(`NEW_MESSAGE`, conversation);
 
          return conversation;
       } catch (error) {
@@ -103,6 +105,7 @@ const conversationMutation = {
          );
 
          // Publish Subscription Event
+         console.log('hit UPDATED_CONVERSATION pubsub');
          pubsub.publish(`UPDATED_CONVERSATION`, conversation);
          return conversation;
       } catch (error) {
@@ -118,6 +121,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['NEW_MESSAGE']),
          (payload, variables) => {
             // Only push update for relevent Dogs
+            console.log('subscriptionhit', payload._id, variables.conversationId);
             return (payload._id === variables.conversationId);
          }
       )

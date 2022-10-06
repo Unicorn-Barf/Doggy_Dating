@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import Messages from '../components/Messages';
 import Conversations from "../components/Conversations";
+import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
 
-
-const Chat = ({convoId = null, toggle = false}) => {
+const Chat = ({ convoId = null, toggle = false }) => {
+    const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
     let initialConvoId = useLocation().state?.convoId || convoId;
     let initialToggle = useLocation().state?.toggle || toggle;
     const [toggleChat, setToggleChat] = useState(initialToggle);
@@ -33,8 +34,14 @@ const Chat = ({convoId = null, toggle = false}) => {
 
 
             {toggleChat
-                ? <Messages conversationId={conversationId} />
-                : <Conversations setConversationId={setConversationId} setToggleChat={setToggleChat}/>}
+                ? <Messages
+                    myDogId={myDogId}
+                    conversationId={conversationId}
+                />
+                : <Conversations
+                    setConversationId={setConversationId}
+                    setToggleChat={setToggleChat}
+                />}
 
 
         </div>
