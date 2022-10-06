@@ -1,6 +1,31 @@
 const fetch = require('node-fetch');
 const dogNames = require('dog-names');
 const { randNumInRange, capFirstLetter } = require('../utils/seedUtils');
+const LoremIpsum = require('lorem-ipsum').LoremIpsum;
+
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+        max: 10,
+        min: 3
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4
+      }
+})
+
+
+const headlineArr = [
+    'Oooh I treats!',
+    'Much park, so play.',
+    'Look! Squirrel!!!',
+    "I'm a person trapped in a dog.",
+    'I love my person.',
+    "Arrf, grr, arrrrrf, woof!",
+    "No, I don't sit. You sit!",
+    "Prease grrmmeee er trert!",
+    'E=mc^2, why is the sky blue?',
+]
 
 
 // Function to fetch random dog data
@@ -8,6 +33,7 @@ const { randNumInRange, capFirstLetter } = require('../utils/seedUtils');
 const getDogData = async () => {
 
     const gender = ['Male', 'Female'];
+    const boolArr = [true, false];
     var dogData = [];
 
     // Get breed data and store in an array
@@ -48,8 +74,17 @@ const getDogData = async () => {
         // Get Sex
         dog.sex = gender[randNumInRange(0, 1)];
 
+        // Get Random isFixed
+        dog.isFixed = boolArr[randNumInRange(0,1)];
+
         // Get Random Weight (might not align with breed, lol...)
         dog.weight = randNumInRange(10, 120);
+
+        // Get Random Headline
+        dog.headline = headlineArr[randNumInRange(0,8)];
+
+        // Get Random About section
+        dog.about = lorem.generateParagraphs(randNumInRange(1,2));
 
         // Get Image url
         let imageData;
@@ -66,7 +101,7 @@ const getDogData = async () => {
     return dogData;
 };
 
-// // Test Function: to debug just uncomment and run this file
+// Test Function: to debug just uncomment and run this file
 // (async () => {
 //     const testData = await getDogData();
 //     console.log(testData);

@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "dog-names": "^2.1.0",
+    "lorem-ipsum": "^2.0.8",
     "node-fetch": "^1.7.1",
     "nodemon": "^2.0.6"
   }
