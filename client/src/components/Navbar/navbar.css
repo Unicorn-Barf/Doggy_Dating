@@ -1,0 +1,11 @@
+#navbar {
+    background-color: var(--light-purp);
+}
+
+#navbar a:active {
+    font-weight: bold;
+}
+
+#navbar a:hover {
+    font-weight: bold;
+}

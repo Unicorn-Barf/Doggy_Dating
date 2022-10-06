@@ -1,0 +1,12 @@
+#footer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: var(--yellow);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+    border-top: 5px solid var(--dark-purp);
+}
