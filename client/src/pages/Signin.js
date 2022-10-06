@@ -100,6 +100,7 @@ const Signin = () => {
                 sx={{ my: 1 }}
                 type="text"
                 name="email"
+                required
                 fullWidth
                 label="Email"
                 placeholder="email address"
@@ -116,6 +117,7 @@ const Signin = () => {
                 name="password"
                 fullWidth
                 label="Password"
+                required
                 placeholder="password"
                 onChange={handleInputChange}
                 value={userFormData.password}
