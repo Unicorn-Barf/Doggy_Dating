@@ -4,6 +4,11 @@ body {
 
 h1, h2 {
     font-family: 'Chicle', cursive;
+    text-align: center;
+}
+
+p {
+    text-align: center;
 }
 
 .main-container {

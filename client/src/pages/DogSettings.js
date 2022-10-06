@@ -7,6 +7,7 @@ import AuthService from "../utils/auth";
 import { Form, useParams } from 'react-router-dom';
 import { getDog } from "../slices/dogSlice";
 import { useSelector } from "react-redux";
+import Grid from '@mui/material/Grid';
 
 
 const DogSettings = () => {
@@ -88,7 +89,7 @@ const DogSettings = () => {
 
    return (
       <>
-         <Container>
+         <Grid container>
             <FormControl style={{ marginTop: "15px" }}>
                <TextField
                   sx={{ my: 1 }}
@@ -171,7 +172,7 @@ const DogSettings = () => {
                   Submit
                </Button>
             </FormControl>
-         </Container>
+         </Grid>
       </>
    )
 }

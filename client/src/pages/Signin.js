@@ -83,21 +83,24 @@ const Signin = () => {
   };
 
   return (
-    <div>
+    <div className="main-container">
+      <h1>Sign Into Bone Buddies</h1>
+      <p>Enter your email and password to start making friends for your dog.</p>
       <Container maxWidth="sm">
         <Grid
           container
           spacing={0}
           direction="column"
           justifyContent="center"
-          style={{ minHeight: "100vh" }}
+          style={{ maxHeight: "50vh" }}
         >
-          <Paper elevation={3} sx={{ padding: 5 }}>
+          <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
             <Grid item>
               <TextField
                 sx={{ my: 1 }}
                 type="text"
                 name="email"
+                // required
                 fullWidth
                 label="Email"
                 placeholder="email address"
@@ -114,6 +117,7 @@ const Signin = () => {
                 name="password"
                 fullWidth
                 label="Password"
+                // required
                 placeholder="password"
                 onChange={handleInputChange}
                 value={userFormData.password}
