@@ -23,7 +23,6 @@ export default function Home() {
 
                 {/* <h1>Find New Furends!</h1> */}
                 {dogArray.map((item, key) => {
-                  console.log(`I'm hit!`);
                   return (
                     <DogCards
                       key={key}
@@ -33,6 +32,7 @@ export default function Home() {
                       sex={item.sex}
                       headline={item.headline}
                       about={item.about}
+                      _id={item._id}
                     />
                   );
                 })}
