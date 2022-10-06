@@ -10,6 +10,7 @@ import { getDog } from "../slices/dogSlice";
 import { useSelector } from "react-redux";
 import { getSavedDogArr, getCurrentDogIndex, saveDogArr } from "../utils/localStorage";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
+import Grid from '@mui/material/Grid';
 
 
 const DogSettings = () => {
@@ -97,7 +98,7 @@ const DogSettings = () => {
 
    return (
       <>
-         <Container>
+         <Grid container>
             <FormControl style={{ marginTop: "15px" }}>
                <TextField
                   sx={{ my: 1 }}
@@ -181,7 +182,7 @@ const DogSettings = () => {
                   Submit
                </Button>
             </FormControl>
-         </Container>
+         </Grid>
       </>
    )
 }

@@ -8,4 +8,5 @@
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 0;
+    border-top: 5px solid var(--dark-purp);
 }

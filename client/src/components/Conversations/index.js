@@ -1,32 +1,58 @@
-import React, { useState } from 'react';
-import { useMutation, useQuery, useSubscription, gql } from '@apollo/client';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID } from '../../utils/queries';
-
-// const GET_CONVERSATIONS_SUB = gql`
-// `;
-
-// Testing Variables
-const dogId = '63373a64b8c198305855caa3';
+import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
+import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
 
 
-const Conversations = () => {
+const Conversations = ({ setConversationId, setToggleChat }) => {
 
-    // Subscribe to New Conversations Data
-    // const convoSub = useSubscription(GET_CONVERSATIONS_SUB);
+    const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+
     // Query for all Conversations
-    const { data } = useQuery(GET_CONVERSATIONS_BY_DOG_ID, {
+    // Use subscribe to more for subscriptions to updates
+    const convosQuery = useQuery(GET_CONVERSATIONS_BY_DOG_ID, {
         variables: { dogId },
     });
 
-    
-    let convos = data?.getAllConversationsByDogId || [];
-    console.log(data);
+    convosQuery.subscribeToMore({
+        document: GET_CONVERSATIONS_SUB,
+        variables: { dogId },
+        updateQuery: (prev, { subscriptionData }) => {
+            if (!subscriptionData.data) return prev;
+            const convo = subscriptionData.data.conversationUpdated;
+            const prevConvos = prev.getAllConversationsByDogId;
+            for (let i=0; i < prevConvos.length; i++) {
+                if (prevConvos[i]._id === convo._id) return prev;
+            };
+            return {
+                getAllConversationsByDogId: [ convo, ...prevConvos ],
+            };
+        }
+    });
+
+
+    let convos = convosQuery.data?.getAllConversationsByDogId || [];
+
+    const handleChatRoute = (event) => {
+        setConversationId(event.target.dataset.convoid);
+        setToggleChat(true);
+    };
 
     return (
         <div>
             <h1>These are your Conversations</h1>
             {convos.map((convo) => {
-                return ( <h2 key={convo._id}>{convo._id}</h2>)})
+                return (
+                        <h2
+                            key={convo._id}
+                            data-convoid={convo._id}
+                            onClick={handleChatRoute}
+                        >
+                            {convo._id}
+                        </h2>
+                )
+            })
             }
         </div>
 

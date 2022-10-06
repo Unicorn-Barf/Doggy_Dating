@@ -4,16 +4,16 @@ const { ObjectId } = require('mongodb');
 const messageSchema = new Schema({
    messageId: {
       type: Schema.Types.ObjectId,
-      default: new ObjectId(),
+      auto: true
    },
    dogId: {
       type: Schema.Types.ObjectId,
       ref: 'Dog',
-      require: true,
+      required: true,
    },
    message: {
       type: String,
-      require: true,
+      required: true,
    },
 },
 {
@@ -29,7 +29,7 @@ const convoSchema = new Schema({
       {
          type: Schema.Types.ObjectId,
          ref: 'Dog',
-         require: true,
+         required: true,
       }
    ],
    messages: [messageSchema],

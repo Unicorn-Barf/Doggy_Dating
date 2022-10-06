@@ -46,10 +46,13 @@ const conversationMutation = {
                   new: true,
                },
             );
-
-            // Publish Subscription Event for each dog
-            pubsub.publish(`UPDATED_CONVERSATION`, dog);
          }
+         // Publish Subscription Event for each dog
+         const { _id, dogIds, messages } = conversation;
+         console.log('hit UPDATED_CONVERSATION pubsub');
+         pubsub.publish(`UPDATED_CONVERSATION`, {
+            conversationUpdated: { _id, dogIds, messages }
+         });
          return conversation;
       } catch (error) {
          console.error(error);
@@ -70,8 +73,11 @@ const conversationMutation = {
          );
 
          // Publish Subscription Event
-         const { dogIds, _id, messages } = conversation;
-         pubsub.publish(`NEW_MESSAGE`, { dogIds, _id, messages });
+         const { _id, dogIds, messages } = conversation;
+         console.log('hit NEW_MESSAGE pubsub');
+         pubsub.publish(`NEW_MESSAGE`, {
+            messageSent: { _id, dogIds, messages }
+         });
 
          return conversation;
       } catch (error) {
@@ -104,7 +110,8 @@ const conversationMutation = {
          );
 
          // Publish Subscription Event
-         pubsub.publish(`UPDATED_CONVERSATION`, dog);
+         console.log('hit UPDATED_CONVERSATION pubsub');
+         pubsub.publish(`UPDATED_CONVERSATION`, conversation);
          return conversation;
       } catch (error) {
          console.error(error);
@@ -119,7 +126,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['NEW_MESSAGE']),
          (payload, variables) => {
             // Only push update for relevent Dogs
-            return (payload._id === variables.conversationId);
+            return (payload.messageSent._id.toString() === variables.conversationId);
          }
       )
    },
@@ -128,7 +135,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['UPDATED_CONVERSATION']),
          (payload, variables) => {
             // Only push update for relevant Dog
-            return (payload._id === variables.dogId)
+            return (payload.conversationUpdated.dogIds.includes(variables.dogId));
          }
       )
    }
