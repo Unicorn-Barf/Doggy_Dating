@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 const DogCards = ({
     images,
@@ -12,6 +13,7 @@ const DogCards = ({
     about,
     sex,
     headline,
+    isFixed,
     _id }) => {
 
     return (
@@ -27,19 +29,25 @@ const DogCards = ({
                     alt="dog image"
                 />
                 <CardContent>
-                    <Typography style={{ padding: 10 }} gutterBottom variant="h5" component="div">
+                    <Typography style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }} gutterBottom variant="h5" component="div">
                         {name}
+                        <StarBorderIcon />
+                    </Typography>
+                    <Typography variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }}>
+                        <div>{breed}</div>
+                        <div>{sex}</div>
+                        <div>Fixed?: {isFixed}</div>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {headline}<br />
-                        {about}
+                        <div style={{ fontWeight: "bold", marginTop: "10px" }}>"{headline}"</div><br />
                     </Typography>
-                    <Typography variant="body" color="text.secondary">
-                        {breed}<br />{sex}
-                    </Typography>
+                    {/* <Typography>
+                        <div style={{ textAlign: "left" }}>{about}</div>
+                    </Typography> */}
                 </CardContent>
             </CardActionArea>
         </Card>
-    )};
+    )
+};
 
 export default DogCards;
