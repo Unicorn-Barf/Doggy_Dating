@@ -119,7 +119,6 @@ export default function CreateDog() {
         })
     };
 
-    // ERROR HERE
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
