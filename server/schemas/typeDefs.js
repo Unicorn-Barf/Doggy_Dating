@@ -88,8 +88,10 @@ const typeDefs = gql`
 
    type Message {
       messageId: ID
+      _id: ID
       dogId: ID
       message: String
+      updatedAt: String
       createdAt: String
    }
 

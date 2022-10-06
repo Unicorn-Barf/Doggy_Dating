@@ -70,9 +70,11 @@ const conversationMutation = {
          );
 
          // Publish Subscription Event
-         const { dogIds, _id, messages } = conversation;
+         const { _id, dogIds, messages } = conversation;
          console.log('hit NEW_MESSAGE pubsub');
-         pubsub.publish(`NEW_MESSAGE`, conversation);
+         pubsub.publish(`NEW_MESSAGE`, {
+            messageSent: { _id, dogIds, messages }
+         });
 
          return conversation;
       } catch (error) {
@@ -121,8 +123,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['NEW_MESSAGE']),
          (payload, variables) => {
             // Only push update for relevent Dogs
-            console.log('subscriptionhit', payload._id, variables.conversationId);
-            return (payload._id === variables.conversationId);
+            return (payload.messageSent._id.toString() === variables.conversationId);
          }
       )
    },

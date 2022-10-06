@@ -47,15 +47,18 @@ const Messages = ({ conversationId, myDogId }) => {
     variables: { conversationId },
     updateQuery: (prev, { subscriptionData }) => {
       if (!subscriptionData.data) return prev;
-      const newMessages = subscriptionData.data.messageSent.messages;
+      const messages = subscriptionData.data.messageSent.messages;
       console.log(subscriptionData);
-      return [...newMessages];
+      console.log(prev);
+      return {
+        getConversationById: [...messages],
+      };
     }
   });
 
   let messages = convoQuery.data?.getConversationById || [];
 
-  console.log(messages, 'I hope I subscribe')
+  console.log(messages, 'I hope I subscribe', conversationId)
 
   const sendMessage = async () => {
     const PostMessage = {
