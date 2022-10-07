@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Messages from '../components/Messages';
 import Conversations from "../components/Conversations";
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
-
+import { IconButton, Grid, Box, Button } from '@mui/material';
 
 const Chat = ({ convoId = null, toggle = false }) => {
     const { _id: myDogId, name: myDogName } = getSavedDogArr()[getCurrentDogIndex()];
@@ -18,11 +18,13 @@ const Chat = ({ convoId = null, toggle = false }) => {
             <h2>Dog Thoughts 💭</h2>
             {toggleChat
                 ? (
-                    <button
+                    <Button
+                    size="small" variant="contained"
+                    color="secondary"
                         onClick={() => setToggleChat(!toggleChat)}
                     >
                         Back to Conversations
-                    </button>
+                    </Button>
                 )
                 : ''
             }

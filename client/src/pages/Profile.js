@@ -78,8 +78,8 @@ function DogProfile() {
         <>
             <Box sx={{ flexGrow: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'center'}}><img src={dog.images}/></div>
-                <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
-                    <Grid item xs={6}>
+                <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: '10%' }}>
+                    <Grid item xs={6} style={{  }}>
                         {dogData.loading
                             ? <h1>loading</h1>
                             : <h1>{dog.name} <IconButton aria-label="fingerprint" color="secondary">
@@ -89,10 +89,8 @@ function DogProfile() {
 
                         <h3>{dog.breed}, {dog.weight},{dog.sex} </h3>
 
-                        {/* <h3>{dog.about}</h3> */}
 
-                        {/* let date= moment.unix(dog.birthday);
-                    date.format(how i want date to be formatted) */}
+
 
                     </Grid>
 
