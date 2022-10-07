@@ -7,9 +7,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PetsIcon from "@mui/icons-material/Pets";
 import HouseIcon from '@mui/icons-material/House';
@@ -30,12 +28,8 @@ import { storeDogs, storeCurrentDog, getDog } from '../../slices/dogSlice';
 import { storeOwner } from '../../slices/ownerSlice';
 import Auth from '../../utils/auth';
 import './navbar.css';
-import Assignment from "@mui/icons-material/Assignment";
 
-// const pages = ["Products", "Pricing", "Blog"];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-const Navbar = () => {
+export default function Navbar() {
 
     const { _id: myDogId } = getSavedDogArr()[getCurrentDogIndex()] || { _id: null };
     const dogArray = getSavedDogArr();
@@ -60,10 +54,6 @@ const Navbar = () => {
         setAnchorEl(event.currentTarget);
     };
 
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    //   };
-
     const handleClickChange = (event) => {
         const index = event.target.value;
         setCurrentDogIndex(index);
@@ -79,7 +69,7 @@ const Navbar = () => {
         setAnchorElNav(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const handleClose = () => {
         // setAnchorElNav(null);
         setAnchorEl(null);
     };
@@ -130,10 +120,10 @@ const Navbar = () => {
                         {Auth.loggedIn()
                             ?
                             <div id="loggedInNav">
-                                <Button color="inherit" onClick={handleCloseNavMenu} onClose={handleCloseNavMenu}><Link style={{ textDecoration: "none", color: "white" }} to="/">Home</Link></Button>
-                                <Button color="inherit" onClose={handleCloseNavMenu}><Link style={{ textDecoration: "none", color: "white" }} to={`/profile/${myDogId}`}>Profile</Link></Button>
-                                <Button color="inherit" onClose={handleCloseNavMenu}><Link style={{ textDecoration: "none", color: "white" }} to="/chat">Chat</Link></Button>
-                                <Button color="inherit" onClose={handleCloseNavMenu}><Link style={{ textDecoration: "none", color: "white" }} to="/create-dog">Register New Dog</Link></Button>
+                                <Button color="inherit" onClick={handleClose} onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/">Home</Link></Button>
+                                <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to={`/profile/${myDogId}`}>Profile</Link></Button>
+                                <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/chat">Chat</Link></Button>
+                                <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/create-dog">Register New Dog</Link></Button>
                                 <Button
                                     color="inherit"
                                     id="basic-button"
@@ -141,7 +131,7 @@ const Navbar = () => {
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                     onClick={handleClick}
-                                    onClose={handleCloseNavMenu}
+                                    onClose={handleClose}
                                 >
                                     Switch Dogs
                                 </Button>
@@ -200,7 +190,7 @@ const Navbar = () => {
                                 horizontal: "right"
                             }}
                             open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+                            onClose={handleClose}
                             sx={{
                                 display: { xs: "block", md: "none" }
                             }}
@@ -220,7 +210,7 @@ const Navbar = () => {
                                         horizontal: 'right',
                                     }}
                                     open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
+                                    onClose={handleClose}
                                     sx={{
                                         display: { xs: 'block', md: 'none' },
                                     }}
@@ -237,7 +227,7 @@ const Navbar = () => {
                                             aria-haspopup="true"
                                             aria-expanded={open ? 'true' : undefined}
                                             onClick={handleClick}
-                                            onClose={handleCloseNavMenu}
+                                            onClose={handleClose}
                                             startIcon={<CompareArrowsIcon />}
                                         >
                                             Switch Dogs
@@ -249,14 +239,14 @@ const Navbar = () => {
                                             MenuListProps={{
                                                 'aria-labelledby': 'basic-button',
                                             }}
-                                            onClose={handleCloseNavMenu}
+                                            onClose={handleClose}
                                         >
                                             {dogArray.map((dog, index) => (
                                                 <MenuItem
                                                     value={index}
                                                     key={dog._id}
                                                     onClick={handleClickChange}
-                                                    onClose={handleCloseNavMenu}
+                                                    onClose={handleClose}
                                                 >
                                                     <Button color="inherit" startIcon={<PetsIcon />}>
                                                         {dog.name}
@@ -287,13 +277,13 @@ const Navbar = () => {
                                         horizontal: 'right',
                                     }}
                                     open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
+                                    onClose={handleClose}
                                     sx={{
                                         display: { xs: 'block', md: 'none' },
                                     }}
                                 >
                                     <div id="loggedOutNav">
-                                        <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<HouseIcon />} onClose={handleCloseNavMenu}><Link to="/">Home</Link></Button></MenuItem>
+                                        <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<HouseIcon />} onClose={handleClose}><Link to="/">Home</Link></Button></MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<LoginIcon />}><Link to="/sign-in">Sign In</Link></Button></MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/sign-up">Sign Up</Link></Button></MenuItem>
                                     </div>
@@ -301,40 +291,8 @@ const Navbar = () => {
                             }
                         </Menu>
                     </Box>
-
-                    {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
                 </Toolbar>
             </Container>
         </AppBar>
     );
 };
-
-export default Navbar;
