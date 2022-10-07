@@ -3,7 +3,12 @@
     border-bottom: 5px solid var(--dark-purp);
 }
 
-#navbar a:active {
+#navbar a {
+    text-decoration: none;
+}
+
+#navbar a:active,
+.mobileMenuItem {
     font-weight: bold;
 }
 
@@ -13,4 +18,9 @@
 
 #loggedInNav {
     display: flexbox;
+}
+
+.mobileMenuItem a {
+    text-decoration: none;
+    color: #000;
 }

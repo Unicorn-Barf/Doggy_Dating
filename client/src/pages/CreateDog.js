@@ -22,7 +22,6 @@ import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_DOG } from '../utils/mutations';
-// import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 import { pushDogToArr } from '../utils/localStorage';
@@ -208,7 +207,6 @@ export default function CreateDog() {
                                     <InputLabel className="simple-select-label">Sex</InputLabel>
                                     <Select
                                         sx={{ my: 1 }}
-                                        // required
                                         id="simple-select"
                                         value={dogFormData.sex}
                                         name="sex"
@@ -224,9 +222,6 @@ export default function CreateDog() {
                                 <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
                                     <Select
-                                        // sx={{ my: 1 }}
-                                        // required
-                                        // labelId="simple-select-label"
                                         id="simple-select"
                                         value={dogFormData.isFixed}
                                         name="isFixed"
@@ -239,12 +234,9 @@ export default function CreateDog() {
                                     <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
                                 </FormControl>
 
-                                {/* <Box sx={{ display: 'flex' }}> */}
                                 <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
-                                        // sx={{ my: 1 }}
-                                        // required
                                         labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
@@ -265,7 +257,6 @@ export default function CreateDog() {
                                     </Select>
                                     <FormHelperText>Please select all that apply.</FormHelperText>
                                 </FormControl>
-                                {/* </Box> */}
 
                                 <TextField
                                     sx={{ my: 1 }}

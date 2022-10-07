@@ -209,7 +209,7 @@ const DogSettings = () => {
                <Container maxWidth="sm">
                   <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                      <div>
-                        <h1>Update {dogName}'s' Info</h1>
+                        <h1>Update {dogName}'s Info</h1>
                         <p>Review and update {dogName}'s information here.</p>
                      </div>
                      <FormControl>
