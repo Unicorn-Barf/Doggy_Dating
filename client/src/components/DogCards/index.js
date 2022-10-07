@@ -2,7 +2,6 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
@@ -29,17 +28,19 @@ const DogCards = ({
                     alt="dog image"
                 />
                 <CardContent>
-                    <div style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
-                        {name}
-                        <StarBorderIcon />
-                    </Typography>
-                    <Typography variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }} component="div">
+                    <div>
+                        <div style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
+                            {name}
+                            <StarBorderIcon />
+                        </div>
+                    </div>
+                    <div variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }}>
                         <div>{breed}</div>
                         <div>{sex}</div>
                         <div>Fixed?: {isFixed}</div>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" component="div">
-                        <div style={{ fontWeight: "bold", marginTop: "10px" }}>"{headline}"</div><br />
+                    </div>
+                    <div variant="body2" color="text.secondary">
+                        <div style={{ fontWeight: "bold", marginTop: "10px", textAlign: "center" }}>"{headline}"</div>
                     </div>
                 </CardContent>
             </CardActionArea>

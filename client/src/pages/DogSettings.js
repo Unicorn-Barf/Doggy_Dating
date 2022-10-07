@@ -12,6 +12,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { getSavedDogArr, getCurrentDogIndex, saveDogArr, pushDogToArr, deleteCurrDogFromArr } from "../utils/localStorage";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import Grid from '@mui/material/Grid';
+import { Paper } from '@mui/material';
 import { current } from "@reduxjs/toolkit";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
@@ -22,8 +23,7 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const DogSettings = () => {
-import { Paper } from '@mui/material';
-import Box from '@mui/material/Box';
+   
    const navigate = useNavigate();
 
    const modalStyle = {
@@ -137,16 +137,6 @@ import Box from '@mui/material/Box';
       );
    };
 
-   const handlePersonalityChange = (event) => {
-      const {
-         target: { value },
-      } = event;
-      setDogPersonality(
-         // On autofill we get a stringified value.
-         typeof value === 'string' ? value.split(',') : value,
-      );
-   };
-
    const handleFormSubmit = async (event) => {
       const PutDogInput = {};
       if (dogName !== "") {
@@ -204,11 +194,11 @@ import Box from '@mui/material/Box';
                dogId: dogId,
             }
          });
-         if(deleteDogData.data.deleteDog) {
+         if (deleteDogData.data.deleteDog) {
             deleteCurrDogFromArr();
             navigate("/home");
          }
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    }

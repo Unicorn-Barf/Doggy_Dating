@@ -19,7 +19,7 @@ import Auth from '../../utils/auth';
 import './navbar.css';
 
 export default function Navbar() {
-    const { _id: myDogId, name: myDogName } = getSavedDogArr()[getCurrentDogIndex()] || null;
+    const { _id: myDogId } = getSavedDogArr()[getCurrentDogIndex()] || { _id: null };
     const dogArray = getSavedDogArr();
     const currentDogIndex = getCurrentDogIndex();
 
