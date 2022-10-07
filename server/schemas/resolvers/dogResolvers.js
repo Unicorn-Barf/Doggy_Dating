@@ -78,7 +78,7 @@ const dogMutation = {
    deleteDog: async (parent, args, context) => {
       try {
          const dog = await Dog.findById(args.dogId);
-         if(dog.ownerId === context.owner._id) {
+         if(dog.ownerId.toString() === context.owner._id.toString()) {
             const deletedDog = await Dog.findByIdAndDelete(args.dogId);
             return deletedDog;
          } else {

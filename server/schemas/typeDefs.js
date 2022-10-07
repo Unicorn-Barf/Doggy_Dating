@@ -48,6 +48,7 @@ const typeDefs = gql`
       birthday: String
       sex: String
       weight: Int
+      isFixed: Boolean
       personality: [String]
       headline: String
       about: String
@@ -75,6 +76,7 @@ const typeDefs = gql`
       birthday: String
       sex: String
       weight: Int
+      isFixed: Boolean
       personality: [String]
       headline: String
       about: String
@@ -124,7 +126,7 @@ const typeDefs = gql`
       login(username: String, email: String, password: String!): Auth
 
       postOwner(owner: PostOwnerInput!): Auth
-      putOwner(owner: PutOwnerInput!): Owner
+      putOwner(owner: PutOwnerInput): Owner
       deleteOwner(password: String!): Owner
       addOwnerImage(imageURL: [String]!): Owner
       updateOwnerLocation(lat: String!, lon: String!): Owner

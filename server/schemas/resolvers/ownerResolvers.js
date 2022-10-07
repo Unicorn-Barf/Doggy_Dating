@@ -72,22 +72,26 @@ const ownerMutation = {
    putOwner: async (parent, args, context) => {
       try {
          const owner = await Owner.findById(context.owner._id);
-         const passwordCheck = await owner.passwordCheck(args.owner.currentPassword);
-         if(!passwordCheck) {
-            throw new AuthenticationError('Error updating owner');
-         } else {
-            args.owner.password = args.owner.newPassword;
-            const updatedOwner = await Owner.findByIdAndUpdate(
-               context.owner._id,
-               {
-                  ...args.owner
-               },
-               {
-                  new: true,
-               }
-            );
-            return updatedOwner;
+         if(args.owner.newPassword) {
+            console.log("checking password");
+            const passwordCheck = await owner.passwordCheck(args.owner.currentPassword);
+            if(passwordCheck) {
+               console.log("setting password");
+               args.owner.password = args.owner.newPassword;
+            } else {
+               throw new AuthenticationError('Error updating owner password');
+            }
          }
+         const updatedOwner = await Owner.findByIdAndUpdate(
+            context.owner._id,
+            {
+               ...args.owner
+            },
+            {
+               new: true,
+            }
+         );
+         return updatedOwner;
       } catch (error) {
          console.error(error);
       }

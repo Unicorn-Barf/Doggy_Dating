@@ -4,29 +4,56 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import PetsIcon from '@mui/icons-material/Pets';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import './navbar.css';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { storeDogs, storeCurrentDog } from '../../slices/dogSlice';
+import { toggleLoggedIn } from '../../slices/ownerSlice';
+import { getSavedDogArr, getCurrentDogIndex, setCurrentDogIndex } from '../../utils/localStorage';
+import { storeDogs, storeCurrentDog, getDog } from '../../slices/dogSlice';
 import { storeOwner } from '../../slices/ownerSlice';
 import Auth from '../../utils/auth';
+import './navbar.css';
 
 export default function Navbar() {
+    const { _id: myDogId } = getSavedDogArr()[getCurrentDogIndex()] || { _id: null };
+    const dogArray = getSavedDogArr();
+    const currentDogIndex = getCurrentDogIndex();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogOut = () => {
-        console.log('Im hit!');
         dispatch(storeDogs([]));
         dispatch(storeCurrentDog({}));
         dispatch(storeOwner({}));
+        localStorage.clear();
         Auth.logout();
+        dispatch(toggleLoggedIn(false));
         navigate('/');
     }
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    const handleClickChange = (event) => {
+        const index = event.target.value;
+        setCurrentDogIndex(index);
+        dispatch(storeCurrentDog(getSavedDogArr()[index]));
+        setAnchorEl(null);
+    };
+
+    const currentDog = useSelector(getDog);
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -49,10 +76,39 @@ export default function Navbar() {
                         ?
                         <div id="loggedInNav">
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/">Home</Link></Button>
-                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/profile/:dogId">Profile</Link></Button>
+                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to={`/profile/${myDogId}`}>Profile</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/chat">Chat</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/create-dog">Register New Dog</Link></Button>
-                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/dog/settings/:dogId">Dog Settings</Link></Button>
+                            <Button
+                                color="inherit"
+                                id="basic-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                Switch Dogs
+                            </Button>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                // onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                {dogArray.map((dog, index) => (
+                                    <MenuItem
+                                        value={index}
+                                        key={dog._id}
+                                        onClick={handleClickChange}
+                                    >
+                                        {dog.name}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to={`/dog/settings`}>Dog Settings</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/owner/settings">Owner Settings</Link></Button>
                             <Button color="inherit" onClick={handleLogOut}><Link style={{ textDecoration: "none", color: "white" }}>Sign Out</Link></Button>
                         </div>
