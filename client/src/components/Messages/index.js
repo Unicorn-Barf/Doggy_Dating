@@ -16,10 +16,10 @@ const Text = ({ messages, myDogId }) => {
   
   return (
     <div style={{ marginBottom: "5rem" }}>
-      {messages.map(({ dogId, message, messageId }) => {
+      {messages.map(({ dogId, dogName, message, messageId }) => {
         return (
           <div key={messageId} style={{ textAlign: myDogId === dogId ? "right" : "left" }}>
-            <p style={{ marginBottom: "0.3rem" }}>{`dogId: ${dogId} Get Dog Name Here`}</p>
+            <p style={{ marginBottom: "0.3rem" }}>{`${dogName} barked at you.`}</p>
             <Chip style={{ fontSize: "0.9rem" }} color={myDogId === dogId ? "primary" : "secondary"} label={message} />
           </div>
         )
@@ -28,7 +28,7 @@ const Text = ({ messages, myDogId }) => {
   )
 }
 
-const Messages = ({ conversationId, myDogId }) => {
+const Messages = ({ conversationId, myDogId, myDogName }) => {
   // Local State
   const [text, setText] = useState("");
 
@@ -56,6 +56,7 @@ const Messages = ({ conversationId, myDogId }) => {
   const sendMessage = async () => {
     const PostMessage = {
       dogId: myDogId,
+      dogName: myDogName,
       message: text
     };
     if (text.length > 0) {

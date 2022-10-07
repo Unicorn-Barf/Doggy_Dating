@@ -10,6 +10,7 @@ subscription MessageSent($conversationId: ID!) {
       message
       createdAt
       dogId
+      dogName
     }
   }
 }
@@ -23,6 +24,7 @@ subscription Subscription($dogId: ID!) {
     messages {
       messageId
       dogId
+      dogName
       message
       createdAt
     }

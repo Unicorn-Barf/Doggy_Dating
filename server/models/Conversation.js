@@ -11,6 +11,10 @@ const messageSchema = new Schema({
       ref: 'Dog',
       required: true,
    },
+   dogName: {
+      type: String,
+      required: true,
+   },
    message: {
       type: String,
       required: true,

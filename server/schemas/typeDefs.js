@@ -88,8 +88,8 @@ const typeDefs = gql`
 
    type Message {
       messageId: ID
-      _id: ID
       dogId: ID
+      dogName: String
       message: String
       updatedAt: String
       createdAt: String
@@ -97,6 +97,7 @@ const typeDefs = gql`
 
    input PostMessage {
       dogId: ID!
+      dogName: String!
       message: String!
    }
 
