@@ -44,21 +44,18 @@ mutation LOGIN($password: String!, $username: String, $email: String) {
 `;
 
 export const PUT_OWNER = gql`
-mutation PutOwner($owner: PutOwnerInput!) {
+mutation PutOwner($owner: PutOwnerInput) {
    putOwner(owner: $owner) {
-      token
-      owner {
-         _id
-         username
-         firstName
-         lastName
-         sex
-         email
-         lat
-         lon
-         about
-         birthday
-         images
-      }
+      _id
+      username
+      firstName
+      lastName
+      sex
+      email
+      lat
+      lon
+      about
+      birthday
+      images
    }
 }`;
