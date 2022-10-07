@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import FormHelperText from '@mui/material/FormHelperText';
 import { getSavedDogArr, getCurrentDogIndex, saveDogArr, pushDogToArr, deleteCurrDogFromArr } from "../utils/localStorage";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
-import Grid from '@mui/material/Grid';
 import { Paper } from '@mui/material';
 import { current } from "@reduxjs/toolkit";
 import OutlinedInput from '@mui/material/OutlinedInput';
