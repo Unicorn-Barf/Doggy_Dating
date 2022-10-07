@@ -16,93 +16,62 @@ const OwnerSettings = () => {
 
    const birthdayDate = new Date(parseInt(ownerData.birthday));
 
-   const [username, setUsername] = useState(ownerData.username ? ownerData.username : "");
-   const [email, setEmail] = useState(ownerData.email ? ownerData.email : "");
-   const [currentPassword, setCurrentPassword] = useState("");
-   const [newPassword, setNewPassword] = useState("");
    const [confirmPassword, setConfirmPassword] = useState("");
-   const [firstName, setFirstName] = useState(ownerData.firstName ? ownerData.firstName : "");
-   const [lastName, setLastName] = useState(ownerData.lastName ? ownerData.lastName : "");
-   const [sex, setSex] = useState(ownerData.sex ? ownerData.sex : "");
-   const [birthday, setBirthday] = useState(ownerData.birthday ? birthdayDate : "");
-
    const [passwordMatchAlert, setPasswordMatchAlert] = useState(false);
+   const [userFormData, setUserFormData] = useState({
+      newPassword: '',
+      currentPassword: '',
+      birthday: birthdayDate || '12/20/1992',
+      firstName: ownerData.firstName || '',
+      lastName: ownerData.lastName || '',
+      username: ownerData.username || "",
+      email:  ownerData.email || '',
+      sex: ownerData.sex || '',
+   });
 
-   const handleInputChange = async (event) => {
+   const handleInputChange = (event) => {
+      event.preventDefault();
       const { name, value } = event.target;
-      console.log(name, value);
-      if (event.target.name === 'username') {
-         setUsername(event.target.value);
-      }
-      if (event.target.name === 'email') {
-         setEmail(event.target.value);
-      }
+      setUserFormData({
+          ...userFormData,
+          [name]: value,
+      })
+  };
 
-      if (event.target.name === 'currentPassword') {
-         setCurrentPassword(event.target.value);
-      }
-      if (event.target.name === 'newPassword') {
-         setNewPassword(event.target.value);
-      }
-      if (event.target.name === 'confirmPassword') {
-         setConfirmPassword(event.target.value);
-      }
-
-      if (event.target.name === 'firstName') {
-         setFirstName(event.target.value);
-      }
-      if (event.target.name === 'lastName') {
-         setLastName(event.target.value);
-      }
-      if (event.target.name === 'sex') {
-         setSex(event.target.value);
-      }
-      if (event.target.name === 'birthday') {
-         setBirthday(event.target.value);
-      }
-
-   }
 
    const handleFormSubmit = async (event) => {
-      const PutOwnerInput = {};
-      //set PutOwnerInput
-      if (username !== "") {
-         PutOwnerInput.username = username;
+      let PutOwnerInput = {};
+      for (let key in userFormData) {
+         // console.log(key.length);
+         if (key === 'newPassword' || key === 'confirmPassword') {
+            continue;
+         }
+         if (key === 'birthday') {
+            const birthday = Date.parse(userFormData[key]).toString();
+            PutOwnerInput[key] = birthday;
+            continue;
+         }
+         if (userFormData[key].length > 0) {
+            PutOwnerInput[key] = userFormData[key];
+         }
       }
-      if (email !== "") {
-         PutOwnerInput.email = email;
-      }
-      if (firstName !== "") {
-         PutOwnerInput.firstName = firstName;
-      }
-      if (lastName !== "") {
-         PutOwnerInput.lastName = lastName;
-      }
-      if (sex !== "") {
-         PutOwnerInput.sex = sex;
-      }
-      if (birthday !== "") {
-         PutOwnerInput.birthday = Date.parse(birthday).toString();
-      }
-      if (currentPassword !== "") {
-         PutOwnerInput.currentPassword = currentPassword;
-      }
-      if (newPassword !== "" || confirmPassword !== "") {
-         if (newPassword !== confirmPassword) {
+
+      if (userFormData.newPassword !== "" || confirmPassword !== "") {
+         if (userFormData.newPassword !== confirmPassword) {
             setPasswordMatchAlert(true);
             return;
          } else {
-            PutOwnerInput.newPassword = newPassword;
+            PutOwnerInput.newPassword = userFormData.newPassword;
          }
       }
-      console.log(PutOwnerInput)
+      
       try {
          const putOwnerData = await putOwner({
             variables: {
                owner: PutOwnerInput,
             }
          });
-         if (putOwnerData) {
+         if (putOwnerData.data) {
             saveOwner(putOwnerData.data.putOwner);
          }
       } catch (error) {
@@ -144,7 +113,7 @@ const OwnerSettings = () => {
                placeholder="Username"
                onChange={handleInputChange}
                variant="outlined"
-               value={username}
+               value={userFormData.username}
             />
             <TextField
                sx={{ my: 1 }}
@@ -155,7 +124,7 @@ const OwnerSettings = () => {
                placeholder="email"
                onChange={handleInputChange}
                variant="outlined"
-               value={email}
+               value={userFormData.email}
             />
             <TextField
                sx={{ my: 1 }}
@@ -166,7 +135,7 @@ const OwnerSettings = () => {
                placeholder="currentPassword"
                onChange={handleInputChange}
                variant="outlined"
-               value={currentPassword}
+               value={userFormData.currentPassword}
             />
             <TextField
                sx={{ my: 1 }}
@@ -177,7 +146,7 @@ const OwnerSettings = () => {
                placeholder="newPassword"
                onChange={handleInputChange}
                variant="outlined"
-               value={newPassword}
+               value={userFormData.newPassword}
             />
             <TextField
                sx={{ my: 1 }}
@@ -186,7 +155,7 @@ const OwnerSettings = () => {
                label="Confirm Password"
                fullWidth
                placeholder="confirmPassword"
-               onChange={handleInputChange}
+               onChange={(e) => setConfirmPassword(e.target.value)}
                variant="outlined"
                value={confirmPassword}
             />
@@ -199,7 +168,7 @@ const OwnerSettings = () => {
                placeholder="firstName"
                onChange={handleInputChange}
                variant="outlined"
-               value={firstName}
+               value={userFormData.firstName}
             />
             <TextField
                sx={{ my: 1 }}
@@ -210,7 +179,7 @@ const OwnerSettings = () => {
                placeholder="lastName"
                onChange={handleInputChange}
                variant="outlined"
-               value={lastName}
+               value={userFormData.lastName}
             />
             <FormControl>
                <InputLabel id="select-sex-label">Sex</InputLabel>
@@ -219,7 +188,7 @@ const OwnerSettings = () => {
                   label="Sex"
                   name="sex"
                   onChange={handleInputChange}
-                  value={sex}
+                  value={userFormData.sex}
                >
                   {
                      sexes.map((item, key) => {
@@ -233,10 +202,10 @@ const OwnerSettings = () => {
                   id="date"
                   label="Birthday"
                   type="date"
-                  value={birthday}
+                  value={userFormData.birthday}
                   renderInput={(params) => <TextField {...params} />}
                   name="birthday"
-                  onChange={(birthday) => setBirthday(birthday)}
+                  onChange={(birthday) => setUserFormData({ ...userFormData, birthday })}
                />
             </LocalizationProvider>
             <Button variant="contained" onClick={handleFormSubmit}>
