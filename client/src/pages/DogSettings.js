@@ -8,9 +8,12 @@ import { Form, useParams } from 'react-router-dom';
 import { getDog } from "../slices/dogSlice";
 import { useSelector } from "react-redux";
 import Grid from '@mui/material/Grid';
-
+import { Paper } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const DogSettings = () => {
+
+   // const dog = getDog();
 
    const sexes = ['Male', 'Female'];
 
@@ -51,7 +54,6 @@ const DogSettings = () => {
    }
 
    const handleFormSubmit = async (event) => {
-      //console.log(dog);
       const PutDogInput = {};
       if (dogName !== "") {
          PutDogInput.name = dogName;
@@ -88,92 +90,115 @@ const DogSettings = () => {
    }
 
    return (
-      <>
-         <Grid container>
-            <FormControl style={{ marginTop: "15px" }}>
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="name"
-                  fullWidth
-                  label="Name"
-                  onChange={handleInputChange}
-                  value={dogName}
-                  variant="outlined"
-               />
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="breed"
-                  fullWidth
-                  label="Breed"
-                  onChange={handleInputChange}
-                  value={dogBreed}
-                  variant="outlined"
-               />
-               <FormControl>
-                  <InputLabel id="select-sex-label">Sex</InputLabel>
-                  <Select
-                     labelId="select-sex-label"
-                     label="Sex"
-                     name="sex"
-                     onChange={handleInputChange}
-                     value={dogSex}
-                  >
-                     {
-                        sexes.map((item, key) => {
-                           return <MenuItem key={key} value={item}>{item}</MenuItem>
-                        })
-                     }
-                  </Select>
-               </FormControl>
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="weight"
-                  fullWidth
-                  label="weight"
-                  onChange={handleInputChange}
-                  value={dogWeight}
-                  variant="outlined"
-               />
 
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="birthday"
-                  fullWidth
-                  label="Birthday"
-                  onChange={handleInputChange}
-                  value={dogBirthday}
-                  variant="outlined"
-               />
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="headline"
-                  fullWidth
-                  label="Headline"
-                  onChange={handleInputChange}
-                  value={dogHeadline}
-                  variant="outlined"
-               />
-               <TextField
-                  sx={{ my: 1 }}
-                  type="text"
-                  name="about"
-                  fullWidth
-                  label="About"
-                  onChange={handleInputChange}
-                  value={dogAbout}
-                  variant="outlined"
-               />
-               <Button onClick={handleFormSubmit}>
-                  Submit
-               </Button>
-            </FormControl>
-         </Grid>
-      </>
+      <div className="main-container">
+         <Container maxWidth="sm">
+            <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+               <Grid
+                  container
+                  spacing={0}
+                  direction="column"
+                  justifyContent="center"
+                  style={{ maxHeight: "100vh" }}
+               >
+                  <h1>Update Dog's Info</h1>
+                  <p>Update your dog's information here.</p>
+                  <FormControl>
+                     <Box
+                        component="form"
+                        sx={{
+                           '& > :not(style)': { m: 1, width: '100%' },
+                           maxWidth: '100%',
+                        }}
+                        noValidate
+                        autoComplete="off"
+                     >
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="name"
+                           fullWidth
+                           label="Name"
+                           onChange={handleInputChange}
+                           value={dogName}
+                           variant="outlined"
+                        />
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="breed"
+                           fullWidth
+                           label="Breed"
+                           onChange={handleInputChange}
+                           value={dogBreed}
+                           variant="outlined"
+                        />
+                        <FormControl>
+                           <InputLabel id="select-sex-label">Sex</InputLabel>
+                           <Select
+                              labelId="select-sex-label"
+                              label="Sex"
+                              name="sex"
+                              onChange={handleInputChange}
+                              value={dogSex}
+                           >
+                              {
+                                 sexes.map((item, key) => {
+                                    return <MenuItem key={key} value={item}>{item}</MenuItem>
+                                 })
+                              }
+                           </Select>
+                        </FormControl>
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="weight"
+                           fullWidth
+                           label="weight"
+                           onChange={handleInputChange}
+                           value={dogWeight}
+                           variant="outlined"
+                        />
+
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="birthday"
+                           fullWidth
+                           label="Birthday"
+                           onChange={handleInputChange}
+                           value={dogBirthday}
+                           variant="outlined"
+                        />
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="headline"
+                           fullWidth
+                           label="Headline"
+                           onChange={handleInputChange}
+                           value={dogHeadline}
+                           variant="outlined"
+                        />
+                        <TextField
+                           sx={{ my: 1 }}
+                           type="text"
+                           name="about"
+                           fullWidth
+                           label="About"
+                           onChange={handleInputChange}
+                           value={dogAbout}
+                           variant="outlined"
+                        />
+                        <Button onClick={handleFormSubmit}>
+                           Submit
+                        </Button>
+                     </Box>
+                  </FormControl>
+               </Grid>
+            </Paper>
+         </Container>
+      </div>
    )
 }
 

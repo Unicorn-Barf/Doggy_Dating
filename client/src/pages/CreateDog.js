@@ -149,7 +149,6 @@ export default function CreateDog() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className='main-container'>
                 <Container maxWidth="sm">
-
                     <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
                         <Grid
                             container

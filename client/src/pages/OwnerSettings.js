@@ -31,10 +31,10 @@ const OwnerSettings = () => {
       event.preventDefault();
       const { name, value } = event.target;
       console.log(name, value);
-      if(event.target.name === 'username') {
+      if (event.target.name === 'username') {
          setUsername(event.target.value);
       }
-      if(event.target.name === 'email') {
+      if (event.target.name === 'email') {
          setEmail(event.target.value);
       }
       // if(event.target.name === 'currentPassword') {
@@ -46,19 +46,19 @@ const OwnerSettings = () => {
       // if(event.target.name === 'confirmPassword') {
       //    setConfirmPassword(event.target.value);
       // }
-      if(event.target.name === 'firstName') {
+      if (event.target.name === 'firstName') {
          setFirstName(event.target.value);
       }
-      if(event.target.name === 'lastName') {
+      if (event.target.name === 'lastName') {
          setLastName(event.target.value);
       }
-      if(event.target.name === 'sex') {
+      if (event.target.name === 'sex') {
          setSex(event.target.value);
       }
-      if(event.target.name === 'birthday') {
+      if (event.target.name === 'birthday') {
          setBirthday(event.target.value);
       }
-      if(event.target.name === 'about') {
+      if (event.target.name === 'about') {
          setAbout(event.target.value);
       }
    }
@@ -66,25 +66,25 @@ const OwnerSettings = () => {
    const handleFormSubmit = async (event) => {
       const PutOwnerInput = {};
       //set PutOwnerInput
-      if(username !== "") {
+      if (username !== "") {
          PutOwnerInput.username = username;
       }
-      if(email !== "") {
+      if (email !== "") {
          PutOwnerInput.email = email;
       }
-      if(firstName !== "") {
+      if (firstName !== "") {
          PutOwnerInput.firstName = firstName;
       }
-      if(lastName !== "") {
+      if (lastName !== "") {
          PutOwnerInput.lastName = lastName;
       }
-      if(sex !== "") {
+      if (sex !== "") {
          PutOwnerInput.sex = sex;
       }
-      if(birthday !== "") {
+      if (birthday !== "") {
          PutOwnerInput.birthday = birthday;
       }
-      if(about !== "") {
+      if (about !== "") {
          PutOwnerInput.about = about;
       }
       try {
@@ -93,15 +93,15 @@ const OwnerSettings = () => {
                owner: PutOwnerInput,
             }
          });
-         if(putOwnerData) {
-            
+         if (putOwnerData) {
+
          }
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
       //send put request
       //if success, update local storage
-      
+
       console.log(ownerData)
    }
 
@@ -109,7 +109,7 @@ const OwnerSettings = () => {
       <>
          <FormControl>
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="username"
                fullWidth
@@ -119,7 +119,7 @@ const OwnerSettings = () => {
                value={username}
             />
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="email"
                fullWidth
@@ -159,7 +159,7 @@ const OwnerSettings = () => {
                value={confirmPassword}
             /> */}
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="firstName"
                fullWidth
@@ -169,7 +169,7 @@ const OwnerSettings = () => {
                value={firstName}
             />
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="lastName"
                fullWidth
@@ -179,23 +179,23 @@ const OwnerSettings = () => {
                value={lastName}
             />
             <FormControl>
-                  <InputLabel id="select-sex-label">Sex</InputLabel>
-                  <Select
-                     labelId="select-sex-label"
-                     label="Sex"
-                     name="sex"
-                     onChange={handleInputChange}
-                     value={sex}
-                  >
-                     {
-                        sexes.map((item, key) => {
-                           return <MenuItem key={key} value={item}>{item}</MenuItem>
-                        })
-                     }
-                  </Select>
-               </FormControl>
+               <InputLabel id="select-sex-label">Sex</InputLabel>
+               <Select
+                  labelId="select-sex-label"
+                  label="Sex"
+                  name="sex"
+                  onChange={handleInputChange}
+                  value={sex}
+               >
+                  {
+                     sexes.map((item, key) => {
+                        return <MenuItem key={key} value={item}>{item}</MenuItem>
+                     })
+                  }
+               </Select>
+            </FormControl>
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="birthday"
                fullWidth
@@ -205,7 +205,7 @@ const OwnerSettings = () => {
                value={birthday}
             />
             <TextField
-               sx={{ my: 1}}
+               sx={{ my: 1 }}
                type="text"
                name="about"
                fullWidth

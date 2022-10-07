@@ -15,7 +15,7 @@ import Auth from "../utils/auth";
 import { LOGIN_USER } from "../utils/mutations";
 import { GET_ALL_DOGS_BY_OWNER_ID } from "../utils/queries";
 import { useDispatch } from "react-redux";
-import { storeOwner } from "../slices/ownerSlice";
+import { storeOwner, toggleLoggedIn } from "../slices/ownerSlice";
 import { storeDogs, storeCurrentDog } from "../slices/dogSlice";
 import {
   saveOwner,
@@ -95,7 +95,9 @@ const Signin = () => {
           ...signedInOwner,
         })
       );
+      
       saveOwner(signedInOwner);
+      dispatch(toggleLoggedIn(true));
 
       if (signedInOwner.dogIds.length > 0) {
         getDogs({
