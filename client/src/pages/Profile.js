@@ -143,7 +143,6 @@ export default function DogProfile() {
                                     size="medium"
                                     variant="contained"
                                     style={{ margin: 5 }}
-                                    variant="contained"
                                     onClick={(event) => (event)}
                                 >
                                     Edit Dog
