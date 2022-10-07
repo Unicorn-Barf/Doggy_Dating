@@ -42,7 +42,7 @@ const typeDefs = gql`
 
    type Dog {
       _id: ID
-      ownerId: ID
+      ownerId: Owner
       name: String
       breed: String
       birthday: String
