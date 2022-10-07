@@ -48,7 +48,7 @@ const OwnerSettings = () => {
          }
          if (key === 'birthday') {
             const birthday = Date.parse(userFormData[key]).toString();
-            PutOwnerInput = {...PutOwnerInput, birthday};
+            PutOwnerInput[key] = birthday;
             continue;
          }
          if (userFormData[key].length > 0) {
@@ -64,7 +64,7 @@ const OwnerSettings = () => {
             PutOwnerInput.newPassword = userFormData.newPassword;
          }
       }
-      console.log(PutOwnerInput)
+      
       try {
          const putOwnerData = await putOwner({
             variables: {
