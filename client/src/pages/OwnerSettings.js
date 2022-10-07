@@ -24,7 +24,7 @@ const OwnerSettings = () => {
    const [firstName, setFirstName] = useState(ownerData.firstName ? ownerData.firstName : "");
    const [lastName, setLastName] = useState(ownerData.lastName ? ownerData.lastName : "");
    const [sex, setSex] = useState(ownerData.sex ? ownerData.sex : "");
-   const [birthday, setBirthday] = useState(ownerData.birthday ? birthdayDate : "");
+   const [birthday, setBirthday] = useState(ownerData.birthday ? birthdayDate : "12/20/1960");
 
    const [passwordMatchAlert, setPasswordMatchAlert] = useState(false);
 
