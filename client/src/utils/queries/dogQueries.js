@@ -49,6 +49,7 @@ query GetAllDogs {
       ownerId {
          username
       }
+      isFixed
       name
       breed
       birthday
