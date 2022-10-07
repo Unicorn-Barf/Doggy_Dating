@@ -10,6 +10,7 @@ query GetAllDogsByOwner($ownerId: ID, $username: String) {
      birthday
      sex
      weight
+     isFixed
      personality
      headline
      about
@@ -28,6 +29,7 @@ query GetDog($dogId: ID!) {
      birthday
      sex
      weight
+     isFixed
      personality
      headline
      about

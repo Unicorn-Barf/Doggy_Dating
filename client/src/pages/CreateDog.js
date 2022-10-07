@@ -25,6 +25,7 @@ import { CREATE_DOG } from '../utils/mutations';
 // import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
+import { pushDogToArr } from '../utils/localStorage';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
@@ -127,6 +128,8 @@ export default function CreateDog() {
                     dog: { ...dogFormData, ownerId, personality, weight: parseInt(dogFormData.weight) }
                 }
             });
+            console.log(data);
+            pushDogToArr(data.postDog);
         } catch (error) {
             console.log(error);
         }
