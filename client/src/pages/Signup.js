@@ -246,7 +246,6 @@ function Signup() {
               variant="contained"
               type="button"
               onClick={handleFormSubmit}
->>>>>>> Stashed changes
             >
               <TextField
                 required
