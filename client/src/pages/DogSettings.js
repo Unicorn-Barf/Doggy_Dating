@@ -191,7 +191,7 @@ const DogSettings = () => {
                dogId: dogId,
             }
          });
-         if(deleteDogData) {
+         if(deleteDogData.data.deleteDog) {
             deleteCurrDogFromArr();
             navigate("/home");
          }
