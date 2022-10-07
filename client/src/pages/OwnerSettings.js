@@ -114,7 +114,7 @@ const OwnerSettings = () => {
    return (
       <div className="main-container">
          <Container maxWidth="sm">
-            <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+            <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                <div>
                   <h1>Update Your Info</h1>
                   <p>Review and update your account information here.</p>
@@ -122,7 +122,7 @@ const OwnerSettings = () => {
                <Box
                   component="form"
                   sx={{
-                     '& > :not(style)': { m: 1, width: '100%' },
+                     '& > :not(style)': { width: '100%' },
                      maxWidth: '100%',
                   }}
                   noValidate
@@ -254,7 +254,7 @@ const OwnerSettings = () => {
                         />
                      </LocalizationProvider>
                      <Stack
-                        direction="row"
+                        direction="column"
                         spacing={2}
                         justifyContent="center"
                      >

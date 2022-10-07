@@ -10,3 +10,7 @@
 #navbar a:hover {
     font-weight: bold;
 }
+
+#loggedInNav {
+    display: flexbox;
+}
