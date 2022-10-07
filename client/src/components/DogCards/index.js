@@ -29,21 +29,18 @@ const DogCards = ({
                     alt="dog image"
                 />
                 <CardContent>
-                    <Typography style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }} gutterBottom variant="h5" component="div">
+                    <div style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
                         {name}
                         <StarBorderIcon />
-                    </Typography>
-                    <Typography variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }}>
+                    </div>
+                    <div variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }}>
                         <div>{breed}</div>
                         <div>{sex}</div>
                         <div>Fixed?: {isFixed}</div>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    </div>
+                    <div variant="body2" color="text.secondary">
                         <div style={{ fontWeight: "bold", marginTop: "10px" }}>"{headline}"</div><br />
-                    </Typography>
-                    {/* <Typography>
-                        <div style={{ textAlign: "left" }}>{about}</div>
-                    </Typography> */}
+                    </div>
                 </CardContent>
             </CardActionArea>
         </Card>

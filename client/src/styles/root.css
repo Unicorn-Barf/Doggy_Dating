@@ -8,9 +8,12 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url('../pages/assets/images/purple_dog_wallpaper3.jpg');
+    background-image: url('../pages/assets/images/yellow_dog_wallpaper_85.jpg');
     background-attachment: fixed;
-    /* opacity: 0.2; */
+}
+
+body::after {
+    opacity: 0.2;
 }
 
 h1, h2 {

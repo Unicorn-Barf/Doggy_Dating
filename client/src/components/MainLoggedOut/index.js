@@ -20,6 +20,7 @@ export default function MainLoggedOut() {
                         src={DogsPlaying}
                         id="dogsOrangeBall"
                         style={{ alignSelf: "center" }}
+                        alt="dogs playing"
                     ></img>
                 </Stack>
                 <Stack
@@ -27,7 +28,7 @@ export default function MainLoggedOut() {
                     spacing={2}
                     justifyContent="center"
                 >
-                    <Button variant="contained" href="/sign-in">Sign In</Button>
+                    <Link to="/sign-in" style={{ textDecoration: "none" }}><Button variant="contained">Sign In</Button></Link>
                 </Stack>
                 <p>Don't have an account?  <Link to="/sign-up">Sign up here!</Link></p>
             </Grid>
