@@ -37,6 +37,7 @@ const OwnerSettings = () => {
       if (event.target.name === 'email') {
          setEmail(event.target.value);
       }
+
       if (event.target.name === 'currentPassword') {
          setCurrentPassword(event.target.value);
       }
@@ -46,6 +47,7 @@ const OwnerSettings = () => {
       if (event.target.name === 'confirmPassword') {
          setConfirmPassword(event.target.value);
       }
+
       if (event.target.name === 'firstName') {
          setFirstName(event.target.value);
       }
@@ -58,6 +60,7 @@ const OwnerSettings = () => {
       if (event.target.name === 'birthday') {
          setBirthday(event.target.value);
       }
+
    }
 
    const handleFormSubmit = async (event) => {
@@ -100,7 +103,6 @@ const OwnerSettings = () => {
             }
          });
          if (putOwnerData) {
-            console.log(putOwnerData);
             saveOwner(putOwnerData.data.putOwner);
          }
       } catch (error) {
@@ -108,7 +110,6 @@ const OwnerSettings = () => {
       }
       //send put request
       //if success, update local storage
-
    }
 
    return (
