@@ -44,6 +44,7 @@ export default function Home() {
                         sex={item.sex}
                         headline={item.headline}
                         about={item.about}
+                        isFixed={item.isFixed === true ? "Yes" : "No"}
                         _id={item._id}
                       />
                     );
