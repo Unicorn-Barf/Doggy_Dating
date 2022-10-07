@@ -41,7 +41,7 @@ const Conversations = ({ setConversationId, setToggleChat }) => {
 
     return (
         <div>
-            <h1>These are your Conversations</h1>
+            <h2 style={{ marginTop: '3rem'}}>These are your Conversations</h2>
             {convos.map((convo) => {
                 return (
                         <h2

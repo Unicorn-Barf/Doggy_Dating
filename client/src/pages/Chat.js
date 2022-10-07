@@ -20,10 +20,9 @@ const Chat = ({ convoId = null, toggle = false }) => {
                 ? (
                     <Button
                     size="small" variant="contained"
-                    color="secondary"
                         onClick={() => setToggleChat(!toggleChat)}
                     >
-                        Back to Conversations
+                        Back to Chats
                     </Button>
                 )
                 : ''
