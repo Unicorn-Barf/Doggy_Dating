@@ -30,6 +30,7 @@ export default function Navbar() {
         dispatch(storeDogs([]));
         dispatch(storeCurrentDog({}));
         dispatch(storeOwner({}));
+        localStorage.clear();
         Auth.logout();
         dispatch(toggleLoggedIn(false));
         navigate('/');

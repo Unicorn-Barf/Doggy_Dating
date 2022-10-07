@@ -48,6 +48,7 @@ const typeDefs = gql`
       birthday: String
       sex: String
       weight: Int
+      isFixed: Boolean
       personality: [String]
       headline: String
       about: String
@@ -75,6 +76,7 @@ const typeDefs = gql`
       birthday: String
       sex: String
       weight: Int
+      isFixed: Boolean
       personality: [String]
       headline: String
       about: String

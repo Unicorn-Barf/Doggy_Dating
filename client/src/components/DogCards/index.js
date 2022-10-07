@@ -32,13 +32,13 @@ const DogCards = ({
                     <div style={{ padding: 10, display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
                         {name}
                         <StarBorderIcon />
-                    </div>
-                    <div variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }}>
+                    </Typography>
+                    <Typography variant="body" color="text.secondary" style={{ display: "flex", justifyContent: "space-evenly" }} component="div">
                         <div>{breed}</div>
                         <div>{sex}</div>
                         <div>Fixed?: {isFixed}</div>
-                    </div>
-                    <div variant="body2" color="text.secondary">
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" component="div">
                         <div style={{ fontWeight: "bold", marginTop: "10px" }}>"{headline}"</div><br />
                     </div>
                 </CardContent>
