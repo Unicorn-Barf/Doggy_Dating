@@ -344,7 +344,10 @@ const DogSettings = () => {
                               spacing={2}
                               justifyContent="center"
                            >
-                              <Button variant="contained" onClick={handleFormSubmit}>
+                              <Button
+                                 variant="contained"
+                                 onClick={handleFormSubmit}
+                              >
                                  Submit Form
                               </Button>
                               <Button sx={{ my: 2 }}
