@@ -42,3 +42,21 @@ export const setCurrentDogIndex = (index) => {
         localStorage.removeItem('dogArr_index');
     }
 };
+
+export const pushDogToArr = (dogData) => {
+   const dogArray = getSavedDogArr();
+   dogArray.push(dogData);
+   saveDogArr(dogArray);
+}
+
+export const deleteCurrDogFromArr = () => {
+   const oldDogArray = getSavedDogArr();
+   const newDogArray = [];
+   for(let i=0; i<oldDogArray; i++) {
+      if(i !== getCurrentDogIndex) {
+         newDogArray.push(oldDogArray[i]);
+      }
+   }
+   saveDogArr(newDogArray);
+   setCurrentDogIndex(0);
+}

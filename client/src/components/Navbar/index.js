@@ -24,6 +24,7 @@ export default function Navbar() {
         dispatch(storeDogs([]));
         dispatch(storeCurrentDog({}));
         dispatch(storeOwner({}));
+        localStorage.clear();
         Auth.logout();
         navigate('/');
     }
@@ -52,7 +53,7 @@ export default function Navbar() {
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/profile/:dogId">Profile</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/chat">Chat</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/create-dog">Register New Dog</Link></Button>
-                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/dog/settings/:dogId">Dog Settings</Link></Button>
+                            <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/dog/settings/">Dog Settings</Link></Button>
                             <Button color="inherit"><Link style={{ textDecoration: "none", color: "white" }} to="/owner/settings">Owner Settings</Link></Button>
                             <Button color="inherit" onClick={handleLogOut}><Link style={{ textDecoration: "none", color: "white" }}>Sign Out</Link></Button>
                         </div>
