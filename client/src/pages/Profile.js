@@ -16,7 +16,6 @@ import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
 let myDogId = "633bac1663a38b67c5635360";
 
-
 // setting up and grabbing dogId to be used for chat feature
 export default function DogProfile() {
     const navigate = useNavigate();
@@ -82,16 +81,11 @@ export default function DogProfile() {
                     <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                         {/* <Grid item> */}
                         <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 3 }}>
-                            {/* <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
-                            <Grid item xs={6}> */}
                             {dogData.loading
                                 ?
                                 <h1>Loading...</h1>
                                 :
                                 <div style={{ my: 1 }}>
-                                    {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
-                                    {/* <img src={dog.images} style={{ maxWidth: "500px", my: 1 }} /> */}
-                                    {/* </div> */}
                                     <Stack
                                         justifyContent="center"
                                     >
@@ -117,11 +111,8 @@ export default function DogProfile() {
                                     {/* let date= moment.unix(dog.birthday);
                                         date.format(how i want date to be formatted) */}
 
-                                    {/* </Grid> */}
-
-                                    {/* <Grid item xs={6}> */}
                                     <div style={{ display: "flex", justifyContent: "center", padding: 3, my: 1 }}>
-                                        <h3>{dog.ownerId}</h3>
+                                        <h3>{dog.ownerId.username}</h3>
                                     </div>
                                 </div>
                             }
@@ -148,18 +139,10 @@ export default function DogProfile() {
                                     Edit Dog
                                 </Button>
                             </Stack>
-                            {/* </Grid>
-                        </Grid> */}
-                            {/* </div> */}
                         </Box>
-                        {/* </Grid> */}
                     </Paper>
                 </Container>
             </Grid>
         </div>
     )
 }
-
-
-// export default DogProfile;
-

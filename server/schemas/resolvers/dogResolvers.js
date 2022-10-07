@@ -5,7 +5,7 @@ const { PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require(
 const dogQuery = {
    getDog: async (parent, args, context) => {
       try {
-         const dog = await Dog.findById(args.dogId);
+         const dog = await Dog.findById(args.dogId).populate("ownerId");
          if(!dog) {
             throw new PersistedQueryNotFoundError('Dog not found');
          }

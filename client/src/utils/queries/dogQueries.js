@@ -23,7 +23,7 @@ export const GET_DOG_BY_DOG_ID = gql`
 query GetDog($dogId: ID!) {
    getDog(dogId: $dogId) {
      _id
-     ownerId
+     ownerId{username}
      name
      breed
      birthday
