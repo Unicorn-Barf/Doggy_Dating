@@ -50,7 +50,7 @@ const dogMutation = {
          
          const dog = await Dog.create({
             ...args.dog
-         }).populate('ownerId');
+         });
          const postDog = await Owner.findByIdAndUpdate(context.owner._id, { $addToSet:{ dogIds: dog._id } }, { new: true });
          
          return dog;
