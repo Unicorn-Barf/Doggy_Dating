@@ -5,7 +5,7 @@ const { PersistedQueryNotFoundError, ForbiddenError, UserInputError } = require(
 const dogQuery = {
    getDog: async (parent, args, context) => {
       try {
-         const dog = await Dog.findById(args.dogId);
+         const dog = await Dog.findById(args.dogId).populate('ownerId');
          if(!dog) {
             throw new PersistedQueryNotFoundError('Dog not found');
          }
@@ -17,7 +17,7 @@ const dogQuery = {
    },
    getAllDogs: async (parent, args, context) => {
       try {
-         const dogs = await Dog.find();
+         const dogs = await Dog.find().populate('ownerId');
          if(!dogs) {
             throw new PersistedQueryNotFoundError('Dogs not found');
          }
@@ -34,7 +34,7 @@ const dogQuery = {
          }
          const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
 
-         const dogs = await Dog.find({ ownerId: owner._id });
+         const dogs = await Dog.find({ ownerId: owner._id }).populate('ownerId');
 
          return dogs;
       } catch(error) {
@@ -50,7 +50,7 @@ const dogMutation = {
          
          const dog = await Dog.create({
             ...args.dog
-         });
+         }).populate('ownerId');
          const postDog = await Owner.findByIdAndUpdate(context.owner._id, { $addToSet:{ dogIds: dog._id } }, { new: true });
          
          return dog;
@@ -69,7 +69,7 @@ const dogMutation = {
                new: true,
                omitUndefined: true,
             }
-         );
+         ).populate('ownerId');
          return updatedDog;
       } catch(error) {
          console.error(error);
@@ -79,7 +79,7 @@ const dogMutation = {
       try {
          const dog = await Dog.findById(args.dogId);
          if(dog.ownerId.toString() === context.owner._id.toString()) {
-            const deletedDog = await Dog.findByIdAndDelete(args.dogId);
+            const deletedDog = await Dog.findByIdAndDelete(args.dogId).populate('ownerId');
             return deletedDog;
          } else {
             throw new ForbiddenError('You cannot delete this dog');
@@ -100,7 +100,7 @@ const dogMutation = {
             {
                new: true,
             }
-         );
+         ).populate('ownerId');
          return dog;
       } catch(error) {
          console.error(error);
