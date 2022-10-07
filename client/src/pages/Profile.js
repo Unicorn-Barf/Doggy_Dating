@@ -130,14 +130,14 @@ export default function DogProfile() {
                                     Playdate
                                 </Button>
 
-                                <Button
+                                {/* <Button
                                     size="medium"
                                     variant="contained"
                                     style={{ margin: 5 }}
                                     onClick={(event) => (event)}
                                 >
                                     Edit Dog
-                                </Button>
+                                </Button> */}
                             </Stack>
                         </Box>
                     </Paper>

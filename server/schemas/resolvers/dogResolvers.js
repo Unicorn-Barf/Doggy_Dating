@@ -17,7 +17,7 @@ const dogQuery = {
    },
    getAllDogs: async (parent, args, context) => {
       try {
-         const dogs = await Dog.find();
+         const dogs = await Dog.find().populate("ownerId");
          if(!dogs) {
             throw new PersistedQueryNotFoundError('Dogs not found');
          }
@@ -32,9 +32,9 @@ const dogQuery = {
          if(args.ownerId && args.username) {
             throw new UserInputError('Cannot have both ownerId and username');
          }
-         const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
+         const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] }).populate("ownerId");
 
-         const dogs = await Dog.find({ ownerId: owner._id });
+         const dogs = await Dog.find({ ownerId: owner._id }).populate("ownerId");
 
          return dogs;
       } catch(error) {
