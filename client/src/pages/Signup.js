@@ -16,9 +16,11 @@ import { useState } from "react";
 import Auth from "../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOwner } from "../slices/ownerSlice";
-
+import { saveOwner } from "../utils/localStorage";
+import { useNavigate } from "react-router-dom";
 function Signup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
@@ -96,6 +98,8 @@ function Signup() {
           ...loggedInOwner,
         })
       );
+      saveOwner(loggedInOwner);
+      navigate("/create-dog");
     } catch (err) {
       console.log(err);
     }

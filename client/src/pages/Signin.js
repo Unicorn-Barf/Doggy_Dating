@@ -63,6 +63,7 @@ const Signin = () => {
       ...userFormData, //access the properties which is email and password
       [name]: value, //
     });
+    setValidationError(false);
   };
 
   const handleFormSubmit = async (event) => {
