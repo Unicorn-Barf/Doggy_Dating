@@ -120,7 +120,7 @@ export default function Navbar() {
                         {Auth.loggedIn()
                             ?
                             <div id="loggedInNav">
-                                <Button color="inherit" onClick={handleClose} onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/">Home</Link></Button>
+                                <Button color="inherit" ><Link style={{ textDecoration: "none", color: "white" }} to="/" onClose={handleClose}>Home</Link></Button>
                                 <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to={`/profile/${myDogId}`}>Profile</Link></Button>
                                 <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/chat">Chat</Link></Button>
                                 <Button color="inherit" onClose={handleClose}><Link style={{ textDecoration: "none", color: "white" }} to="/create-dog">Register New Dog</Link></Button>
@@ -130,7 +130,7 @@ export default function Navbar() {
                                     aria-controls={open ? 'basic-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
-                                    onClick={handleClick}
+                                    onClick={handleClickChange}
                                     onClose={handleClose}
                                 >
                                     Switch Dogs
@@ -277,13 +277,14 @@ export default function Navbar() {
                                         horizontal: 'right',
                                     }}
                                     open={Boolean(anchorElNav)}
+                                    onClick={handleClick}
                                     onClose={handleClose}
                                     sx={{
                                         display: { xs: 'block', md: 'none' },
                                     }}
                                 >
                                     <div id="loggedOutNav">
-                                        <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<HouseIcon />} onClose={handleClose}><Link to="/">Home</Link></Button></MenuItem>
+                                        <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<HouseIcon />} ><Link to="/" onClose={handleClose}>Home</Link></Button></MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<LoginIcon />}><Link to="/sign-in">Sign In</Link></Button></MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/sign-up">Sign Up</Link></Button></MenuItem>
                                     </div>
