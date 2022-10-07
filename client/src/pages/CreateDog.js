@@ -21,14 +21,17 @@ import { Grid, Paper } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { CREATE_DOG } from '../utils/mutations';
 // import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 import { pushDogToArr } from '../utils/localStorage';
+import { Navigate } from 'react-router-dom';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [createDog] = useMutation(CREATE_DOG);
 
     const [name, setName] = React.useState('');
@@ -130,6 +133,7 @@ export default function CreateDog() {
             });
             console.log(data);
             pushDogToArr(data.postDog);
+            navigate(`/profile/${data.postDog._id}`);
         } catch (error) {
             console.log(error);
         }

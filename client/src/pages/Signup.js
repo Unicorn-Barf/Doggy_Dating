@@ -29,6 +29,7 @@ function Signup() {
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
+  const [ errorState, setErrorState ] = React.useState
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstName: "",
@@ -112,6 +113,7 @@ function Signup() {
     <div className="main-container">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container maxWidth="sm">
+<<<<<<< Updated upstream
           <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
             <h1>Sign Up for Bone Buddies</h1>
             <p>Sign up using the form below.</p>
@@ -122,6 +124,130 @@ function Signup() {
               }}
               noValidate
               autoComplete="off"
+=======
+          <h2>Sign Up for Bone Buddies</h2>
+          <p>Sign up using the form below.</p>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "100%" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              required
+              id="outlined-basic"
+              label="Username"
+              variant="outlined"
+              helperText="Please create a username."
+              name="username"
+              onChange={handleInputChange}
+              value={userFormData.username}
+            />
+            <TextField
+              required
+              id="outlined-basic"
+              label="First Name"
+              variant="outlined"
+              helperText="Please enter your first name."
+              name="firstName"
+              onChange={handleInputChange}
+              value={userFormData.firstName}
+            />
+            <TextField
+              required
+              id="outlined-basic"
+              label="Last Name"
+              variant="outlined"
+              helperText="Please enter your last name."
+              name="lastName"
+              onChange={handleInputChange}
+              value={userFormData.lastName}
+            />
+            <TextField
+              required
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              helperText="Please enter your email address."
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+            />
+            <TextField
+              required
+              id="outlined-basic"
+              label="Create Password"
+              variant="outlined"
+              helperText="Please create a password."
+              name="password"
+              type="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+            />
+            <TextField
+              required
+              id="outlined-basic"
+              label="Confirm Password"
+              variant="outlined"
+              helperText="Please type your password again."
+              name="confirmpassword"
+              type="password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmpassword}
+            />
+          </Box>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "100%" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <MobileDatePicker
+              id="date"
+              label="Birthday"
+              type="date"
+              disableFuture
+              value={userFormData.birthday}
+              renderInput={(params) => <TextField {...params} />}
+              helperText="Please select your birthday."
+              name="birthday"
+              onChange={(birthday) =>
+                setUserFormData({ ...userFormData, birthday })
+              }
+              style={{ width: '100%' }}
+            />
+            {/* <TextField
+            required
+            id="outlined-select-sex"
+            select
+            label="Sex"
+            value={userFormData.sex}
+            helperText="Please select your dog's sex."
+            name="sex"
+            onChange={handleInputChange}
+          >
+            {sexes.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField> */}
+          </Box>
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
+            <Button
+              sx={{ my: 2 }}
+              variant="contained"
+              type="button"
+              onClick={handleFormSubmit}
+>>>>>>> Stashed changes
             >
               <TextField
                 required
