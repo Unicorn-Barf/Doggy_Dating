@@ -1,5 +1,6 @@
 #navbar {
     background-color: var(--light-purp);
+    border-bottom: 5px solid var(--dark-purp);
 }
 
 #navbar a:active {

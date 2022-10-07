@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import { GET_DOG_BY_ID } from '../utils/queries';
 import { PUT_DOG, DELETE_DOG } from "../utils/mutations";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,7 +12,7 @@ import { useSelector } from "react-redux";
 import FormHelperText from '@mui/material/FormHelperText';
 import { getSavedDogArr, getCurrentDogIndex, saveDogArr, pushDogToArr, deleteCurrDogFromArr } from "../utils/localStorage";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
-import Grid from '@mui/material/Grid';
+import { Paper } from '@mui/material';
 import { current } from "@reduxjs/toolkit";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
@@ -57,6 +58,8 @@ const DogSettings = () => {
       'Independent',
       'Laid Back',
    ];
+
+   // const dog = getDog();
 
    const sexes = ['Male', 'Female'];
 
@@ -191,11 +194,11 @@ const DogSettings = () => {
                dogId: dogId,
             }
          });
-         if(deleteDogData.data.deleteDog) {
+         if (deleteDogData.data.deleteDog) {
             deleteCurrDogFromArr();
             navigate("/home");
          }
-      } catch(error) {
+      } catch (error) {
          console.error(error);
       }
    }
@@ -203,143 +206,183 @@ const DogSettings = () => {
    return (
       <>
          {dogArray.length === 0
-            ? <div><h1>You have no Dogs</h1></div>
-            : <Grid container>
-               <FormControl style={{ marginTop: "15px" }}>
-                  <TextField
-                     sx={{ my: 1 }}
-                     type="text"
-                     name="name"
-                     fullWidth
-                     label="Name"
-                     onChange={handleInputChange}
-                     value={dogName}
-                     variant="outlined"
-                  />
-                  <TextField
-                     sx={{ my: 1 }}
-                     type="text"
-                     name="breed"
-                     fullWidth
-                     label="Breed"
-                     onChange={handleInputChange}
-                     value={dogBreed}
-                     variant="outlined"
-                  />
-                  <FormControl>
-                     <InputLabel id="select-sex-label">Sex</InputLabel>
-                     <Select
-                        labelId="select-sex-label"
-                        label="Sex"
-                        name="sex"
-                        onChange={handleInputChange}
-                        value={dogSex}
-                     >
-                        {
-                           sexes.map((item, key) => {
-                              return <MenuItem key={key} value={item}>{item}</MenuItem>
-                           })
-                        }
-                     </Select>
-                  </FormControl>
-                  <TextField
-                     sx={{ my: 1 }}
-                     type="text"
-                     name="weight"
-                     fullWidth
-                     label="weight"
-                     onChange={handleInputChange}
-                     value={dogWeight}
-                     variant="outlined"
-                  />
-                  <LocalizationProvider dateAdapter={AdapterDayjs} name="birthday">
-                     <MobileDatePicker
-                        id="date"
-                        label="Birthday"
-                        type="date"
-                        value={dogBirthday}
-                        renderInput={(params) => <TextField {...params} />}
-                        name="birthday"
-                        onChange={(birthday) => setDogBirthday(birthday)}
-                     />
-                  </LocalizationProvider>
+            ? <div><h1>You have no dogs. ☹️</h1></div>
+            : <div className="main-container">
+               <Container maxWidth="sm">
+                  <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+                     <div>
+                        <h1>Update {dogName}'s' Info</h1>
+                        <p>Review and update {dogName}'s information here.</p>
+                     </div>
+                     <FormControl>
+                        <Box
+                           component="form"
+                           sx={{
+                              '& > :not(style)': { m: 1, width: '100%' },
+                              maxWidth: '100%',
+                           }}
+                           noValidate
+                           autoComplete="off"
+                        >
+                           <TextField
+                              sx={{ my: 1 }}
+                              type="text"
+                              name="name"
+                              fullWidth
+                              label="Name"
+                              onChange={handleInputChange}
+                              value={dogName}
+                              variant="outlined"
+                           />
+                           <TextField
+                              sx={{ my: 1 }}
+                              type="text"
+                              name="breed"
+                              fullWidth
+                              label="Breed"
+                              onChange={handleInputChange}
+                              value={dogBreed}
+                              variant="outlined"
+                           />
+                           <FormControl>
+                              <InputLabel id="select-sex-label">Sex</InputLabel>
+                              <Select
+                                 labelId="select-sex-label"
+                                 label="Sex"
+                                 name="sex"
+                                 onChange={handleInputChange}
+                                 value={dogSex}
+                              >
+                                 {
+                                    sexes.map((item, key) => {
+                                       return <MenuItem key={key} value={item}>{item}</MenuItem>
+                                    })
+                                 }
+                              </Select>
+                           </FormControl>
+                           <TextField
+                              sx={{ my: 1 }}
+                              type="text"
+                              name="weight"
+                              fullWidth
+                              label="Weight"
+                              onChange={handleInputChange}
+                              value={dogWeight}
+                              variant="outlined"
+                           />
+                           <LocalizationProvider dateAdapter={AdapterDayjs} name="birthday">
+                              <MobileDatePicker
+                                 id="date"
+                                 label="Birthday"
+                                 type="date"
+                                 value={dogBirthday}
+                                 renderInput={(params) => <TextField {...params} />}
+                                 name="birthday"
+                                 onChange={(birthday) => setDogBirthday(birthday)}
+                              />
+                           </LocalizationProvider>
 
-                  <FormControl>
-                     <InputLabel className="select-fixed-label">Spayed or Neutered?</InputLabel>
-                     <Select
-                        labelId="select-fixed-label"
-                        value={dogIsFixed}
-                        name="isFixed"
-                        label="Fix"
-                        onChange={handleInputChange}
-                     >
-                        <MenuItem value={"true"}>Yes</MenuItem>
-                        <MenuItem value={"false"}>No</MenuItem>
-                     </Select>
-                     <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
-                  </FormControl>
+                           <FormControl>
+                              <InputLabel className="select-fixed-label">Spayed or Neutered?</InputLabel>
+                              <Select
+                                 labelId="select-fixed-label"
+                                 value={dogIsFixed}
+                                 name="isFixed"
+                                 label="Fix"
+                                 onChange={handleInputChange}
+                              >
+                                 <MenuItem value={"true"}>Yes</MenuItem>
+                                 <MenuItem value={"false"}>No</MenuItem>
+                              </Select>
+                              <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
+                           </FormControl>
 
-                  <FormControl sx={{ width: '100%' }}>
-                     <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
-                     <Select
-                        labelId="multiple-checkbox-label"
-                        id="multiple-checkbox"
-                        multiple
-                        label="Personality"
-                        value={dogPersonality}
-                        name="personality"
-                        onChange={handlePersonalityChange}
-                        input={<OutlinedInput label="Personality" />}
-                        renderValue={(selected) => selected.join(', ')}
-                        MenuProps={MenuProps}
-                     >
-                        {personalities.map((traits) => (
-                           <MenuItem key={traits} value={traits}>
-                              <Checkbox checked={dogPersonality.indexOf(traits) > -1} />
-                              <ListItemText primary={traits} />
-                           </MenuItem>
-                        ))}
-                     </Select>
-                     <FormHelperText>Please select all that apply.</FormHelperText>
-                  </FormControl>
+                           <FormControl sx={{ width: '100%' }}>
+                              <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
+                              <Select
+                                 labelId="multiple-checkbox-label"
+                                 id="multiple-checkbox"
+                                 multiple
+                                 label="Personality"
+                                 value={dogPersonality}
+                                 name="personality"
+                                 onChange={handlePersonalityChange}
+                                 input={<OutlinedInput label="Personality" />}
+                                 renderValue={(selected) => selected.join(', ')}
+                                 MenuProps={MenuProps}
+                              >
+                                 {personalities.map((traits) => (
+                                    <MenuItem key={traits} value={traits}>
+                                       <Checkbox checked={dogPersonality.indexOf(traits) > -1} />
+                                       <ListItemText primary={traits} />
+                                    </MenuItem>
+                                 ))}
+                              </Select>
+                              <FormHelperText>Please select all that apply.</FormHelperText>
+                           </FormControl>
 
-                  <TextField
-                     sx={{ my: 1 }}
-                     type="text"
-                     name="headline"
-                     fullWidth
-                     label="Headline"
-                     onChange={handleInputChange}
-                     value={dogHeadline}
-                     variant="outlined"
-                  />
-                  <TextField
-                     sx={{ my: 1 }}
-                     type="text"
-                     name="about"
-                     fullWidth
-                     label="About"
-                     onChange={handleInputChange}
-                     value={dogAbout}
-                     variant="outlined"
-                  />
-                  <Button variant="contained" onClick={handleFormSubmit}>
-                     Submit Form
-                  </Button>
-                  <Button variant="contained" color="error" onClick={handleOpen}>
-                     Delete Dog
-                  </Button>
-                  <Modal open={open} onClose={handleClose}>
-                     <Box sx={modalStyle}>
-                        <h2>Are you sure you want to delete {dogName}?</h2>
-                        <Button variant="contained" color="error" onClick={handleDeleteSubmit}>
-                           Delete
-                        </Button>
-                     </Box>
-                  </Modal>
-                  <DogImageUploadWidget />
-               </FormControl>
-            </Grid>}
+                           <TextField
+                              sx={{ my: 1 }}
+                              type="text"
+                              name="headline"
+                              fullWidth
+                              label="Headline"
+                              onChange={handleInputChange}
+                              value={dogHeadline}
+                              variant="outlined"
+                           />
+                           <TextField
+                              sx={{ my: 1 }}
+                              type="text"
+                              name="about"
+                              fullWidth
+                              label="About"
+                              onChange={handleInputChange}
+                              value={dogAbout}
+                              variant="outlined"
+                           />
+                           <Stack
+                              direction="row"
+                              spacing={2}
+                              justifyContent="center"
+                           >
+                              <Button variant="contained" onClick={handleFormSubmit}>
+                                 Submit Form
+                              </Button>
+                              <Button sx={{ my: 2 }}
+                                 variant="contained"
+                                 color="error"
+                                 onClick={handleOpen}
+                              >
+                                 Delete Dog
+                              </Button>
+
+                              <Modal open={open} onClose={handleClose}>
+                                 <Box sx={modalStyle}>
+                                    <h2>Are you sure you want to delete {dogName}?</h2>
+                                    <Stack
+                                       direction="row"
+                                       spacing={2}
+                                       justifyContent="center"
+                                    >
+                                       <Button
+                                          sx={{ my: 2 }}
+                                          variant="contained"
+                                          color="error"
+                                          onClick={handleDeleteSubmit}
+                                       >
+                                          Delete
+                                       </Button>
+                                    </Stack>
+                                 </Box>
+                              </Modal>
+                              <DogImageUploadWidget />
+                           </Stack>
+                        </Box>
+                     </FormControl>
+                  </Paper>
+               </Container>
+            </div>}
       </>
    )
 }
