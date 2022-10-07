@@ -81,48 +81,55 @@ export default function DogProfile() {
                 <Container maxWidth="sm">
                     <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                         {/* <Grid item> */}
-                            <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 3 }}>
-                                {/* <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
+                        <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 3 }}>
+                            {/* <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
                             <Grid item xs={6}> */}
-                                {dogData.loading
-                                    ?
-                                    <h1>Loading...</h1>
-                                    :
-                                    <div style={{ my: 1 }}>
-                                        {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
-                                        {/* <img src={dog.images} style={{ maxWidth: "500px", my: 1 }} /> */}
-                                        {/* </div> */}
-                                        <Stack
-                                            justifyContent="center"
-                                        >
-                                            <img
-                                                src={dog.images}
-                                                style={{ maxWidth: "500px", my: 1, alignSelf: "center" }}
-                                                alt="dog profile pic"
-                                            />
-                                        </Stack>
-                                        <div style={{ padding: 10, display: "flex", justifyContent: "space-between", alignContent: "center", fontWeight: "bold" }}>
-                                            <h1>{dog.name}</h1>
-                                            <StarBorderIcon />
-                                        </div>
+                            {dogData.loading
+                                ?
+                                <h1>Loading...</h1>
+                                :
+                                <div style={{ my: 1 }}>
+                                    {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
+                                    {/* <img src={dog.images} style={{ maxWidth: "500px", my: 1 }} /> */}
+                                    {/* </div> */}
+                                    <Stack
+                                        justifyContent="center"
+                                    >
+                                        <img
+                                            src={dog.images}
+                                            style={{ maxWidth: "500px", my: 1, alignSelf: "center" }}
+                                            alt="dog profile pic"
+                                        />
+                                    </Stack>
+                                    <div style={{ padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: "bold" }}>
+                                        <h1>{dog.name}</h1>
+                                        <StarBorderIcon />
+                                    </div>
 
-                                        <div>
-                                            <h3>{dog.breed} | {dog.weight} | {dog.sex} </h3>
-                                        </div>
-                                        {/* <h3>{dog.about}</h3> */}
+                                    <div style={{ display: "flex", justifyContent: "space-around", padding: 3, my: 1 }}>
+                                        <div>{dog.breed}</div> | <div>{dog.weight} lbs.</div> | <div>{dog.sex} </div>
+                                    </div>
 
-                                        {/* let date= moment.unix(dog.birthday);
-                    date.format(how i want date to be formatted) */}
+                                    <div style={{ display: "flex", justifyContent: "left", padding: 3, my: 1 }}>
+                                        <p style={{ textAlign: "left" }}>{dog.about}</p>
+                                    </div>
 
-                                        {/* </Grid> */}
+                                    {/* let date= moment.unix(dog.birthday);
+                                        date.format(how i want date to be formatted) */}
 
-                                        {/* <Grid item xs={6}> */}
+                                    {/* </Grid> */}
+
+                                    {/* <Grid item xs={6}> */}
+                                    <div style={{ display: "flex", justifyContent: "center", padding: 3, my: 1 }}>
                                         <h3>{dog.ownerId}</h3>
                                     </div>
-                                }
-
-
-
+                                </div>
+                            }
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                                justifyContent="center"
+                            >
                                 <Button
                                     size="medium"
                                     variant="contained"
@@ -132,11 +139,20 @@ export default function DogProfile() {
                                     Playdate
                                 </Button>
 
-                                <Button variant="contained" onClick={(event) => (event)}>Edit Dog</Button>
-                                {/* </Grid>
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    style={{ margin: 5 }}
+                                    variant="contained"
+                                    onClick={(event) => (event)}
+                                >
+                                    Edit Dog
+                                </Button>
+                            </Stack>
+                            {/* </Grid>
                         </Grid> */}
-                                {/* </div> */}
-                            </Box>
+                            {/* </div> */}
+                        </Box>
                         {/* </Grid> */}
                     </Paper>
                 </Container>
