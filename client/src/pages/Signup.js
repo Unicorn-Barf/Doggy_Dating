@@ -113,7 +113,6 @@ function Signup() {
     <div className="main-container">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container maxWidth="sm">
-<<<<<<< Updated upstream
           <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
             <h1>Sign Up for Bone Buddies</h1>
             <p>Sign up using the form below.</p>
@@ -124,7 +123,7 @@ function Signup() {
               }}
               noValidate
               autoComplete="off"
-=======
+           >
           <h2>Sign Up for Bone Buddies</h2>
           <p>Sign up using the form below.</p>
           <Box
