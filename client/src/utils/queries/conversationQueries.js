@@ -8,6 +8,7 @@ query GetAllConversationsByDogId($dogId: ID!) {
       messages {
         messageId
         dogId
+        dogName
         message
         createdAt
       }
@@ -20,6 +21,7 @@ query GetConversationById($conversationId: ID!) {
   getConversationById(conversationId: $conversationId) {
     messageId
     dogId
+    dogName
     message
     createdAt
   }

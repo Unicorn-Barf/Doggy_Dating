@@ -6,7 +6,7 @@ import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
 
 const Chat = ({ convoId = null, toggle = false }) => {
-    const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+    const { _id: myDogId, name: myDogName } = getSavedDogArr()[getCurrentDogIndex()];
     let initialConvoId = useLocation().state?.convoId || convoId;
     let initialToggle = useLocation().state?.toggle || toggle;
     const [toggleChat, setToggleChat] = useState(initialToggle);
@@ -30,6 +30,7 @@ const Chat = ({ convoId = null, toggle = false }) => {
 
             {toggleChat
                 ? <Messages
+                    myDogName={myDogName}
                     myDogId={myDogId}
                     conversationId={conversationId}
                 />
