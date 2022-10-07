@@ -29,7 +29,7 @@ function Signup() {
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
-  const [ errorState, setErrorState ] = React.useState
+  // const [ errorState, setErrorState ] = React.useState();
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstName: "",
