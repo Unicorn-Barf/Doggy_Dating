@@ -59,8 +59,6 @@ const DogSettings = () => {
       'Laid Back',
    ];
 
-   // const dog = getDog();
-
    const sexes = ['Male', 'Female'];
 
    let dogArray = getSavedDogArr();
