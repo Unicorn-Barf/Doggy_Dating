@@ -69,6 +69,7 @@ const conversationMutation = {
             },
             {
                new: true,
+               populate: { path: 'dogIds' }
             },
          );
 
