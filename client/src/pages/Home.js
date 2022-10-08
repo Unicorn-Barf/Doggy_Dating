@@ -18,40 +18,43 @@ export default function Home() {
    //Use query to get all dogs from the database
    const dogData = useQuery(GET_ALL_DOGS);
    const dogArray = dogData.data?.getAllDogs || [];
+   const maxPages = Math.ceil(dogData.data?.getAllDogs.length/10) - 1 || 0;
 
    const [page, setPage] = useState(0);
    const [dogDisplay, setDogDisplay] = useState([]);
-   const [maxPages, setMaxPages] = useState(0);
    const [initialized, setInitialized] = useState(false);
 
 
    const incrementPage = () => {
       if (page < maxPages) {
+         setDisplay(page + 1);
          setPage(page + 1);
+         return;
       }
-      setDisplay();
+      setDisplay(page);
    }
 
    const decrementPage = () => {
       if (page > 0) {
+         setDisplay(page - 1);
          setPage(page - 1);
+         return;
       }
-      setDisplay();
+      setDisplay(page);
    }
 
-   const setDisplay = () => {
+   const setDisplay = (page) => {
       const start = page === 0 ? 0 : page * 10; //0 start 0,10 1 start 10,20
       const end = start + 10;
-      console.log("maxPages: " + maxPages);
-      console.log("Page: " + page + ", Start: " + start + ", End: " + end);
+      // Testing Console logs: save for later!
+      // console.log("maxPages: " + maxPages);
+      // console.log("Page: " + page + ", Start: " + start + ", End: " + end);
       setDogDisplay(dogArray.slice(start, end));
    }
 
    const initializePage = () => {
       if (dogDisplay.length === 0 && !dogData.loading) {
-         console.log("initializing");
-         setMaxPages(Math.ceil(dogData.data.getAllDogs.length / 10))
-         decrementPage();
+         setDisplay(page);
          setInitialized(true);
       }
    }
@@ -96,7 +99,7 @@ export default function Home() {
                         </>
                      )}
                   </Grid>
-                  <Button onClick={decrementPage}>Decrement</Button><p>Page: {page}</p><Button onClick={incrementPage}>Increment</Button>
+                  <Button onClick={decrementPage}>Decrement</Button><p>Page: {page + 1}</p><Button onClick={incrementPage}>Increment</Button>
                </>
             ) :
             <MainLoggedOut />
