@@ -104,6 +104,8 @@ const Signin = () => {
         getDogs({
           variables: { ownerId: signedInOwner._id },
         });
+      } else {
+        navigate("/home");
       }
     } catch (error) {
       setValidationError(true);
