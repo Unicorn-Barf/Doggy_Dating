@@ -59,6 +59,7 @@ export default function Navbar() {
         setCurrentDogIndex(index);
         dispatch(storeCurrentDog(getSavedDogArr()[index]));
         setAnchorEl(null);
+        // navigate('/dog/settings');
     };
 
     const currentDog = useSelector(getDog);
