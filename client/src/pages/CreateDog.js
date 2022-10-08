@@ -136,19 +136,6 @@ export default function CreateDog() {
         } catch (error) {
             console.log(error);
         }
-
-        // const validates = (values => {
-        //     // regexr.com/2rhq7
-        //     const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
-        // });
-        // const { data, error } = await createDog({
-        //     variables: {
-        //         dog: {
-        //             ...dogFormData,
-        //         }
-        //     }
-        // });
-        // console.log(dogFormData);
     };
 
     return (
@@ -241,7 +228,7 @@ export default function CreateDog() {
                                 <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
-                                       labelId="multiple-checkbox-label"
+                                        labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
                                         label="Personality"

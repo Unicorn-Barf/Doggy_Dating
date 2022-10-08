@@ -27,3 +27,7 @@ button {
     margin-right: auto; */
     max-width: 100%;
 }
+
+#dangerBtn {
+    background-color: #ff0000 !important;
+}
