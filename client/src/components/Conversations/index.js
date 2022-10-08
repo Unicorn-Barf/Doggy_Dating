@@ -42,16 +42,19 @@ const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
 
     return (
         <div style={{ textAlign: "center" }}>
-            <h2 style={{ marginTop: '3rem' }}>These are your Conversations</h2>
+            <h2 style={{ marginTop: '3rem' }}>These are your conversations:</h2>
             {convos.map((convo) => {
                 return (
-                    <>
-                        {/* <img
-                            src={dog.images}
-                            style={{ maxWidth: "500px", my: 1, alignSelf: "center" }}
+                    <div
+                        key={convo._id}
+                        style={{ display: "flex", alignContent: "center", justifyContent: "center" }}
+                    >
+                        <img
+                            src={convo.dogIds.find(dog => dog.name !== myDogName).images[0] || 'https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'}
+                            style={{ backgroundSize: "cover", borderRadius: "50%", width: "60px", height: "60px", my: 1, alignSelf: "center", margin: "10px" }}
                             alt="dog profile pic"
-                        /> */}
-                        <Button size="large" style={{ fontSize: '1.5rem', color: "#E54F6D"}}
+                        />
+                        <Button size="large" style={{ fontSize: '1.5rem' }}
                             key={convo._id}
                             data-convoid={convo._id}
                             onClick={handleChatRoute}
@@ -60,7 +63,7 @@ const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
                                 if (myDogName !== dog.name) return dog.name;
                             })}
                         </Button>
-                    </>
+                    </div>
                 )
             })
             }

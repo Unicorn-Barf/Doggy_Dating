@@ -37,4 +37,5 @@ h2 {
 
 .main-container button {
     background-color: var(--pink) !important;
+    color: #fff !important;
 }
