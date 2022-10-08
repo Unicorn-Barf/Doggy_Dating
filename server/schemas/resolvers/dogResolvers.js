@@ -32,7 +32,7 @@ const dogQuery = {
          if(args.ownerId && args.username) {
             throw new UserInputError('Cannot have both ownerId and username');
          }
-         const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] });
+         const owner = await Owner.findOne({ $or: [{ _id: args.ownerId }, { username: args.username }] }).populate("ownerId");
 
          const dogs = await Dog.find({ ownerId: owner._id }).populate('ownerId');
 
