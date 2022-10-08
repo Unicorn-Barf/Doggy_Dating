@@ -14,7 +14,7 @@ import './styles/root.css';
 
 // Apollo Subscriptions setup
 const wsLink = new GraphQLWsLink(createClient({
-    url: 'ws://localhost:3001/graphql',
+    url: 'ws://bone-buddies.herokuapp.com/graphql',
   }));
 
 const httpLink = createHttpLink({
