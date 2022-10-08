@@ -1,16 +1,20 @@
 import { gql } from "@apollo/client";
 
 export const GET_MESSAGES_SUB = gql`
-subscription MessageSent($conversationId: ID!) {
+subscription Subscription($conversationId: ID!) {
   messageSent(conversationId: $conversationId) {
     _id
-    dogIds
+    dogIds {
+      name
+      images
+    }
     messages {
       messageId
-      message
-      createdAt
       dogId
       dogName
+      message
+      updatedAt
+      createdAt
     }
   }
 }
