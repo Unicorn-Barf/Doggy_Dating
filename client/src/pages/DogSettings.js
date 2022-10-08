@@ -2,19 +2,13 @@ import React, { useState } from "react"
 import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel, Collapse, IconButton, Alert } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import CloseIcon from '@mui/icons-material/Close';
-import { GET_DOG_BY_ID } from '../utils/queries';
 import { PUT_DOG, DELETE_DOG } from "../utils/mutations";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useQuery, useMutation } from "@apollo/client";
-import AuthService from "../utils/auth";
-import { Form, Navigate, useParams } from 'react-router-dom';
-import { getDog } from "../slices/dogSlice";
-import { useSelector } from "react-redux";
+import { useMutation } from "@apollo/client";
 import FormHelperText from '@mui/material/FormHelperText';
 import { getSavedDogArr, getCurrentDogIndex, saveDogArr, pushDogToArr, deleteCurrDogFromArr } from "../utils/localStorage";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { Paper } from '@mui/material';
-import { current } from "@reduxjs/toolkit";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
@@ -22,6 +16,8 @@ import { DogImageUploadWidget } from "../components/CloudinaryUploadWidget";
 import { Modal } from "@mui/material";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const DogSettings = () => {
 
@@ -399,15 +395,16 @@ const DogSettings = () => {
                                  variant="contained"
                                  onClick={handleFormSubmit}
                               >
-                                 Submit Form
+                                 Update {dogName}'s Profile <CheckBoxIcon />
                               </Button>
                               <Button
+                                 id="dangerBtn"
                                  sx={{ my: 1 }}
                                  variant="contained"
                                  color="error"
                                  onClick={handleOpen}
                               >
-                                 Delete Dog
+                                 Delete Dog <DeleteIcon />
                               </Button>
 
                               <Modal open={open} onClose={handleClose}>

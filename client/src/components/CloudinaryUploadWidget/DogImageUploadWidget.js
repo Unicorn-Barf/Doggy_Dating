@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { UPLOAD_DOG_IMAGES } from "../../utils/mutations";
 import { getCurrentDogIndex, getSavedDogArr } from "../../utils/localStorage";
 import { Button } from "@mui/material";
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 const CloudinaryUploadWidget = () => {
 
@@ -43,6 +44,7 @@ const CloudinaryUploadWidget = () => {
    return (
       <Button id="dog_upload_widget" className="cloudinary-button" variant="contained" sx={{ my: 1 }} onClick={ openWidget }>
          Upload Dog Images
+         <CameraAltIcon />
       </Button>
    );
 }
