@@ -345,7 +345,7 @@ const DogSettings = () => {
                            />
                            <Stack
                               direction="column"
-                              spacing={2}
+                              spacing={0}
                               justifyContent="center"
                            >
                               <Button
@@ -383,9 +383,9 @@ const DogSettings = () => {
                                     </Stack>
                                  </Box>
                               </Modal>
-                              <DogImageUploadWidget />
                            </Stack>
                         </Box>
+                        <DogImageUploadWidget />
                      </FormControl>
                   </Paper>
                </Container>
