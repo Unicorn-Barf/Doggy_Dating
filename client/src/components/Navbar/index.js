@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Stack from '@mui/material/Stack';
 import MenuItem from "@mui/material/MenuItem";
 import PetsIcon from "@mui/icons-material/Pets";
 import HouseIcon from '@mui/icons-material/House';
@@ -22,6 +23,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Logo from '../../pages/assets/images/bone-buddies-logo-small.png';
 import { toggleLoggedIn } from '../../slices/ownerSlice';
 import { getSavedDogArr, getCurrentDogIndex, setCurrentDogIndex } from '../../utils/localStorage';
 import { storeDogs, storeCurrentDog, getDog } from '../../slices/dogSlice';
@@ -79,7 +81,7 @@ export default function Navbar() {
         <AppBar position="static" id="navbar">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <PetsIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+                    {/* <PetsIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -88,17 +90,22 @@ export default function Navbar() {
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex" },
-                            fontFamily: "Chicle",
-                            fontWeight: 700,
+                            fontFamily: "caraque-melted, sans-serif",
+                            fontWeight: 500,
                             letterSpacing: ".3rem",
                             color: "inherit",
                             textDecoration: "none"
                         }}
                     >
-                        Bone Buddies
+                        <img
+                            src={Logo}
+                            id="logo"
+                            style={{ alignSelf: "center", width: "50%", marginTop: 5, marginBottom: 5 }}
+                            alt="Bone Buddies logo"
+                        ></img>
                     </Typography>
 
-                    <PetsIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+                    {/* <PetsIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
                     <Typography
                         variant="h5"
                         noWrap
@@ -108,14 +115,18 @@ export default function Navbar() {
                             mr: 2,
                             display: { xs: "flex", md: "none" },
                             flexGrow: 1,
-                            fontFamily: "Chicle",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
+                            fontFamily: "caraque-melted, sans-serif",
+                            fontWeight: 500,
                             color: "inherit",
                             textDecoration: "none"
                         }}
                     >
-                        Bone Buddies
+                        <img
+                            src={Logo}
+                            id="logo"
+                            style={{ alignSelf: "center", width: "50%", marginTop: 5, marginBottom: 5 }}
+                            alt="Bone Buddies logo"
+                        ></img>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "right" }}>
                         {Auth.loggedIn()
@@ -131,7 +142,7 @@ export default function Navbar() {
                                     aria-controls={open ? 'basic-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
-                                    onClick={handleClickChange}
+                                    onClick={handleClick}
                                     onClose={handleClose}
                                 >
                                     Switch Dogs
@@ -167,6 +178,8 @@ export default function Navbar() {
                             </div>
                         }
                     </Box>
+
+                    {/* Mobile Menu */}
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "right" }}>
                         <IconButton
                             size="large"
@@ -257,8 +270,8 @@ export default function Navbar() {
                                         </Menu>
                                         <MenuItem className="mobileMenuItem">
                                             <Button color="inherit" startIcon={<SettingsIcon />}>
-                                            <Link to={`/dog/settings`}>Dog Settings</Link>
-                                        </Button>
+                                                <Link to={`/dog/settings`}>Dog Settings</Link>
+                                            </Button>
                                         </MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<AccountCircleIcon />}><Link to="/owner/settings">Owner Settings</Link></Button></MenuItem>
                                         <MenuItem className="mobileMenuItem"><Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogOut}><Link>Sign Out</Link></Button></MenuItem>

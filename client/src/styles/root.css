@@ -16,8 +16,20 @@ body::after {
     opacity: 0.2;
 }
 
-h1, h2 {
-    font-family: 'Chicle', cursive;
+h1,
+h2 {
+    font-family: caraque-melted, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    /* font-family: 'Chicle', cursive; */
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 25px;
 }
 
 .main-container {

@@ -23,7 +23,7 @@ button {
 #dogsOrangeBall {
     border-radius: 15px;
     margin: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    max-width: 100%;
 }
