@@ -9,7 +9,7 @@
     - [Code Snippets](#code-snippets)
 - [Useful Resources](#useful-resources)
 - [Authors](#authors)
-  - [Nifer Kilakila](#nifer-kilakila)
+  - [Andrew Yeh](#andrew-yeh)
   - [Angie Soto](#angie-soto)
   - [Ivy Chang](#ivy-chang)
   - [Nolan Spence](#nolan-spence)
