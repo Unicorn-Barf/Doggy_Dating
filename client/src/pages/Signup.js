@@ -37,7 +37,7 @@ function Signup() {
     lastName: false,
     email: false,
     password: false,
-    confirmpassword: false,
+    confirmPassword: false,
   });
   const [ errorMessages, setErrorMessages ] = React.useState({
     username: '',
@@ -45,7 +45,7 @@ function Signup() {
     lastName: '',
     email: '',
     password: '',
-    confirmpassword: '',
+    confirmPassword: '',
   });
   const [isSubmit, setIsSubmit] = React.useState(false);
   const [userFormData, setUserFormData] = useState({
@@ -66,14 +66,18 @@ function Signup() {
       ...userFormData, //access the properties which is name and email
       [name]: value,
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: false,
+    });
     console.log(userFormData);
   };
   const checkPassword = (password, confirmpassword) => {
     const passwordErrors = {
       confirmPassword: false,
       password: false,
-      passwordMessage: "",
-      confirmPasswordMessage: "",
+      passwordMessage: false,
+      confirmPasswordMessage: false,
     };
     const regexpPassword =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
@@ -100,15 +104,12 @@ function Signup() {
   const validate = (values) => {
     const passerrors = {};
     const newFormErrors = {};
-
     
     const passwordErrors = checkPassword(values.password, confirmpassword);
     newFormErrors.password = passwordErrors.password;
     newFormErrors.confirmPassword = passwordErrors.confirmPassword;
-    passerrors.password = passwordErrors.passwordMessage;
-    passerrors.confirmPassword = passwordErrors.confirmPasswordMessage;
-    
-    
+    if (passwordErrors.passwordMessage) passerrors.password = passwordErrors.passwordMessage;
+    if (passwordErrors.confirmPasswordMessage) passerrors.confirmPassword = passwordErrors.confirmPasswordMessage;
     
     if(!values.username){
       newFormErrors.username = true;
@@ -130,6 +131,8 @@ function Signup() {
     setErrorMessages({...errorMessages, ...passerrors});
     return passerrors;
   };
+
+  
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     validate(userFormData);
@@ -243,12 +246,12 @@ function Signup() {
               id="outlined-basic"
               label="Confirm Password"
               variant="outlined"
-              helperText={errorMessages.confirmpassword}
+              helperText={errorMessages.confirmPassword}
               name="confirmpassword"
               type="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmpassword}
-              error={formErrors.confirmpassword}
+              error={formErrors.confirmPassword}
             />
           </Box>
           <Box
