@@ -80,6 +80,15 @@ ownerSchema.pre('save', async function(next) {
    next();
 });
 
+ownerSchema.pre('findOneAndUpdate', async function(next) {
+   let update = this.getUpdate();
+   const saltRounds = 10;
+   if (update.password) {
+      this.getUpdate().password = await bcrypt.hash(update.password, saltRounds);
+   };
+   next();   
+});
+
 ownerSchema.methods.passwordCheck = async function(password) {
    return bcrypt.compare(password, this.password);
 }

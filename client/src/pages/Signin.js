@@ -106,6 +106,7 @@ const Signin = () => {
         });
       }
     } catch (error) {
+      setValidationError(true);
       return console.log(error);
     }
 
