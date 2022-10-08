@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID, GET_DOG_BY_DOG_ID } from '../../utils/queries';
 import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
 import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
-import { Grid, Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 
 const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {

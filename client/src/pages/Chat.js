@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import Messages from '../components/Messages';
 import Conversations from "../components/Conversations";
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
-import { IconButton, Grid, Box, Button, Stack, Paper, Container } from '@mui/material';
+import { Box, Button, Stack, Paper, Container } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../../src/styles/root.css';
 
 const Chat = ({ convoId = null, toggle = false }) => {
@@ -21,8 +22,7 @@ const Chat = ({ convoId = null, toggle = false }) => {
                     <Container maxWidth="lg">
                         <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                             {/* <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}> */}
-                                <h1>Chat Screen</h1>
-                                <h2>Dog Thoughts 💭</h2>
+                                <h1>Dog Thoughts Chat 💭</h1>
                                 <p>Chat with your dog friends and schedule a playdate!</p>
                                 <Box
                                     component="form"
@@ -43,7 +43,8 @@ const Chat = ({ convoId = null, toggle = false }) => {
                                                     size="small" variant="contained" item xs={2}
                                                     onClick={() => setToggleChat(!toggleChat)}
                                                 >
-                                                    Back to Your Chats
+                                                    <ArrowBackIcon />
+                                                    Back to All Chats
                                                 </Button>
                                             </Stack>
                                         ) : ''
