@@ -59,8 +59,6 @@ const DogSettings = () => {
       'Laid Back',
    ];
 
-   // const dog = getDog();
-
    const sexes = ['Male', 'Female'];
 
    let dogArray = getSavedDogArr();
@@ -209,16 +207,16 @@ const DogSettings = () => {
             ? <div><h1>You have no dogs. ☹️</h1></div>
             : <div className="main-container">
                <Container maxWidth="sm">
-                  <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+                  <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                      <div>
-                        <h1>Update {dogName}'s' Info</h1>
+                        <h1>Update {dogName}'s Info</h1>
                         <p>Review and update {dogName}'s information here.</p>
                      </div>
                      <FormControl>
                         <Box
                            component="form"
                            sx={{
-                              '& > :not(style)': { m: 1, width: '100%' },
+                              '& > :not(style)': { width: '100%' },
                               maxWidth: '100%',
                            }}
                            noValidate
@@ -247,6 +245,7 @@ const DogSettings = () => {
                            <FormControl>
                               <InputLabel id="select-sex-label">Sex</InputLabel>
                               <Select
+                                 sx={{ my: 1 }}
                                  labelId="select-sex-label"
                                  label="Sex"
                                  name="sex"
@@ -270,13 +269,14 @@ const DogSettings = () => {
                               value={dogWeight}
                               variant="outlined"
                            />
-                           <LocalizationProvider dateAdapter={AdapterDayjs} name="birthday">
+                           <LocalizationProvider dateAdapter={AdapterDayjs} name="birthday" sx={{ my: 1 }}>
                               <MobileDatePicker
+
                                  id="date"
                                  label="Birthday"
                                  type="date"
                                  value={dogBirthday}
-                                 renderInput={(params) => <TextField {...params} />}
+                                 renderInput={(params) => <TextField {...params} sx={{ my: 1 }} />}
                                  name="birthday"
                                  onChange={(birthday) => setDogBirthday(birthday)}
                               />
@@ -285,6 +285,7 @@ const DogSettings = () => {
                            <FormControl>
                               <InputLabel className="select-fixed-label">Spayed or Neutered?</InputLabel>
                               <Select
+                                 sx={{ my: 1 }}
                                  labelId="select-fixed-label"
                                  value={dogIsFixed}
                                  name="isFixed"
@@ -300,6 +301,7 @@ const DogSettings = () => {
                            <FormControl sx={{ width: '100%' }}>
                               <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                               <Select
+                                 sx={{ my: 1 }}
                                  labelId="multiple-checkbox-label"
                                  id="multiple-checkbox"
                                  multiple
@@ -342,14 +344,19 @@ const DogSettings = () => {
                               variant="outlined"
                            />
                            <Stack
-                              direction="row"
+                              direction="column"
                               spacing={2}
                               justifyContent="center"
                            >
-                              <Button variant="contained" onClick={handleFormSubmit}>
+                              <Button
+                                 sx={{ my: 1 }}
+                                 variant="contained"
+                                 onClick={handleFormSubmit}
+                              >
                                  Submit Form
                               </Button>
-                              <Button sx={{ my: 2 }}
+                              <Button
+                                 sx={{ my: 1 }}
                                  variant="contained"
                                  color="error"
                                  onClick={handleOpen}
