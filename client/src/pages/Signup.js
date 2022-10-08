@@ -14,10 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { storeOwner, toggleLoggedIn } from "../slices/ownerSlice";
 import { saveOwner } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { isNetworkRequestInFlight } from "@apollo/client/core/networkStatus";
-function Signup() {
+
+export default function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
@@ -29,6 +30,7 @@ function Signup() {
     password: false,
     confirmPassword: false,
   });
+
   const [ errorMessages, setErrorMessages ] = React.useState({
     username: '',
     firstName: '',
@@ -37,6 +39,7 @@ function Signup() {
     password: '',
     confirmPassword: '',
   });
+
   const [isSubmit, setIsSubmit] = React.useState(false);
   const [userFormData, setUserFormData] = useState({
     username: "",
@@ -62,6 +65,7 @@ function Signup() {
     });
     console.log(userFormData);
   };
+
   const checkPassword = (password, confirmpassword) => {
     const passwordErrors = {
       confirmPassword: false,
@@ -91,6 +95,7 @@ function Signup() {
     }
     return passwordErrors;
   };
+
   const validate = (values) => {
     const passerrors = {};
     const newFormErrors = {};
@@ -122,7 +127,6 @@ function Signup() {
     return passerrors;
   };
 
-  
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     validate(userFormData);
@@ -158,6 +162,7 @@ function Signup() {
       console.log(err);
     }
   };
+
   return (
     <div className="main-container">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -175,6 +180,7 @@ function Signup() {
               autoComplete="off"
             >
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Username"
@@ -186,6 +192,7 @@ function Signup() {
               error={formErrors.username}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="First Name"
@@ -197,6 +204,7 @@ function Signup() {
               error={formErrors.firstName}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Last Name"
@@ -221,6 +229,7 @@ function Signup() {
 
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Create Password"
@@ -233,6 +242,7 @@ function Signup() {
               error={formErrors.password}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Confirm Password"
@@ -248,7 +258,7 @@ function Signup() {
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "100%" },
+              "& > :not(style)": { width: "100%" },
             }}
             noValidate
             autoComplete="off"
@@ -259,7 +269,7 @@ function Signup() {
               type="date"
               disableFuture
               value={userFormData.birthday}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{ my: 1 }} />}
               helperText="Please select your birthday."
               name="birthday"
               onChange={(birthday) =>
@@ -288,5 +298,3 @@ function Signup() {
     </div>
   );
 }
-
-export default Signup;
