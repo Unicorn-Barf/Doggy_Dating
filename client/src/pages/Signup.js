@@ -63,7 +63,6 @@ export default function Signup() {
       ...formErrors,
       [name]: false,
     });
-    console.log(userFormData);
   };
 
   const checkPassword = (password, confirmpassword) => {
