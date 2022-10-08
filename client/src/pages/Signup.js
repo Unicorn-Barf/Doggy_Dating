@@ -5,7 +5,8 @@ import {
   Container,
   TextField,
   Button,
-  Paper
+  Paper,
+  Typography
 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,19 +18,36 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import MenuItem from "@mui/material/MenuItem";
 import { SIGNUP_USER } from "../utils/mutations/index";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Auth from "../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOwner, toggleLoggedIn } from "../slices/ownerSlice";
 import { saveOwner } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import { isNetworkRequestInFlight } from "@apollo/client/core/networkStatus";
 function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
-  // const [ errorState, setErrorState ] = React.useState('');
+  const [ formErrors, setFormErrors ] = React.useState({
+    username: false,
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+  const [ errorMessages, setErrorMessages ] = React.useState({
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const [isSubmit, setIsSubmit] = React.useState(false);
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstName: "",
@@ -48,41 +66,83 @@ function Signup() {
       ...userFormData, //access the properties which is name and email
       [name]: value,
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: false,
+    });
+    console.log(userFormData);
+  };
+  const checkPassword = (password, confirmpassword) => {
+    const passwordErrors = {
+      confirmPassword: false,
+      password: false,
+      passwordMessage: false,
+      confirmPasswordMessage: false,
+    };
+    const regexpPassword =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
+    if (!password) {
+      passwordErrors.passwordMessage = "Password is required";
+      passwordErrors.password = true;
+    } else if (!regexpPassword.test(password)) {
+      passwordErrors.passwordMessage =
+        "passsword must contain atleast one uppercase,lowercase,number,special character";
+        passwordErrors.password = true;
+    } else if (password.length < 8) {
+      passwordErrors.passwordMessage = "Password must be more than 8 characters";
+      passwordErrors.password = true;
+    } else if (password.length > 30) {
+      passwordErrors.passwordMessage = "Password cannot be more than 30 characters";
+      passwordErrors.password = true;
+    }
+    if (password !== confirmpassword) {
+      passwordErrors.confirmPasswordMessage = "Passwords must match";
+      passwordErrors.confirmPassword = true;
+    }
+    return passwordErrors;
+  };
+  const validate = (values) => {
+    const passerrors = {};
+    const newFormErrors = {};
+    
+    const passwordErrors = checkPassword(values.password, confirmpassword);
+    newFormErrors.password = passwordErrors.password;
+    newFormErrors.confirmPassword = passwordErrors.confirmPassword;
+    if (passwordErrors.passwordMessage) passerrors.password = passwordErrors.passwordMessage;
+    if (passwordErrors.confirmPasswordMessage) passerrors.confirmPassword = passwordErrors.confirmPasswordMessage;
+    
+    if(!values.username){
+      newFormErrors.username = true;
+      passerrors.username = "Please enter your username";
+    }
+    if(!values.email){
+      newFormErrors.email = true;
+      passerrors.email= "Please enter your email";
+    }
+    if(!values.firstName){
+      newFormErrors.firstName = true;
+      passerrors.firstName= "Please enter first name"
+    }
+    if(!values.lastName){
+      newFormErrors.lastName = true;
+      passerrors.lastName="Please enter last name"
+    }
+    setFormErrors({...newFormErrors});
+    setErrorMessages({...errorMessages, ...passerrors});
+    return passerrors;
   };
 
+  
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const validates = (values) => {
-      const passerrors = {};
-
-      const regexp =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
-
-      if (!values.password) {
-        passerrors.password = "Password is required";
-      } else if (!regexp.test(values.password)) {
-        passerrors.password =
-          "passsword must contain atleast one uppercase,lowercase,number,special character";
-      } else if (values.password.length < 8) {
-        passerrors.password = "Password must be more than 8 characters";
-      } else if (values.password.length > 30) {
-        passerrors.password = "Password cannot be more than 30 characters";
-      }
-      if (values.password !== confirmpassword) {
-        passerrors.confirmpassword = "Passwords must match";
-      }
-      return passerrors;
-    };
+    validate(userFormData);
+    setIsSubmit(true);
 
     try {
-      const passerrors = validates(userFormData);
+      const passerrors = validate(userFormData);
       if (Object.keys(passerrors).length > 0) {
-        throw new Error(
-          `validation failed ${passerrors.confirmpassword || ""} and ${passerrors.confirmpassword || ""
-          }`
-        );
-      }
-
+        throw new Error ("signup form invalid input");
+      };
       console.log(userFormData);
 
       const { data, error } = await signUpUser({
@@ -109,7 +169,6 @@ function Signup() {
       console.log(err);
     }
   };
-
   return (
     <div className="main-container">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -130,62 +189,70 @@ function Signup() {
               id="outlined-basic"
               label="Username"
               variant="outlined"
-              helperText="Please create a username."
+              helperText={errorMessages.username}
               name="username"
               onChange={handleInputChange}
               value={userFormData.username}
+              error={formErrors.username}
             />
             <TextField
               required
               id="outlined-basic"
               label="First Name"
               variant="outlined"
-              helperText="Please enter your first name."
+              helperText={errorMessages.firstName}
               name="firstName"
               onChange={handleInputChange}
               value={userFormData.firstName}
+              error={formErrors.firstName}
             />
             <TextField
               required
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
-              helperText="Please enter your last name."
+              helperText={errorMessages.lastName}
               name="lastName"
               onChange={handleInputChange}
               value={userFormData.lastName}
+              error={formErrors.lastName}
+
             />
             <TextField
               required
               id="outlined-basic"
               label="Email"
               variant="outlined"
-              helperText="Please enter your email address."
+              helperText={errorMessages.email}
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
+              error={formErrors.email}
+
             />
             <TextField
               required
               id="outlined-basic"
               label="Create Password"
               variant="outlined"
-              helperText="Please create a password."
+              helperText={errorMessages.password}
               name="password"
               type="password"
               onChange={handleInputChange}
               value={userFormData.password}
+              error={formErrors.password}
             />
             <TextField
               required
               id="outlined-basic"
               label="Confirm Password"
               variant="outlined"
-              helperText="Please type your password again."
+              helperText={errorMessages.confirmPassword}
               name="confirmpassword"
               type="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmpassword}
+              error={formErrors.confirmPassword}
             />
           </Box>
           <Box
