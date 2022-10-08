@@ -14,6 +14,7 @@ import './styles/root.css';
 
 // Apollo Subscriptions setup
 const wsLink = new GraphQLWsLink(createClient({
+    // eslint-disable-next-line no-restricted-globals
     url: `wss://${location.host}/graphql`,
   }));
 
