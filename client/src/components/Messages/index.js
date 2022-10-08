@@ -11,6 +11,7 @@ import { GET_CONVERSATION_BY_ID } from '../../utils/queries';
 import { POST_MESSAGE } from '../../utils/mutations';
 import { GET_MESSAGES_SUB } from '../../utils/subscriptions';
 
+import SendIcon from '@mui/icons-material/Send';
 import '../../styles/root.css';
 
 const Text = ({ messages, myDogId }) => {
@@ -21,11 +22,6 @@ const Text = ({ messages, myDogId }) => {
         return (
           <div key={messageId} style={{ textAlign: myDogId === dogId ? "right" : "left" }}>
             <p style={{ marginBottom: "0.2rem", textAlign: myDogId === dogId ? "right" : "left", fontSize: "14px" }}>{`${dogName} barked:`}</p>
-            {/* <img
-              src={convo.dogIds.find(dog => dog.name !== myDogName).images[0] || 'https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'}
-              style={{ backgroundSize: "cover", borderRadius: "50%", width: "60px", height: "60px", my: 1, alignSelf: "center", margin: "10px" }}
-              alt="dog profile pic"
-            /> */}
             <Chip style={{ fontSize: "1rem", padding: "0.2rem" }} color={myDogId === dogId ? "success" : "secondary"} label={message} />
           </div>
         )
@@ -90,14 +86,32 @@ const Messages = ({ conversationId, myDogId, myDogName }) => {
       <h4 style={{ textAlign: "center", marginBottom: "3rem" }}>Welcome to Dog Thoughts!</h4>
       <Text myDogId={myDogId} messages={messages} />
       <Grid container spacing={2}>
-        <Grid item xs={10}>
-          <TextField onChange={(e) => {
-            setText(e.target.value)
-          }} value={text} size="small" fullWidth variant="outlined" required label="Type your message here." />
-        </Grid>
-        <Grid item xs={2}>
-          <Button onClick={sendMessage} fullWidth variant="contained" style={{ backgroundColor: "#F8C630", color: "black" }}>Send</Button>
-        </Grid>
+        <div style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between" }}>
+          <Grid item xs={9}>
+            <TextField
+              onChange={(e) => {
+                setText(e.target.value)
+              }}
+              value={text} size="small"
+              fullWidth
+              variant="outlined" r
+              equired
+              label="Type your message here."
+              style={{ margin: "5px" }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              onClick={sendMessage}
+              fullWidth
+              variant="contained"
+              style={{ backgroundColor: "#F8C630", color: "black" }}
+            >
+              Send
+              <SendIcon />
+            </Button>
+          </Grid>
+        </div>
       </Grid>
     </Container>
   )
