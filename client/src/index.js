@@ -13,9 +13,20 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import './styles/root.css';
 
 // Apollo Subscriptions setup
-const wsLink = new GraphQLWsLink(createClient({
-    url: 'ws://localhost:3001/graphql',
-  }));
+let wsLink;
+// eslint-disable-next-line no-restricted-globals
+if (/herokuapp/g.test(location.host)) {
+    wsLink = new GraphQLWsLink(createClient({
+        // eslint-disable-next-line no-restricted-globals
+        url: `wss://${location.host}/graphql`,
+      }));
+} else {
+    wsLink = new GraphQLWsLink(createClient({
+        url: `ws://localhost:3001/graphql`,
+      }));
+}
+
+
 
 const httpLink = createHttpLink({
     uri: '/graphql',
