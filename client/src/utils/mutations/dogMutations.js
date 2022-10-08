@@ -4,7 +4,7 @@ export const PUT_DOG = gql`
 mutation PutDog($dogId: ID!, $dog: PutDogInput) {
    putDog(dogId: $dogId, dog: $dog) {
       _id
-      ownerId
+      ownerId {username}
       name
       breed
       birthday
@@ -41,7 +41,7 @@ export const DELETE_DOG = gql`
 mutation DeleteDog($dogId: ID!) {
    deleteDog(dogId: $dogId) {
      _id
-     ownerId
+     ownerId {username}
      name
      breed
      birthday
