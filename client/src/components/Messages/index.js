@@ -15,12 +15,12 @@ import { GET_MESSAGES_SUB } from '../../utils/subscriptions';
 const Text = ({ messages, myDogId }) => {
   
   return (
-    <div style={{ marginBottom: "5rem" }}>
+    <div style={{ marginBottom: "3rem" }}>
       {messages.map(({ dogId, dogName, message, messageId }) => {
         return (
           <div key={messageId} style={{ textAlign: myDogId === dogId ? "right" : "left" }}>
-            <p style={{ marginBottom: "0.3rem" }}>{`${dogName} barked at you.`}</p>
-            <Chip style={{ fontSize: "0.9rem" }} color={myDogId === dogId ? "primary" : "secondary"} label={message} />
+            <p style={{ marginBottom: "0.2rem", textAlign: myDogId === dogId ? "right" : "left", fontSize: "14px" }}>{`${dogName} barked:`}</p>
+            <Chip style={{ fontSize: "1rem", padding: "0.2rem" }} color={myDogId === dogId ? "success" : "secondary"} label={message} />
           </div>
         )
       })}
@@ -81,7 +81,7 @@ const Messages = ({ conversationId, myDogId, myDogName }) => {
 
   return (
     <Container style={{marginBottom: "200px"}}>
-      <h3>Welcome to DevThoughts! A simple chat app for the GraphQL series!</h3>
+      <h4 style={{ textAlign:"center", marginBottom: "3rem" }}>Welcome to Dog Thoughts!</h4>
       <Text myDogId={myDogId} messages={messages} />
       <Grid container spacing={2}>
         <Grid item xs={10}>
@@ -90,7 +90,7 @@ const Messages = ({ conversationId, myDogId, myDogName }) => {
           }} value={text} size="small" fullWidth variant="outlined" required label="Enter message here" />
         </Grid>
         <Grid item xs={2}>
-          <Button onClick={sendMessage} fullWidth variant="contained" style={{ backgroundColor: "#60a820", color: "white" }}>Send</Button>
+          <Button onClick={sendMessage} fullWidth variant="contained" style={{ backgroundColor: "#F8C630", color: "black" }}>Send</Button>
         </Grid>
       </Grid>
     </Container>
