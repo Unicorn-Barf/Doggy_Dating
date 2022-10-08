@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { CREATE_DOG } from '../utils/mutations';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
-import { pushDogToArr } from '../utils/localStorage';
+import { pushDogToArr, setCurrentDogIndex } from '../utils/localStorage';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
@@ -131,6 +131,7 @@ export default function CreateDog() {
             });
             console.log(data);
             pushDogToArr(data.postDog);
+            setCurrentDogIndex(0);
             navigate(`/profile/${data.postDog._id}`);
         } catch (error) {
             console.log(error);
