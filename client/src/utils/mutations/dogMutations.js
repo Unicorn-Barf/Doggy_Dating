@@ -4,12 +4,13 @@ export const PUT_DOG = gql`
 mutation PutDog($dogId: ID!, $dog: PutDogInput) {
    putDog(dogId: $dogId, dog: $dog) {
       _id
-      ownerId
+      ownerId {username}
       name
       breed
       birthday
       sex
       weight
+      isFixed
       personality
       headline
       about
@@ -27,6 +28,7 @@ mutation PostDog($dog: PostDogInput) {
       birthday
       sex
       weight
+      isFixed
       personality
       about
       images
@@ -34,3 +36,22 @@ mutation PostDog($dog: PostDogInput) {
     }
   }
 `;
+
+export const DELETE_DOG = gql`
+mutation DeleteDog($dogId: ID!) {
+   deleteDog(dogId: $dogId) {
+     _id
+     ownerId {username}
+     name
+     breed
+     birthday
+     sex
+     weight
+     isFixed
+     personality
+     headline
+     about
+     images
+     tags
+   }
+ }`;

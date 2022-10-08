@@ -8,13 +8,26 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url('../pages/assets/images/purple_dog_wallpaper3.jpg');
+    background-image: url('../pages/assets/images/yellow_dog_wallpaper_85.jpg');
     background-attachment: fixed;
-    /* opacity: 0.2; */
+}
+
+body::after {
+    opacity: 0.2;
 }
 
 h1, h2 {
-    font-family: 'Chicle', cursive;
+    font-family: caraque-melted, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 25px;
 }
 
 .main-container {
@@ -22,6 +35,7 @@ h1, h2 {
     margin-bottom: 75px;
 }
 
-button {
-    background-color: var(--pink);
+.main-container button {
+    background-color: var(--pink) !important;
+    color: #fff !important;
 }

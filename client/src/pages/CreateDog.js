@@ -17,17 +17,19 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import MenuItem from '@mui/material/MenuItem';
 import { Container } from '@mui/system';
-import { Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { CREATE_DOG } from '../utils/mutations';
-// import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
+import { pushDogToArr, setCurrentDogIndex } from '../utils/localStorage';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [createDog] = useMutation(CREATE_DOG);
 
     const [name, setName] = React.useState('');
@@ -44,7 +46,7 @@ export default function CreateDog() {
         breed: '',
         birthday: '08/14/2014',
         sex: '',
-        isFixed: true,
+        isFixed: '',
         weight: 0,
         // personality: [],
         about: '',
@@ -127,116 +129,105 @@ export default function CreateDog() {
                     dog: { ...dogFormData, ownerId, personality, weight: parseInt(dogFormData.weight) }
                 }
             });
+            console.log(data);
+            pushDogToArr(data.postDog);
+            setCurrentDogIndex(0);
+            navigate(`/profile/${data.postDog._id}`);
         } catch (error) {
             console.log(error);
         }
-
-        // const validates = (values => {
-        //     // regexr.com/2rhq7
-        //     const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
-        // });
-        // const { data, error } = await createDog({
-        //     variables: {
-        //         dog: {
-        //             ...dogFormData,
-        //         }
-        //     }
-        // });
-        console.log(dogFormData);
     };
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className='main-container'>
                 <Container maxWidth="sm">
-                    <Grid
-                        container
-                        spacing={0}
-                        direction="column"
-                        justifyContent="center"
-                        style={{ minHeight: "100vh" }}
-                    >
-                        <h2>Register a Dog</h2>
-                        <p>Enter your dog's info.</p>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& > :not(style)': { m: 1, width: '100%' },
-                                maxWidth: '100%',
-                            }}
-                            noValidate
-                            autoComplete="off"
+                    <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
+                        <Grid
+                            container
+                            spacing={0}
+                            direction="column"
+                            justifyContent="center"
+                            style={{ minHeight: "100vh" }}
                         >
-                            <TextField
-                                required
-                                id="fullWidth"
-                                label="Name"
-                                value={dogFormData.name}
-                                name="name"
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                helperText="Please enter your dog's name."
-                            />
-                            <TextField
-                                required
-                                id="fullWidth"
-                                label="Breed"
-                                value={dogFormData.breed}
-                                name="breed"
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                helperText="What is/are your dogs breed(s)?"
-                            />
-                            <MobileDatePicker
-                                label="Birthday"
-                                id="fullWidth"
-                                inputFormat="MM/DD/YYYY"
-                                value={dogFormData.birthday}
-                                name="birthday"
-                                disableFuture
-                                onChange={(birthday) => setDogFormData({ ...dogFormData, birthday })}
-                                renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
-                            />
-
-                            <FormControl required>
-                                <InputLabel className="simple-select-label">Sex</InputLabel>
-                                <Select
+                            <h1>Register a New Dog</h1>
+                            <p>Enter your dog's info.</p>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { width: '100%' },
+                                    maxWidth: '100%',
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <TextField
+                                    sx={{ my: 1 }}
                                     required
-                                    id="simple-select"
-                                    value={dogFormData.sex}
-                                    name="sex"
-                                    label="Sex"
+                                    id="fullWidth"
+                                    label="Name"
+                                    value={dogFormData.name}
+                                    name="name"
                                     onChange={handleInputChange}
-                                >
-                                    <MenuItem disabled value="">Select an option here.</MenuItem>
-                                    <MenuItem value={'Male'}>Male</MenuItem>
-                                    <MenuItem value={'Female'}>Female</MenuItem>
-                                </Select>
-                                <FormHelperText>Please select your dog's sex.</FormHelperText>
-                            </FormControl>
-
-                            <FormControl required>
-                                <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
-                                <Select
+                                    variant="outlined"
+                                    helperText="Please enter your dog's name."
+                                />
+                                <TextField
+                                    sx={{ my: 1 }}
                                     required
-                                    // labelId="simple-select-label"
-                                    id="simple-select"
-                                    value={dogFormData.isFixed}
-                                    name="isFixed"
-                                    label="Fix"
+                                    id="fullWidth"
+                                    label="Breed"
+                                    value={dogFormData.breed}
+                                    name="breed"
                                     onChange={handleInputChange}
-                                >
-                                    <MenuItem value={true}>Yes</MenuItem>
-                                    <MenuItem value={false}>No</MenuItem>
-                                </Select>
-                                <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
-                            </FormControl>
+                                    variant="outlined"
+                                    helperText="What is/are your dog's breed(s)?"
+                                />
+                                <MobileDatePicker
+                                    label="Birthday"
+                                    id="fullWidth"
+                                    inputFormat="MM/DD/YYYY"
+                                    value={dogFormData.birthday}
+                                    name="birthday"
+                                    disableFuture
+                                    onChange={(birthday) => setDogFormData({ ...dogFormData, birthday })}
+                                    renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." sx={{ my: 1 }} />}
+                                />
 
-                            <Box sx={{ display: 'flex' }}>
-                                <FormControl sx={{ width: '100%' }}>
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
+                                    <InputLabel className="simple-select-label">Sex</InputLabel>
+                                    <Select
+                                        sx={{ my: 1 }}
+                                        id="simple-select"
+                                        value={dogFormData.sex}
+                                        name="sex"
+                                        label="Sex"
+                                        onChange={handleInputChange}
+                                    >
+                                        <MenuItem value={'Male'}>Male</MenuItem>
+                                        <MenuItem value={'Female'}>Female</MenuItem>
+                                    </Select>
+                                    <FormHelperText>Please select your dog's sex.</FormHelperText>
+                                </FormControl>
+
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
+                                    <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
+                                    <Select
+                                        id="simple-select"
+                                        value={dogFormData.isFixed}
+                                        name="isFixed"
+                                        label="Fix"
+                                        onChange={handleInputChange}
+                                    >
+                                        <MenuItem value={true}>Yes</MenuItem>
+                                        <MenuItem value={false}>No</MenuItem>
+                                    </Select>
+                                    <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
+                                </FormControl>
+
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
-                                        required
                                         labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
@@ -257,32 +248,32 @@ export default function CreateDog() {
                                     </Select>
                                     <FormHelperText>Please select all that apply.</FormHelperText>
                                 </FormControl>
+
+                                <TextField
+                                    sx={{ my: 1 }}
+                                    required
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    label="Weight"
+                                    value={dogFormData.weight}
+                                    name="weight"
+                                    onChange={handleInputChange}
+                                    helperText="Please enter your dog's weight."
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">lbs</InputAdornment>
+                                    }}
+                                />
                             </Box>
 
-                            <TextField
-                                required
-                                id="outlined-basic"
-                                variant="outlined"
-                                label="Weight"
-                                value={dogFormData.weight}
-                                name="weight"
-                                onChange={handleInputChange}
-                                helperText="Please enter your dog's weight."
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">lbs</InputAdornment>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& > :not(style)': { width: '100%' },
                                 }}
-                            />
-                        </Box>
-
-                        <Box
-                            component="form"
-                            sx={{
-                                '& > :not(style)': { m: 1, width: '100%' },
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            {/* FOR FUTURE DEVELOPMENT
+                                noValidate
+                                autoComplete="off"
+                            >
+                                {/* FOR FUTURE DEVELOPMENT
                                 <Stack
                                 direction="row"
                                 alignItems="center"
@@ -296,31 +287,32 @@ export default function CreateDog() {
                                 </Button>
                             </Stack> */}
 
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Tell us about your pet."
-                                value={dogFormData.about}
-                                name="about"
-                                placeholder="Add your dog's description here."
-                                multiline
-                                rows={4}
-                                onChange={handleInputChange}
-                            />
-                            <Stack
-                                direction="row"
-                                spacing={2}
-                                justifyContent="center"
-                            >
-                                <Button
-                                    variant="contained"
-                                    onClick={handleFormSubmit}
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Tell us about your pet."
+                                    value={dogFormData.about}
+                                    name="about"
+                                    placeholder="Add your dog's description here."
+                                    multiline
+                                    rows={4}
+                                    onChange={handleInputChange}
+                                />
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    justifyContent="center"
                                 >
-                                    Submit
-                                </Button>
-                            </Stack>
-                        </Box>
-
-                    </Grid>
+                                    <Button
+                                        sx={{ my: 1 }}
+                                        variant="contained"
+                                        onClick={handleFormSubmit}
+                                    >
+                                        Register Dog
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        </Grid>
+                    </Paper>
                 </Container>
             </div >
         </LocalizationProvider >

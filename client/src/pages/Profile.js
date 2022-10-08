@@ -9,19 +9,15 @@ import { GET_CONVERSATIONS_BY_DOG_ID, GET_DOG_BY_DOG_ID } from '../utils/queries
 import { CREATE_CONVO } from '../utils/mutations';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { IconButton, Grid, Box, Button } from '@mui/material';
+import { IconButton, Grid, Box, Button, Paper } from '@mui/material';
+import { Container, Stack } from '@mui/system';
 import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
-let myDogId = "633bac1663a38b67c5635360";
-
-
-// setting up and grabbing dogId to be used for chat feature
-function DogProfile() {
+export default function DogProfile() {
     const navigate = useNavigate();
     const { dogId } = useParams();
     const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
-    const [isRedirect, setIsRedirect] = useState(false);
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
     });
@@ -40,7 +36,10 @@ function DogProfile() {
         let convoArr = convoQuery.data?.getAllConversationsByDogId || [];
         if (convoArr.length > 0) {
             for (let i = 0; i < convoArr.length; i++) {
-                if (convoArr[i].dogIds.includes(dogId) && convoArr[i].dogIds.includes(myDogId)) {
+                let check = convoArr[i].dogIds.every(({ _id }) => {
+                    return _id === dogId || _id === myDogId;
+                })
+                if (check) {
                     convoId = convoArr[i]._id;
                     break;
                 }
@@ -56,7 +55,6 @@ function DogProfile() {
                 console.log(error);
             }
         }
-        // setIsRedirect(true);
         // Navigate also sending the convoId to next component.
         navigate('/chat', {
             state: {
@@ -66,6 +64,7 @@ function DogProfile() {
         });
     };
 
+    // FOR FUTURE DEVELOPMENT
     // for whether or not the user can edit dog right on profile
     // const editDogProfile = () => {
     //     if (!dog.dogId === dog.ownerId ? showButton : null ) 
@@ -75,41 +74,77 @@ function DogProfile() {
     // } else 
 
     return (
-        <>
-            <Box sx={{ flexGrow: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'center'}}><img src={dog.images}/></div>
-                <Grid container spacing={2} column={16} padding={2} style={{ paddingBottom: 2 }}>
-                    <Grid item xs={6}>
-                        {dogData.loading
-                            ? <h1>loading</h1>
-                            : <h1>{dog.name} <IconButton aria-label="fingerprint" color="secondary">
-                                <StarBorderIcon />
-                            </IconButton></h1>
-                        }
+        <div className="main-container">
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Container maxWidth="sm">
+                        <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
+                            <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 1 }}>
+                                {dogData.loading
+                                    ?
+                                    <h1>Loading...</h1>
+                                    :
+                                    <div style={{ my: 1 }}>
+                                        <Stack
+                                            justifyContent="center"
+                                        >
+                                            <img
+                                                src={dog.images[0]}
+                                                style={{ maxWidth: "100%", my: 1, alignSelf: "center", objectFit: "cover" }}
+                                                alt="dog profile pic"
+                                            />
+                                        </Stack>
+                                        <div style={{ padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: "bold" }}>
+                                            <h1>{dog.name}</h1>
+                                            <StarBorderIcon />
+                                        </div>
 
-                        <h3>{dog.breed}, {dog.weight},{dog.sex} </h3>
+                                        <div style={{ display: "flex", justifyContent: "space-around", padding: 3, my: 1 }}>
+                                            <div>{dog.breed}</div> | <div>{dog.weight} lbs.</div> | <div>{dog.sex} </div>
+                                        </div>
 
-                        {/* <h3>{dog.about}</h3> */}
+                                        <div style={{ display: "flex", justifyContent: "left", padding: 3, my: 1 }}>
+                                            <p style={{ textAlign: "left" }}>{dog.about}</p>
+                                        </div>
 
-                        {/* let date= moment.unix(dog.birthday);
-                    date.format(how i want date to be formatted) */}
+                                        {/* FOR FUTURE DEVELOPMENT
+                                    let date= moment.unix(dog.birthday);
+                                        date.format(how i want date to be formatted) */}
 
-                    </Grid>
+                                        <div style={{ display: "flex", justifyContent: "center", padding: 3, my: 1 }}>
+                                            <h3>{dog.ownerId.username}</h3>
+                                        </div>
+                                    </div>
+                                }
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    justifyContent="center"
+                                >
+                                    <Button
+                                        size="medium"
+                                        variant="contained"
+                                        style={{ margin: 5 }}
+                                        onClick={(event) => initiatePlaydate(event)}
+                                    >
+                                        Playdate
+                                    </Button>
 
-                    <Grid item xs={6}>
-                        <h3>{dog.ownerId}</h3>
-
-                        <Button size="medium" variant="contained" style={{ marginRight: 10 }} onClick={(event) => initiatePlaydate(event)}> playdate </Button>
-
-                        <Button variant="contained" onClick={(event) => (event)}> edit dog </Button>
-                    </Grid>
+                                    {/* FOR FUTURE DEVELOPMENT
+                                <Button
+                                    size="medium"
+                                    variant="contained"
+                                    style={{ margin: 5 }}
+                                    onClick={(event) => (event)}
+                                >
+                                    Edit Dog
+                                </Button> */}
+                                </Stack>
+                            </Box>
+                        </Paper>
+                    </Container>
                 </Grid>
-            </Box>
-        </>
-
+            </Grid>
+        </div>
     )
 }
-
-
-export default DogProfile;
-

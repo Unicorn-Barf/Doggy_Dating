@@ -1,31 +1,23 @@
 import React, { Component } from "react";
-import { useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_DOG_IMAGES } from "../../utils/mutations";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getDogId, storeDog } from "../../slices/dogSlice";
+import { getCurrentDogIndex, getSavedDogArr } from "../../utils/localStorage";
+import { Button } from "@mui/material";
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 const CloudinaryUploadWidget = () => {
-   // two cases to handle:
-   //    uploading image to an existing dog
-   //    uploading image to dog being created
 
-   const dispatch = useDispatch();
-   let dogId = useSelector(getDogId);
-   if(!dogId) {
-      //query for dog
-      dogId = "63369b239e506cf12f5b5fcf";
-   }
+   let dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
 
    const [uploadDogImage, { error }] = useMutation(UPLOAD_DOG_IMAGES);
 
    const uploadImage = async (imageURL) => {
       console.log(`DogId: ${dogId}, URL: ${imageURL}`);
+      const imageArr = [];
+      imageArr.push(imageURL);
       const uploadDogRes = await uploadDogImage({
-         variables: { dogId: dogId, imageURL: imageURL }
+         variables: { dogId: dogId, imageUrl: imageArr }
       });
-      console.log(uploadDogRes);
    }
 
    const cloudName = "dnlfrsnzw"; // replace with your own cloud name
@@ -50,9 +42,10 @@ const CloudinaryUploadWidget = () => {
    }
 
    return (
-      <button id="dog_upload_widget" className="cloudinary-button" onClick={ openWidget }>
-         Upload
-      </button>
+      <Button id="dog_upload_widget" className="cloudinary-button" variant="contained" sx={{ my: 1 }} onClick={ openWidget }>
+         Upload Dog Images
+         <CameraAltIcon />
+      </Button>
    );
 }
 

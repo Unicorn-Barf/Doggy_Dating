@@ -41,11 +41,14 @@ const dogSchema = new Schema({
    about: {
       type: String,
    },
-   images: [
-      {
-         type: String,
-      }
-   ],
+   images: {
+      type: [
+         {
+            type: String,
+         }
+      ],
+      default: ['https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'],
+   },
    tags: [
       {
          type: String,
@@ -58,12 +61,12 @@ const dogSchema = new Schema({
       }
    ]
 },
-{
-   timestamps: true,
-   toJSON: {
-      getters: true,
-   },
-   id: false,
-});
+   {
+      timestamps: true,
+      toJSON: {
+         getters: true,
+      },
+      id: false,
+   });
 
 module.exports = model('Dog', dogSchema);

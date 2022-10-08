@@ -4,7 +4,8 @@
     position: fixed;
     width: 100%;
     bottom: 0;
-    background-color: var(--yellow);
+    background-color: var(--violet);
+    color: #fff;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 0;

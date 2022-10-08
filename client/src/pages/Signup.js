@@ -1,27 +1,46 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import dayjs from "dayjs";
-import { Container, TextField, Button } from "@mui/material";
+import { Container, TextField, Button, Paper } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import MenuItem from "@mui/material/MenuItem";
 import { SIGNUP_USER } from "../utils/mutations/index";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Auth from "../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { storeOwner } from "../slices/ownerSlice";
+import { storeOwner, toggleLoggedIn } from "../slices/ownerSlice";
+import { saveOwner } from "../utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
-function Signup() {
+export default function Signup() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [value, setValue] = React.useState(dayjs("2014-08-18T21:11:54"));
   const [sex, setSex] = React.useState([]);
   const [confirmpassword, setConfirmPassword] = React.useState('');
+  const [ formErrors, setFormErrors ] = React.useState({
+    username: false,
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+
+  const [ errorMessages, setErrorMessages ] = React.useState({
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [isSubmit, setIsSubmit] = React.useState(false);
   const [userFormData, setUserFormData] = useState({
     username: "",
     firstName: "",
@@ -29,7 +48,6 @@ function Signup() {
     email: "",
     password: "",
     birthday: "06/09/2000",
-    // sex: "",
   });
 
   const [signUpUser] = useMutation(SIGNUP_USER);
@@ -39,46 +57,87 @@ function Signup() {
     const { name, value } = event.target;
     setUserFormData({
       ...userFormData, //access the properties which is name and email
-      [name]: value, //
+      [name]: value,
     });
+    setFormErrors({
+      ...formErrors,
+      [name]: false,
+    });
+  };
+
+  const checkPassword = (password, confirmpassword) => {
+    const passwordErrors = {
+      confirmPassword: false,
+      password: false,
+      passwordMessage: false,
+      confirmPasswordMessage: false,
+    };
+    const regexpPassword =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
+    if (!password) {
+      passwordErrors.passwordMessage = "Password is required";
+      passwordErrors.password = true;
+    } else if (!regexpPassword.test(password)) {
+      passwordErrors.passwordMessage =
+        "passsword must contain atleast one uppercase,lowercase,number,special character";
+        passwordErrors.password = true;
+    } else if (password.length < 8) {
+      passwordErrors.passwordMessage = "Password must be more than 8 characters";
+      passwordErrors.password = true;
+    } else if (password.length > 30) {
+      passwordErrors.passwordMessage = "Password cannot be more than 30 characters";
+      passwordErrors.password = true;
+    }
+    if (password !== confirmpassword) {
+      passwordErrors.confirmPasswordMessage = "Passwords must match";
+      passwordErrors.confirmPassword = true;
+    }
+    return passwordErrors;
+  };
+
+  const validate = (values) => {
+    const passerrors = {};
+    const newFormErrors = {};
+    
+    const passwordErrors = checkPassword(values.password, confirmpassword);
+    newFormErrors.password = passwordErrors.password;
+    newFormErrors.confirmPassword = passwordErrors.confirmPassword;
+    if (passwordErrors.passwordMessage) passerrors.password = passwordErrors.passwordMessage;
+    if (passwordErrors.confirmPasswordMessage) passerrors.confirmPassword = passwordErrors.confirmPasswordMessage;
+    
+    if(!values.username){
+      newFormErrors.username = true;
+      passerrors.username = "Please enter your username";
+    }
+    if(!values.email){
+      newFormErrors.email = true;
+      passerrors.email= "Please enter your email";
+    }
+    if(!values.firstName){
+      newFormErrors.firstName = true;
+      passerrors.firstName= "Please enter first name"
+    }
+    if(!values.lastName){
+      newFormErrors.lastName = true;
+      passerrors.lastName="Please enter last name"
+    }
+    setFormErrors({...newFormErrors});
+    setErrorMessages({...errorMessages, ...passerrors});
+    return passerrors;
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const validates = (values) => {
-      const passerrors = {};
-
-      const regexp =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{4,12}$/;
-
-      if (!values.password) {
-        passerrors.password = "Password is required";
-      } else if (!regexp.test(values.password)) {
-        passerrors.password =
-          "passsword must contain atleast one uppercase,lowercase,number,special character";
-      } else if (values.password.length < 8) {
-        passerrors.password = "Password must be more than 8 characters";
-      } else if (values.password.length > 30) {
-        passerrors.password = "Password cannot be more than 30 characters";
-      }
-      if (values.password !== confirmpassword) {
-        passerrors.confirmpassword = "Passwords must match";
-      }
-      return passerrors;
-    };
+    validate(userFormData);
+    setIsSubmit(true);
 
     try {
-      const passerrors = validates(userFormData);
+      const passerrors = validate(userFormData);
       if (Object.keys(passerrors).length > 0) {
-        throw new Error(
-          `validation failed ${passerrors.confirmpassword || ""} and ${passerrors.confirmpassword || ""
-          }`
-        );
-      }
-
+        throw new Error ("signup form invalid input");
+      };
       console.log(userFormData);
 
-      // userFormData.birthday = userFormData.birthday.toString();
       const { data, error } = await signUpUser({
         variables: {
           owner: {
@@ -89,116 +148,116 @@ function Signup() {
 
       Auth.login(data.postOwner.token);
       const loggedInOwner = data.postOwner.owner;
-      console.log(loggedInOwner);
 
       dispatch(
         storeOwner({
           ...loggedInOwner,
         })
       );
+      dispatch(toggleLoggedIn(true));
+      saveOwner(loggedInOwner);
+      navigate("/create-dog");
     } catch (err) {
       console.log(err);
     }
-    // console.log(passerrors);
   };
-
-  // username: String!
-  // email: String!
-  // password: String!
-  // firstName: String!
-  // lastName: String!
-  // sex: String!
-  // birthday: String!
-  // const sexes = [
-  //   {
-  //     value: "Male",
-  //     label: "Male",
-  //   },
-  //   {
-  //     value: "Female",
-  //     label: "Female",
-  //   },
-  // ];
 
   return (
     <div className="main-container">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container maxWidth="sm">
-          <h2>Sign Up for Bone Buddies</h2>
-          <p>Sign up using the form below.</p>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "100%" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
+          <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
+            <h1>Sign Up for Bone Buddies</h1>
+            <p>Sign up using the form below.</p>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": { width: "100%" },
+                maxWidth: '100%',
+              }}
+              noValidate
+              autoComplete="off"
+            >
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Username"
               variant="outlined"
-              helperText="Please create a username."
+              helperText={errorMessages.username}
               name="username"
               onChange={handleInputChange}
               value={userFormData.username}
+              error={formErrors.username}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="First Name"
               variant="outlined"
-              helperText="Please enter your first name."
+              helperText={errorMessages.firstName}
               name="firstName"
               onChange={handleInputChange}
               value={userFormData.firstName}
+              error={formErrors.firstName}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Last Name"
               variant="outlined"
-              helperText="Please enter your last name."
+              helperText={errorMessages.lastName}
               name="lastName"
               onChange={handleInputChange}
               value={userFormData.lastName}
+              error={formErrors.lastName}
+
             />
             <TextField
               required
               id="outlined-basic"
               label="Email"
               variant="outlined"
-              helperText="Please enter your email address."
+              helperText={errorMessages.email}
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
+              error={formErrors.email}
+
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Create Password"
               variant="outlined"
-              helperText="Please create a password."
+              helperText={errorMessages.password}
               name="password"
+              type="password"
               onChange={handleInputChange}
               value={userFormData.password}
+              error={formErrors.password}
             />
             <TextField
+            sx={{ my: 1 }}
               required
               id="outlined-basic"
               label="Confirm Password"
               variant="outlined"
-              helperText="Please type your password again."
+              helperText={errorMessages.confirmPassword}
               name="confirmpassword"
+              type="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmpassword}
+              error={formErrors.confirmPassword}
             />
           </Box>
           <Box
             component="form"
             sx={{
-              "& > :not(style)": { m: 1, width: "100%" },
+              "& > :not(style)": { width: "100%" },
             }}
             noValidate
             autoComplete="off"
@@ -209,7 +268,7 @@ function Signup() {
               type="date"
               disableFuture
               value={userFormData.birthday}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{ my: 1 }} />}
               helperText="Please select your birthday."
               name="birthday"
               onChange={(birthday) =>
@@ -217,41 +276,24 @@ function Signup() {
               }
               style={{ width: '100%' }}
             />
-            {/* <TextField
-            required
-            id="outlined-select-sex"
-            select
-            label="Sex"
-            value={userFormData.sex}
-            helperText="Please select your dog's sex."
-            name="sex"
-            onChange={handleInputChange}
-          >
-            {sexes.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField> */}
           </Box>
           <Stack
             direction="row"
             spacing={2}
             justifyContent="center"
-          >
-            <Button
-              sx={{ my: 2 }}
-              variant="contained"
-              type="button"
-              onClick={handleFormSubmit}
             >
-              Sign Up
-            </Button>
-          </Stack>
+              <Button
+                sx={{ my: 2 }}
+                variant="contained"
+                type="button"
+                onClick={handleFormSubmit}
+              >
+                Sign Up
+              </Button>
+            </Stack>
+          </Paper>
         </Container>
       </LocalizationProvider>
     </div>
   );
 }
-
-export default Signup;

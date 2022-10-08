@@ -1,22 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const UPLOAD_DOG_IMAGES = gql`
-mutation Mutation($dogId: ID!, $imageUrl: [String]!) {
+mutation AddDogImage($dogId: ID!, $imageUrl: [String]!) {
    addDogImage(dogId: $dogId, imageURL: $imageUrl) {
-      _id
-      name
-      breed
-      birthday
-      sex
-      weight
-      personality
-      headline
-      about
-      images
-      tags
+     _id
    }
-}
-`;
+ }`;
 
 export const UPLOAD_OWNER_IMAGES = gql`
 mutation AddOwnerImage($imageUrl: [String]!) {

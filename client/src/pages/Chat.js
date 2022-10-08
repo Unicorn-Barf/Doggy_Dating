@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import Messages from '../components/Messages';
 import Conversations from "../components/Conversations";
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
-
+import { IconButton, Grid, Box, Button, Stack, Paper, Container } from '@mui/material';
+import '../../src/styles/root.css';
 
 const Chat = ({ convoId = null, toggle = false }) => {
     const { _id: myDogId, name: myDogName } = getSavedDogArr()[getCurrentDogIndex()];
@@ -12,35 +13,61 @@ const Chat = ({ convoId = null, toggle = false }) => {
     const [toggleChat, setToggleChat] = useState(initialToggle);
     const [conversationId, setConversationId] = useState(initialConvoId);
     console.log(conversationId, toggleChat);
+
     return (
-        <div>
-            <h1>Chat Screen</h1>
-            <h2>Dog Thoughts 💭</h2>
-            {toggleChat
-                ? (
-                    <button
-                        onClick={() => setToggleChat(!toggleChat)}
-                    >
-                        Back to Conversations
-                    </button>
-                )
-                : ''
-            }
+        <div className="main-container">
+            {/* <Grid container xs={12}>
+                <Grid item style={{ justifyContent: "center" }}> */}
+                    <Container maxWidth="lg">
+                        <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
+                            {/* <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }}> */}
+                                <h1>Chat Screen</h1>
+                                <h2>Dog Thoughts 💭</h2>
+                                <p>Chat with your dog friends and schedule a playdate!</p>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        "& > :not(style)": { width: "100%" },
+                                        maxWidth: '100%', padding: "10px"
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    {toggleChat
+                                        ? (
+                                            <Stack
+                                                direction="row"
+                                                justifyContent="center"
+                                            >
+                                                <Button
+                                                    size="small" variant="contained" item xs={2}
+                                                    onClick={() => setToggleChat(!toggleChat)}
+                                                >
+                                                    Back to Your Chats
+                                                </Button>
+                                            </Stack>
+                                        ) : ''
+                                    }
 
+                                    {toggleChat
+                                        ? <Messages
+                                            myDogName={myDogName}
+                                            myDogId={myDogId}
+                                            conversationId={conversationId}
+                                        />
+                                        : <Conversations
+                                            myDogName={myDogName}
+                                            setConversationId={setConversationId}
+                                            setToggleChat={setToggleChat}
+                                        />}
 
-            {toggleChat
-                ? <Messages
-                    myDogName={myDogName}
-                    myDogId={myDogId}
-                    conversationId={conversationId}
-                />
-                : <Conversations
-                    setConversationId={setConversationId}
-                    setToggleChat={setToggleChat}
-                />}
-
-
-        </div>
+                                </Box>
+                            {/* </div> */}
+                        </Paper>
+                    </Container>
+                {/* </Grid>
+            </Grid> */}
+        </div >
     )
 };
 
