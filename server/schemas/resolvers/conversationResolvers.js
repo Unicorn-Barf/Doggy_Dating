@@ -31,7 +31,8 @@ const conversationQuery = {
 const conversationMutation = {
    postConversation: async (parent, args, context) => {
       try {
-         const conversation = await Conversation.create({ dogIds: args.dogIds });
+         const createConvo = await Conversation.create({ dogIds: args.dogIds });
+         const conversation = await Conversation.findById(createConvo._id).populate('dogIds');
          //put this conversation id in every dog
          for (let i = 0; i < args.dogIds.length; i++) {
             console.log(args.dogIds[i]);
@@ -47,8 +48,11 @@ const conversationMutation = {
                },
             );
          }
+         console.log('************AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHH***********');
+         console.log(conversation);
          // Publish Subscription Event for each dog
          const { _id, dogIds, messages } = conversation;
+         console.log(_id, dogIds, messages)
          console.log('hit UPDATED_CONVERSATION pubsub');
          pubsub.publish(`UPDATED_CONVERSATION`, {
             conversationUpdated: { _id, dogIds, messages }
@@ -69,7 +73,7 @@ const conversationMutation = {
             },
             {
                new: true,
-               populate: { path: 'dogIds' }
+               populate: { path: 'dogIds' },
             },
          );
 
@@ -107,6 +111,7 @@ const conversationMutation = {
             },
             {
                new: true,
+               populate: { path: 'dogIds' },
             }
          );
 
@@ -136,7 +141,7 @@ const conversationSubscription = {
          () => pubsub.asyncIterator(['UPDATED_CONVERSATION']),
          (payload, variables) => {
             // Only push update for relevant Dog
-            return (payload.conversationUpdated.dogIds.includes(variables.dogId));
+            return (payload.conversationUpdated.dogIds.find(dog => dog._id === variables.dogId));
          }
       )
    }

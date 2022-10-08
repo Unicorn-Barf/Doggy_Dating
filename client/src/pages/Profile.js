@@ -41,19 +41,25 @@ export default function DogProfile() {
                 })
                 if (check) {
                     convoId = convoArr[i]._id;
-                    break;
+                    navigate('/chat', {
+                        state: {
+                            convoId,
+                            toggle: true,
+                        }
+                    });
+                    return;
                 }
             }
-        } else {
-            try {
-                const { data } = await createConvo({
-                    variables: { dogIds: [dogId, myDogId] },
-                });
-                convoId = data.postConversation._id;
+        }
 
-            } catch (error) {
-                console.log(error);
-            }
+        try {
+            const { data } = await createConvo({
+                variables: { dogIds: [dogId, myDogId] },
+            });
+            convoId = data.postConversation._id;
+
+        } catch (error) {
+            console.log(error);
         }
         // Navigate also sending the convoId to next component.
         navigate('/chat', {
