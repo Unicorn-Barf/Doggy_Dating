@@ -26,7 +26,6 @@ import { CREATE_DOG } from '../utils/mutations';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 import { pushDogToArr } from '../utils/localStorage';
-import { Navigate } from 'react-router-dom';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
@@ -148,7 +147,7 @@ export default function CreateDog() {
         //         }
         //     }
         // });
-        console.log(dogFormData);
+        // console.log(dogFormData);
     };
 
     return (
@@ -241,7 +240,7 @@ export default function CreateDog() {
                                 <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
                                     <Select
-                                        labelId="multiple-checkbox-label"
+                                       labelId="multiple-checkbox-label"
                                         id="multiple-checkbox"
                                         multiple
                                         label="Personality"
@@ -311,7 +310,7 @@ export default function CreateDog() {
                                     onChange={handleInputChange}
                                 />
                                 <Stack
-                                    direction="column"
+                                    direction="row"
                                     spacing={2}
                                     justifyContent="center"
                                 >

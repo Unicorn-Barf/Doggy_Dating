@@ -126,11 +126,11 @@ const Signin = () => {
           spacing={0}
           direction="column"
           justifyContent="center"
-          style={{ maxHeight: "50vh" }}
+          // style={{ maxHeight: "50vh" }}
         >
           <form>
           <FormControl error={validationError}>
-            <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+            <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
               <h1>Sign Into Bone Buddies</h1>
               <p>Enter your email and password to start making friends for your dog.</p>
               <Grid item>

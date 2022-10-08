@@ -18,7 +18,7 @@ export default function Home() {
    //Use query to get all dogs from the database
    const dogData = useQuery(GET_ALL_DOGS);
    const dogArray = dogData.data?.getAllDogs || [];
-   const maxPages = Math.ceil(dogData.data?.getAllDogs.length/10) - 1 || 0;
+   const maxPages = Math.ceil(dogData.data?.getAllDogs.length / 10) - 1 || 0;
 
    const [page, setPage] = useState(0);
    const [dogDisplay, setDogDisplay] = useState([]);
@@ -74,13 +74,15 @@ export default function Home() {
                      <h1>Find New Friends</h1>
                      <p>Tap/click a card to learn more about each new, potential friend.</p>
                   </div>
-                  <Grid container spacing={2} justifyContent="center">
+                  <Grid
+                     container
+                     spacing={2}
+                     style={{ justifyContent: "center" }}
+                  >
                      {dogData.loading ? (
                         <h1>Loading...</h1>
                      ) : (
                         <>
-
-                           {/* <h1>Find New Furends!</h1> */}
                            {dogDisplay.map((item, key) => {
                               return (
                                  <DogCards
@@ -99,7 +101,21 @@ export default function Home() {
                         </>
                      )}
                   </Grid>
-                  <Button onClick={decrementPage}>Decrement</Button><p>Page: {page + 1}</p><Button onClick={incrementPage}>Increment</Button>
+                  <Grid item xs={6} style={{ display: "flex", justifyContent: "space-between" }}>
+                     <Button
+                        onClick={decrementPage}
+                        style={{ textDecoration: "none", color: "white", padding: "10px" }}
+                     >
+                        Previous Page
+                     </Button>
+                     <p>Page: {page + 1}</p>
+                     <Button
+                        onClick={incrementPage}
+                        style={{ textDecoration: "none", color: "white", padding: "10px" }}
+                     >
+                        Next Page
+                     </Button>
+                  </Grid>
                </>
             ) :
             <MainLoggedOut />

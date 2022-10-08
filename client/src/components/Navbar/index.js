@@ -18,11 +18,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LoginIcon from '@mui/icons-material/Login';
-import { ListItem, ListItemIcon } from "@mui/material";
+import { ListItemIcon } from "@mui/material";
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Logo from '../../pages/assets/images/bone-buddies-logo-small.png';
 import { toggleLoggedIn } from '../../slices/ownerSlice';
 import { getSavedDogArr, getCurrentDogIndex, setCurrentDogIndex } from '../../utils/localStorage';
 import { storeDogs, storeCurrentDog, getDog } from '../../slices/dogSlice';
@@ -30,8 +31,6 @@ import { storeOwner } from '../../slices/ownerSlice';
 import Auth from '../../utils/auth';
 import './navbar.css';
 import useWindowDimension from "../../utils/windowDimensions";
-import { Fade } from "@mui/material";
-
 
 export default function Navbar() {
    const { height, width } = useWindowDimension();
@@ -87,7 +86,6 @@ export default function Navbar() {
       <AppBar position="static" id="navbar">
          <Container maxWidth="xl">
             <Toolbar disableGutters>
-               <PetsIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
                <Typography
                   variant="h6"
                   noWrap
@@ -103,10 +101,14 @@ export default function Navbar() {
                      textDecoration: "none"
                   }}
                >
-                  Bone Buddies
+                  <img
+                     src={Logo}
+                     id="logo"
+                     style={{ alignSelf: "center", width: "50%", marginTop: 5, marginBottom: 5 }}
+                     alt="Bone Buddies logo"
+                  ></img>
                </Typography>
 
-               <PetsIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
                <Typography
                   variant="h5"
                   noWrap
@@ -123,7 +125,12 @@ export default function Navbar() {
                      textDecoration: "none"
                   }}
                >
-                  Bone Buddies
+                  <img
+                     src={Logo}
+                     id="logo"
+                     style={{ alignSelf: "center", width: "50%", marginTop: 5, marginBottom: 5 }}
+                     alt="Bone Buddies logo"
+                  ></img>
                </Typography>
                {width >= 900
                   ?
@@ -150,7 +157,6 @@ export default function Navbar() {
                               id="basic-menu"
                               anchorEl={anchorEl}
                               open={open}
-                              // onClose={handleClose}
                               MenuListProps={{
                                  'aria-labelledby': 'basic-button',
                               }}
@@ -195,102 +201,102 @@ export default function Navbar() {
                      >
                         <MenuIcon />
                      </IconButton>
-                        {Auth.loggedIn()
-                           ?      
-                           <Menu
-                              id="menu-appbar"
-                              anchorEl={anchorElNav}
-                              anchorOrigin={{
-                                 vertical: 'bottom',
-                                 horizontal: 'right',
-                              }}
-                              transformOrigin={{
-                                 vertical: 'top',
-                                 horizontal: 'right',
-                              }}
-                              open={openNav}
-                              onClose={handleCloseNavMenu}
-                              sx={{
-                                 display: { xs: 'block', md: 'none' },
-                              }}
-                           >
-                              <div id="loggedInNav">
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<HouseIcon />}><Link to="/">Home</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<PetsIcon />}><Link to={`/profile/${myDogId}`}>Profile</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<ChatIcon />}><Link to="/chat">Chat</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/create-dog">Register New Dog</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem"><Button
-                                    color="inherit"
-                                    id="basic-button"
-                                    aria-controls={open ? 'basic-menu' : undefined}
-                                    aria-haspopup="true"
-                                    aria-expanded={open ? 'true' : undefined}
-                                    onClick={handleClick}
-                                    onClose={handleClose}
-                                    startIcon={<CompareArrowsIcon />}
-                                 >
-                                    Switch Dogs
+                     {Auth.loggedIn()
+                        ?
+                        <Menu
+                           id="menu-appbar"
+                           anchorEl={anchorElNav}
+                           anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'right',
+                           }}
+                           transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                           }}
+                           open={openNav}
+                           onClose={handleCloseNavMenu}
+                           sx={{
+                              display: { xs: 'block', md: 'none' },
+                           }}
+                        >
+                           <div id="loggedInNav">
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<HouseIcon />}><Link to="/">Home</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<PetsIcon />}><Link to={`/profile/${myDogId}`}>Profile</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<ChatIcon />}><Link to="/chat">Chat</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/create-dog">Register New Dog</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem"><Button
+                                 color="inherit"
+                                 id="basic-button"
+                                 aria-controls={open ? 'basic-menu' : undefined}
+                                 aria-haspopup="true"
+                                 aria-expanded={open ? 'true' : undefined}
+                                 onClick={handleClick}
+                                 onClose={handleClose}
+                                 startIcon={<CompareArrowsIcon />}
+                              >
+                                 Switch Dogs
+                              </Button>
+                              </MenuItem>
+                              <Menu
+                                 id="basic-menu"
+                                 anchorEl={anchorEl}
+                                 open={open}
+                                 MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                 }}
+                                 onClose={handleClose}
+                              >
+                                 {dogArray.map((dog, index) => (
+                                    <MenuItem
+                                       value={index}
+                                       key={dog._id}
+                                       onClick={handleClickChange}
+                                       onClose={handleClose}
+                                    >
+                                       <ListItemIcon>
+                                          <PetsIcon />
+                                       </ListItemIcon>
+                                       {dog.name}
+                                    </MenuItem>
+                                 ))}
+                              </Menu>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}>
+                                 <Button color="inherit" startIcon={<SettingsIcon />}>
+                                    <Link to={`/dog/settings`}>Dog Settings</Link>
                                  </Button>
-                                 </MenuItem>
-                                 <Menu
-                                    id="basic-menu"
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    MenuListProps={{
-                                       'aria-labelledby': 'basic-button',
-                                    }}
-                                    onClose={handleClose}
-                                 >
-                                    {dogArray.map((dog, index) => (
-                                       <MenuItem
-                                          value={index}
-                                          key={dog._id}
-                                          onClick={handleClickChange}
-                                          onClose={handleClose}
-                                       >
-                                          <ListItemIcon>
-                                             <PetsIcon />
-                                          </ListItemIcon>
-                                          {dog.name}
-                                       </MenuItem>
-                                    ))}
-                                 </Menu>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}>
-                                    <Button color="inherit" startIcon={<SettingsIcon />}>
-                                       <Link to={`/dog/settings`}>Dog Settings</Link>
-                                    </Button>
-                                 </MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AccountCircleIcon />}><Link to="/owner/settings">Owner Settings</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogOut}><Link>Sign Out</Link></Button></MenuItem>
-                              </div>
-                           </Menu>
-                           
-                           :
-                           <Menu
-                              id="menu-appbar"
-                              anchorEl={anchorElNav}
-                              anchorOrigin={{
-                                 vertical: 'bottom',
-                                 horizontal: 'right',
-                              }}
-                              keepMounted
-                              transformOrigin={{
-                                 vertical: 'top',
-                                 horizontal: 'right',
-                              }}
-                              open={openNav}
-                              onClose={handleCloseNavMenu}
-                              sx={{
-                                 display: { xs: 'block', md: 'none' },
-                              }}
-                           >
-                              <div id="loggedOutNav">
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<HouseIcon />} ><Link to="/" onClose={handleClose}>Home</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<LoginIcon />}><Link to="/sign-in">Sign In</Link></Button></MenuItem>
-                                 <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/sign-up">Sign Up</Link></Button></MenuItem>
-                              </div>
-                           </Menu>
-                        }
+                              </MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AccountCircleIcon />}><Link to="/owner/settings">Owner Settings</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogOut}><Link>Sign Out</Link></Button></MenuItem>
+                           </div>
+                        </Menu>
+
+                        :
+                        <Menu
+                           id="menu-appbar"
+                           anchorEl={anchorElNav}
+                           anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'right',
+                           }}
+                           keepMounted
+                           transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                           }}
+                           open={openNav}
+                           onClose={handleCloseNavMenu}
+                           sx={{
+                              display: { xs: 'block', md: 'none' },
+                           }}
+                        >
+                           <div id="loggedOutNav">
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<HouseIcon />} ><Link to="/" onClose={handleClose}>Home</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<LoginIcon />}><Link to="/sign-in">Sign In</Link></Button></MenuItem>
+                              <MenuItem className="mobileMenuItem" onClick={handleCloseNavMenu}><Button color="inherit" startIcon={<AssignmentIcon />}><Link to="/sign-up">Sign Up</Link></Button></MenuItem>
+                           </div>
+                        </Menu>
+                     }
                   </Box>
                }
 

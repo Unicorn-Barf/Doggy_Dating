@@ -17,7 +17,17 @@ body::after {
 }
 
 h1, h2 {
-    font-family: 'Chicle', cursive;
+    font-family: caraque-melted, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 25px;
 }
 
 .main-container {
@@ -25,6 +35,6 @@ h1, h2 {
     margin-bottom: 75px;
 }
 
-button {
-    background-color: var(--pink);
+.main-container button {
+    background-color: var(--pink) !important;
 }

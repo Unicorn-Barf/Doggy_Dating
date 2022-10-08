@@ -1,5 +1,5 @@
 #navbar {
-    background-color: var(--light-purp);
+    background-color: var(--violet);
     border-bottom: 5px solid var(--dark-purp);
 }
 
@@ -24,3 +24,7 @@
     text-decoration: none;
     color: #000;
 }
+
+/* button {
+    background-color: transparent !important;
+} */

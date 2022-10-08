@@ -14,8 +14,6 @@ import { Container, Stack } from '@mui/system';
 import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
-
-
 export default function DogProfile() {
     const navigate = useNavigate();
     const { dogId } = useParams();
@@ -66,6 +64,7 @@ export default function DogProfile() {
         });
     };
 
+    // FOR FUTURE DEVELOPMENT
     // for whether or not the user can edit dog right on profile
     // const editDogProfile = () => {
     //     if (!dog.dogId === dog.ownerId ? showButton : null ) 
@@ -77,60 +76,62 @@ export default function DogProfile() {
     return (
         <div className="main-container">
             <Grid container spacing={2}>
-                <Container maxWidth="sm">
-                    <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
-                        {/* <Grid item> */}
-                        <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 3 }}>
-                            {dogData.loading
-                                ?
-                                <h1>Loading...</h1>
-                                :
-                                <div style={{ my: 1 }}>
-                                    <Stack
-                                        justifyContent="center"
-                                    >
-                                        <img
-                                            src={dog.images}
-                                            style={{ maxWidth: "500px", my: 1, alignSelf: "center" }}
-                                            alt="dog profile pic"
-                                        />
-                                    </Stack>
-                                    <div style={{ padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: "bold" }}>
-                                        <h1>{dog.name}</h1>
-                                        <StarBorderIcon />
-                                    </div>
+                <Grid item xs={12}>
+                    <Container maxWidth="sm">
+                        <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
+                            <Box sx={{ flexGrow: 1, justifyContent: "center", margin: 1 }}>
+                                {dogData.loading
+                                    ?
+                                    <h1>Loading...</h1>
+                                    :
+                                    <div style={{ my: 1 }}>
+                                        <Stack
+                                            justifyContent="center"
+                                        >
+                                            <img
+                                                src={dog.images[0] || 'https://drive.google.com/file/d/1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW/view?usp=sharing'}
+                                                style={{ maxWidth: "100%", my: 1, alignSelf: "center", objectFit: "cover" }}
+                                                alt="dog profile pic"
+                                            />
+                                        </Stack>
+                                        <div style={{ padding: 10, display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: "bold" }}>
+                                            <h1>{dog.name}</h1>
+                                            <StarBorderIcon />
+                                        </div>
 
-                                    <div style={{ display: "flex", justifyContent: "space-around", padding: 3, my: 1 }}>
-                                        <div>{dog.breed}</div> | <div>{dog.weight} lbs.</div> | <div>{dog.sex} </div>
-                                    </div>
+                                        <div style={{ display: "flex", justifyContent: "space-around", padding: 3, my: 1 }}>
+                                            <div>{dog.breed}</div> | <div>{dog.weight} lbs.</div> | <div>{dog.sex} </div>
+                                        </div>
 
-                                    <div style={{ display: "flex", justifyContent: "left", padding: 3, my: 1 }}>
-                                        <p style={{ textAlign: "left" }}>{dog.about}</p>
-                                    </div>
+                                        <div style={{ display: "flex", justifyContent: "left", padding: 3, my: 1 }}>
+                                            <p style={{ textAlign: "left" }}>{dog.about}</p>
+                                        </div>
 
-                                    {/* let date= moment.unix(dog.birthday);
+                                        {/* FOR FUTURE DEVELOPMENT
+                                    let date= moment.unix(dog.birthday);
                                         date.format(how i want date to be formatted) */}
 
-                                    <div style={{ display: "flex", justifyContent: "center", padding: 3, my: 1 }}>
-                                        <h3>{dog.ownerId.username}</h3>
+                                        <div style={{ display: "flex", justifyContent: "center", padding: 3, my: 1 }}>
+                                            <h3>{dog.ownerId.username}</h3>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                            <Stack
-                                direction="row"
-                                spacing={2}
-                                justifyContent="center"
-                            >
-                                <Button
-                                    size="medium"
-                                    variant="contained"
-                                    style={{ margin: 5 }}
-                                    onClick={(event) => initiatePlaydate(event)}
+                                }
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    justifyContent="center"
                                 >
-                                    Playdate
-                                </Button>
+                                    <Button
+                                        size="medium"
+                                        variant="contained"
+                                        style={{ margin: 5 }}
+                                        onClick={(event) => initiatePlaydate(event)}
+                                    >
+                                        Playdate
+                                    </Button>
 
-                                {/* <Button
+                                    {/* FOR FUTURE DEVELOPMENT
+                                <Button
                                     size="medium"
                                     variant="contained"
                                     style={{ margin: 5 }}
@@ -138,10 +139,11 @@ export default function DogProfile() {
                                 >
                                     Edit Dog
                                 </Button> */}
-                            </Stack>
-                        </Box>
-                    </Paper>
-                </Container>
+                                </Stack>
+                            </Box>
+                        </Paper>
+                    </Container>
+                </Grid>
             </Grid>
         </div>
     )
