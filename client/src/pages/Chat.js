@@ -36,6 +36,7 @@ const Chat = ({ convoId = null, toggle = false }) => {
                     conversationId={conversationId}
                 />
                 : <Conversations
+                    myDogName={myDogName}
                     setConversationId={setConversationId}
                     setToggleChat={setToggleChat}
                 />}

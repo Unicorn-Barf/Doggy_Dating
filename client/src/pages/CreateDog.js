@@ -21,14 +21,16 @@ import { Grid, Paper } from '@mui/material';
 import '../styles/root.css';
 import './styles/pages.css';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { CREATE_DOG } from '../utils/mutations';
-// import { storeDogs } from '../slices/dogSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 import { pushDogToArr } from '../utils/localStorage';
+import { Navigate } from 'react-router-dom';
 
 export default function CreateDog() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [createDog] = useMutation(CREATE_DOG);
 
     const [name, setName] = React.useState('');
@@ -45,7 +47,7 @@ export default function CreateDog() {
         breed: '',
         birthday: '08/14/2014',
         sex: '',
-        isFixed: true,
+        isFixed: Boolean,
         weight: 0,
         // personality: [],
         about: '',
@@ -130,6 +132,7 @@ export default function CreateDog() {
             });
             console.log(data);
             pushDogToArr(data.postDog);
+            navigate(`/profile/${data.postDog._id}`);
         } catch (error) {
             console.log(error);
         }
@@ -152,7 +155,7 @@ export default function CreateDog() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className='main-container'>
                 <Container maxWidth="sm">
-                    <Paper elevation={3} sx={{ padding: 5, marginTop: 3 }}>
+                    <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                         <Grid
                             container
                             spacing={0}
@@ -165,13 +168,14 @@ export default function CreateDog() {
                             <Box
                                 component="form"
                                 sx={{
-                                    '& > :not(style)': { m: 1, width: '100%' },
+                                    '& > :not(style)': { width: '100%' },
                                     maxWidth: '100%',
                                 }}
                                 noValidate
                                 autoComplete="off"
                             >
                                 <TextField
+                                    sx={{ my: 1 }}
                                     required
                                     id="fullWidth"
                                     label="Name"
@@ -182,6 +186,7 @@ export default function CreateDog() {
                                     helperText="Please enter your dog's name."
                                 />
                                 <TextField
+                                    sx={{ my: 1 }}
                                     required
                                     id="fullWidth"
                                     label="Breed"
@@ -189,7 +194,7 @@ export default function CreateDog() {
                                     name="breed"
                                     onChange={handleInputChange}
                                     variant="outlined"
-                                    helperText="What is/are your dogs breed(s)?"
+                                    helperText="What is/are your dog's breed(s)?"
                                 />
                                 <MobileDatePicker
                                     label="Birthday"
@@ -199,31 +204,28 @@ export default function CreateDog() {
                                     name="birthday"
                                     disableFuture
                                     onChange={(birthday) => setDogFormData({ ...dogFormData, birthday })}
-                                    renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." />}
+                                    renderInput={(params) => <TextField {...params} helperText="Please select your dog's birthday." sx={{ my: 1 }} />}
                                 />
 
-                                <FormControl required>
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel className="simple-select-label">Sex</InputLabel>
                                     <Select
-                                        required
+                                        sx={{ my: 1 }}
                                         id="simple-select"
                                         value={dogFormData.sex}
                                         name="sex"
                                         label="Sex"
                                         onChange={handleInputChange}
                                     >
-                                        <MenuItem disabled value="">Select an option here.</MenuItem>
                                         <MenuItem value={'Male'}>Male</MenuItem>
                                         <MenuItem value={'Female'}>Female</MenuItem>
                                     </Select>
                                     <FormHelperText>Please select your dog's sex.</FormHelperText>
                                 </FormControl>
 
-                                <FormControl required>
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
                                     <InputLabel className="simple-select-label">Spayed or Neutered?</InputLabel>
                                     <Select
-                                        required
-                                        // labelId="simple-select-label"
                                         id="simple-select"
                                         value={dogFormData.isFixed}
                                         name="isFixed"
@@ -236,34 +238,32 @@ export default function CreateDog() {
                                     <FormHelperText>Is your dog spayed/neutered?</FormHelperText>
                                 </FormControl>
 
-                                <Box sx={{ display: 'flex' }}>
-                                    <FormControl sx={{ width: '100%' }}>
-                                        <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
-                                        <Select
-                                            required
-                                            labelId="multiple-checkbox-label"
-                                            id="multiple-checkbox"
-                                            multiple
-                                            label="Personality"
-                                            value={personality}
-                                            name="personality"
-                                            onChange={handlePersonalityChange}
-                                            input={<OutlinedInput label="Personality" />}
-                                            renderValue={(selected) => selected.join(', ')}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {personalities.map((traits) => (
-                                                <MenuItem key={traits} value={traits}>
-                                                    <Checkbox checked={personality.indexOf(traits) > -1} />
-                                                    <ListItemText primary={traits} />
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                        <FormHelperText>Please select all that apply.</FormHelperText>
-                                    </FormControl>
-                                </Box>
+                                <FormControl required sx={{ width: '100%', my: 1 }}>
+                                    <InputLabel id="multiple-checkbox-label">Personality Traits</InputLabel>
+                                    <Select
+                                        labelId="multiple-checkbox-label"
+                                        id="multiple-checkbox"
+                                        multiple
+                                        label="Personality"
+                                        value={personality}
+                                        name="personality"
+                                        onChange={handlePersonalityChange}
+                                        input={<OutlinedInput label="Personality" />}
+                                        renderValue={(selected) => selected.join(', ')}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {personalities.map((traits) => (
+                                            <MenuItem key={traits} value={traits}>
+                                                <Checkbox checked={personality.indexOf(traits) > -1} />
+                                                <ListItemText primary={traits} />
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText>Please select all that apply.</FormHelperText>
+                                </FormControl>
 
                                 <TextField
+                                    sx={{ my: 1 }}
                                     required
                                     id="outlined-basic"
                                     variant="outlined"
@@ -281,7 +281,7 @@ export default function CreateDog() {
                             <Box
                                 component="form"
                                 sx={{
-                                    '& > :not(style)': { m: 1, width: '100%' },
+                                    '& > :not(style)': { width: '100%' },
                                 }}
                                 noValidate
                                 autoComplete="off"
@@ -311,15 +311,16 @@ export default function CreateDog() {
                                     onChange={handleInputChange}
                                 />
                                 <Stack
-                                    direction="row"
+                                    direction="column"
                                     spacing={2}
                                     justifyContent="center"
                                 >
                                     <Button
+                                        sx={{ my: 1 }}
                                         variant="contained"
                                         onClick={handleFormSubmit}
                                     >
-                                        Submit
+                                        Register Dog
                                     </Button>
                                 </Stack>
                             </Box>

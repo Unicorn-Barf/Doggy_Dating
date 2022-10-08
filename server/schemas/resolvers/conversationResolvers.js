@@ -10,7 +10,7 @@ const conversationQuery = {
    getAllConversationsByDogId: async (parent, args, context) => {
       try {
          const dog = await Dog.findById(args.dogId);
-         const conversations = await Conversation.find().where('_id').in(dog.conversationIds).exec();
+         const conversations = await Conversation.find().where('_id').in(dog.conversationIds).populate('dogIds').exec();
          return conversations;
       } catch (error) {
          console.error(error);
@@ -69,6 +69,7 @@ const conversationMutation = {
             },
             {
                new: true,
+               populate: { path: 'dogIds' }
             },
          );
 

@@ -42,7 +42,7 @@ const typeDefs = gql`
 
    type Dog {
       _id: ID
-      ownerId: ID
+      ownerId: Owner
       name: String
       breed: String
       birthday: String
@@ -105,7 +105,7 @@ const typeDefs = gql`
 
    type Conversation {
       _id: ID
-      dogIds: [ID]
+      dogIds: [Dog]
       messages: [Message]
    }
 
