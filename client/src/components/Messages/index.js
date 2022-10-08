@@ -94,8 +94,8 @@ const Messages = ({ conversationId, myDogId, myDogName }) => {
               }}
               value={text} size="small"
               fullWidth
-              variant="outlined" r
-              equired
+              variant="outlined"
+              required
               label="Type your message here."
               style={{ margin: "5px" }}
             />
