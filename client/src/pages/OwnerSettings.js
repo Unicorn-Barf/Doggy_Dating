@@ -8,22 +8,23 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import '../pages/styles/pages.css';
 
-const OwnerSettings = () => {
+export default function OwnerSettings() {
 
+   // FOR FUTURE DEVELOPMENT
    // const sexes = ['Male', 'Female', 'Prefer not to say'];
+   // const [firstName, setFirstName] = useState(ownerData.firstName ? ownerData.firstName : "");
+   // const [lastName, setLastName] = useState(ownerData.lastName ? ownerData.lastName : "");
+   // const [sex, setSex] = useState(ownerData.sex ? ownerData.sex : "");
 
    const ownerData = getSavedOwner();
    const [putOwner] = useMutation(PUT_OWNER);
 
    const birthdayDate = new Date(parseInt(ownerData.birthday));
-
-   const [confirmPassword, setConfirmPassword] = useState("");
-   const [firstName, setFirstName] = useState(ownerData.firstName ? ownerData.firstName : "");
-   const [lastName, setLastName] = useState(ownerData.lastName ? ownerData.lastName : "");
-   // const [sex, setSex] = useState(ownerData.sex ? ownerData.sex : "");
    const [birthday, setBirthday] = useState(ownerData.birthday ? birthdayDate : "");
 
+   const [confirmPassword, setConfirmPassword] = useState("");
    const [passwordMatchAlert, setPasswordMatchAlert] = useState(false);
    const [userFormData, setUserFormData] = useState({
       newPassword: '',
@@ -32,7 +33,7 @@ const OwnerSettings = () => {
       firstName: ownerData.firstName || '',
       lastName: ownerData.lastName || '',
       username: ownerData.username || "",
-      email:  ownerData.email || '',
+      email: ownerData.email || '',
       sex: ownerData.sex || '',
    });
 
@@ -40,16 +41,14 @@ const OwnerSettings = () => {
       event.preventDefault();
       const { name, value } = event.target;
       setUserFormData({
-          ...userFormData,
-          [name]: value,
+         ...userFormData,
+         [name]: value,
       })
-  };
-
+   };
 
    const handleFormSubmit = async (event) => {
       let PutOwnerInput = {};
       for (let key in userFormData) {
-         // console.log(key.length);
          if (key === 'newPassword' || key === 'confirmPassword') {
             continue;
          }
@@ -71,7 +70,7 @@ const OwnerSettings = () => {
             PutOwnerInput.newPassword = userFormData.newPassword;
          }
       }
-      
+
       try {
          const putOwnerData = await putOwner({
             variables: {
@@ -203,7 +202,8 @@ const OwnerSettings = () => {
                         variant="outlined"
                         value={userFormData.lastName}
                      />
-                     {/* <FormControl>
+                     {/* FOR FUTURE DEVELOPMENT
+                     <FormControl>
                <InputLabel id="select-sex-label">Sex</InputLabel>
                <Select
                   labelId="select-sex-label"
@@ -225,13 +225,13 @@ const OwnerSettings = () => {
                            label="Birthday"
                            type="date"
                            value={birthday}
-                           renderInput={(params) => <TextField {...params} sx={{ my: 1 }}/>}
+                           renderInput={(params) => <TextField {...params} sx={{ my: 1 }} />}
                            name="birthday"
                            onChange={(birthday) => setBirthday(birthday)}
                         />
                      </LocalizationProvider>
                      <Stack
-                        direction="column"
+                        direction="row"
                         spacing={2}
                         justifyContent="center"
                      >
@@ -239,6 +239,7 @@ const OwnerSettings = () => {
                            sx={{ my: 2 }}
                            variant="contained"
                            onClick={handleFormSubmit}
+                           style={{ backgroundColor: "var(--pink)" }}
                         >
                            Submit
                         </Button>
@@ -250,5 +251,3 @@ const OwnerSettings = () => {
       </div >
    )
 }
-
-export default OwnerSettings;
