@@ -1,6 +1,7 @@
 import React, { useState } from "react"
-import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel } from "@mui/material";
+import { Container, TextField, Button, FormControl, Select, MenuItem, InputLabel, Collapse, IconButton, Alert } from "@mui/material";
 import Stack from "@mui/material/Stack";
+import CloseIcon from '@mui/icons-material/Close';
 import { GET_DOG_BY_ID } from '../utils/queries';
 import { PUT_DOG, DELETE_DOG } from "../utils/mutations";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -100,6 +101,9 @@ const DogSettings = () => {
    const [dogHeadline, setDogHeadline] = useState(currentDog.headline ? currentDog.headline : "");
    const [dogAbout, setDogAbout] = useState(currentDog.about ? currentDog.about : "");
 
+   const [updateAlert, setUpdateAlert] = useState(false);
+   const [updateFailAlert, setUpdateFailAlert] = useState(false);
+
    const handleInputChange = async (event) => {
       console.log(event.target);
       if (event.target.name === 'name') {
@@ -176,10 +180,14 @@ const DogSettings = () => {
                dog: PutDogInput,
             }
          });
-
          //update dog in local storage
-         dogArray[getCurrentDogIndex()] = putDogData.data.putDog;
-         saveDogArr(dogArray);
+         if (putDogData.data.putDog) {
+            setUpdateAlert(true);
+            dogArray[getCurrentDogIndex()] = putDogData.data.putDog;
+            saveDogArr(dogArray);
+         } else {
+            setUpdateFailAlert(true);
+         }
       } catch (error) {
          console.error(error);
       }
@@ -207,6 +215,44 @@ const DogSettings = () => {
             ? <div><h1>You have no dogs. ☹️</h1></div>
             : <div className="main-container">
                <Container maxWidth="sm">
+                  <Collapse in={updateAlert}>
+                     <Alert
+                        severity="success"
+                        action={
+                           <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                 setUpdateAlert(false);
+                              }}
+                           >
+                              <CloseIcon fontSize="inherit" />
+                           </IconButton>
+                        }
+                     >
+                        Update was successful!
+                     </Alert>
+                  </Collapse>
+                  <Collapse in={updateFailAlert}>
+                     <Alert
+                        severity="error"
+                        action={
+                           <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                 setUpdateFailAlert(false);
+                              }}
+                           >
+                              <CloseIcon fontSize="inherit" />
+                           </IconButton>
+                        }
+                     >
+                        Something went wrong!
+                     </Alert>
+                  </Collapse>
                   <Paper elevation={3} sx={{ padding: 1, marginTop: 3 }}>
                      <div>
                         <h1>Update {dogName}'s Info</h1>
