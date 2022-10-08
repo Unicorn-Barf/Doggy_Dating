@@ -17,8 +17,6 @@ const CloudinaryUploadWidget = () => {
       const uploadDogRes = await uploadDogImage({
          variables: { dogId: dogId, imageUrl: imageArr }
       });
-      console.log(uploadDogRes);
-      console.log(error);
    }
 
    const cloudName = "dnlfrsnzw"; // replace with your own cloud name
