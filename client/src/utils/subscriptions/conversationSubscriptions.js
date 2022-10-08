@@ -17,16 +17,21 @@ subscription MessageSent($conversationId: ID!) {
 `;
 
 export const GET_CONVERSATIONS_SUB = gql`
-subscription Subscription($dogId: ID!) {
+subscription ConversationUpdated($dogId: ID!) {
   conversationUpdated(dogId: $dogId) {
     _id
-    dogIds
+    dogIds {
+      name
+      _id
+      images
+    }
     messages {
       messageId
-      dogId
       dogName
       message
+      updatedAt
       createdAt
+      dogId
     }
   }
 }

@@ -5,7 +5,7 @@ import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
 import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
 
 
-const Conversations = ({ setConversationId, setToggleChat }) => {
+const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
 
     const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
 
@@ -49,7 +49,9 @@ const Conversations = ({ setConversationId, setToggleChat }) => {
                             data-convoid={convo._id}
                             onClick={handleChatRoute}
                         >
-                            {convo._id}
+                            {convo.dogIds.map(dog => {
+                                if (myDogName !== dog.name) return dog.name;
+                            })}
                         </h2>
                 )
             })
