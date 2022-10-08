@@ -14,15 +14,7 @@ export default function MainLoggedOut() {
                     Welcome to<br />
                     Bone Buddies
                 </h1>
-                {/* <Stack>
-                    <img
-                        src={Logo}
-                        id="logo"
-                        style={{ alignSelf: "center" }}
-                        alt="Bone Buddies logo"
-                    ></img>
-                </Stack> */}
-                <p>A place where you can find doggone great friends for your great dog!  Set up playdates, make new furends, and build lifelong friendships for your dog.</p>
+                <p>A place where you can find doggone great friends for your great dog!  Set up playdates and build lifelong friendships for your dog.</p>
                 <Stack>
                     <img
                         src={DogsPlaying}

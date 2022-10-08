@@ -26,7 +26,6 @@ import { CREATE_DOG } from '../utils/mutations';
 import { useDispatch } from 'react-redux';
 import Auth from '../utils/auth';
 import { pushDogToArr } from '../utils/localStorage';
-// import { Navigate } from 'react-router-dom';
 
 export default function CreateDog() {
     const dispatch = useDispatch();

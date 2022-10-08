@@ -74,8 +74,6 @@ function Signup() {
         );
       }
 
-      // console.log(userFormData);
-
       const { data, error } = await signUpUser({
         variables: {
           owner: {
@@ -86,7 +84,6 @@ function Signup() {
 
       Auth.login(data.postOwner.token);
       const loggedInOwner = data.postOwner.owner;
-      // console.log(loggedInOwner);
 
       dispatch(
         storeOwner({
