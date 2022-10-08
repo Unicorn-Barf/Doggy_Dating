@@ -47,7 +47,7 @@ const dogSchema = new Schema({
             type: String,
          }
       ],
-      default: ['https://drive.google.com/file/d/1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW/view?usp=sharing'],
+      default: ['https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'],
    },
    tags: [
       {

@@ -89,7 +89,7 @@ export default function DogProfile() {
                                             justifyContent="center"
                                         >
                                             <img
-                                                src={dog.images[0] || 'https://drive.google.com/file/d/1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW/view?usp=sharing'}
+                                                src={dog.images[0]}
                                                 style={{ maxWidth: "100%", my: 1, alignSelf: "center", objectFit: "cover" }}
                                                 alt="dog profile pic"
                                             />
