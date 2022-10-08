@@ -25,13 +25,14 @@ mutation PostConversation($dogIds: [ID]) {
     _id
     dogIds {
       name
-      _id
       images
     }
     messages {
       messageId
       dogId
+      dogName
       message
+      updatedAt
       createdAt
     }
   }

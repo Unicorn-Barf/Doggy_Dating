@@ -14,14 +14,12 @@ import { Container, Stack } from '@mui/system';
 import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
 
-let myDogId = "633bac1663a38b67c5635360";
 
-// setting up and grabbing dogId to be used for chat feature
+
 export default function DogProfile() {
     const navigate = useNavigate();
     const { dogId } = useParams();
     const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
-    const [isRedirect, setIsRedirect] = useState(false);
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
         variables: { dogId }
     });
@@ -40,7 +38,10 @@ export default function DogProfile() {
         let convoArr = convoQuery.data?.getAllConversationsByDogId || [];
         if (convoArr.length > 0) {
             for (let i = 0; i < convoArr.length; i++) {
-                if (convoArr[i].dogIds.includes(dogId) && convoArr[i].dogIds.includes(myDogId)) {
+                let check = convoArr[i].dogIds.every(({ _id }) => {
+                    return _id === dogId || _id === myDogId;
+                })
+                if (check) {
                     convoId = convoArr[i]._id;
                     break;
                 }
@@ -56,7 +57,6 @@ export default function DogProfile() {
                 console.log(error);
             }
         }
-        // setIsRedirect(true);
         // Navigate also sending the convoId to next component.
         navigate('/chat', {
             state: {
