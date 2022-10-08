@@ -21,7 +21,7 @@ import { useMutation } from "@apollo/client";
 import { useState,useEffect } from "react";
 import Auth from "../utils/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { storeOwner } from "../slices/ownerSlice";
+import { storeOwner, toggleLoggedIn } from "../slices/ownerSlice";
 import { saveOwner } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import { isNetworkRequestInFlight } from "@apollo/client/core/networkStatus";
@@ -162,6 +162,7 @@ function Signup() {
           ...loggedInOwner,
         })
       );
+      dispatch(toggleLoggedIn(true));
       saveOwner(loggedInOwner);
       navigate("/create-dog");
     } catch (err) {
