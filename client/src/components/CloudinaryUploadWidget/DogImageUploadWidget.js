@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useMutation } from "@apollo/client";
 import { UPLOAD_DOG_IMAGES } from "../../utils/mutations";
 import { getCurrentDogIndex, getSavedDogArr } from "../../utils/localStorage";
+import { Button } from "@mui/material";
 
 const CloudinaryUploadWidget = () => {
 
@@ -42,9 +43,9 @@ const CloudinaryUploadWidget = () => {
    }
 
    return (
-      <button id="dog_upload_widget" className="cloudinary-button" onClick={ openWidget }>
+      <Button id="dog_upload_widget" className="cloudinary-button" variant="contained" sx={{ my: 1 }} onClick={ openWidget }>
          Upload Dog Images
-      </button>
+      </Button>
    );
 }
 

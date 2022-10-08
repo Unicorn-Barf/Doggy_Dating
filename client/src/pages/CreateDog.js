@@ -47,7 +47,7 @@ export default function CreateDog() {
         breed: '',
         birthday: '08/14/2014',
         sex: '',
-        isFixed: Boolean,
+        isFixed: '',
         weight: 0,
         // personality: [],
         about: '',

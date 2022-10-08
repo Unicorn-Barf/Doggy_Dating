@@ -105,7 +105,7 @@ const typeDefs = gql`
 
    type Conversation {
       _id: ID
-      dogIds: [ID]
+      dogIds: [Dog]
       messages: [Message]
    }
 
