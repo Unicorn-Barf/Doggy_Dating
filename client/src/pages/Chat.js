@@ -13,13 +13,13 @@ const Chat = ({ convoId = null, toggle = false }) => {
     const [conversationId, setConversationId] = useState(initialConvoId);
     console.log(conversationId, toggleChat);
     return (
-        <div>
+        <div style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem'}}>
             <h1>Chat Screen</h1>
             <h2>Dog Thoughts 💭</h2>
             {toggleChat
                 ? (
                     <Button
-                    size="small" variant="contained"
+                    size="small" variant="contained" item xs={2}
                         onClick={() => setToggleChat(!toggleChat)}
                     >
                         Back to Chats
