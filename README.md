@@ -68,7 +68,7 @@ THEN I am logged out and the navbar now only shows options for home, signin, and
 
 <img src="./client/src/pages/assets/images/bonebuddies-landingpage.png">
 
-## What we Learned
+## What We Learned
 
 This was the first time that this team implemented websockets using Apollo subscriptions to get live date shared between users.  There are some notable differences beween using Apollo subscriptions vs other options such as SocketIO.  One thing to note, Apollo docs show a setup for a websocket client being served with a `ws://` protocol.  With SocketIO the default protocol is over https and wss; the problem that arises is that deployment on Heroku becomes an issue.  We found a simple solution shown below to set up your `wsLink` in the main index.js of a npx `create-react-app`.  Using this setup, it not only get around the issue of the `wss` protocol for production, but and sets the appropriate development websocket link.
 
