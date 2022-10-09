@@ -1,3 +1,5 @@
+<img src="./client/src/pages/assets/images/bone-buddies-logo.png">
+
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
@@ -21,12 +23,11 @@ Arrrrf you found us!  Bone Buddies is the ultimate web application to discover a
 Bone Buddies is a MERN stack application integrated with an Apollo server.  This provides the flexibility to quickly innovate and improve the user experience; the team has plans to grow the functionality and features to keep humans and canines happy and thriving.  Apollo subscriptions were chosen to deliver responsive websocket features so you will never miss a message or moment with live data automatically coming to life on the screen.  Cloudinary hosts any uploaded profile pictures so that you can rely on easily adding your favorite friend's adorable, clumsy, and impressive moments to attract the perfect playmate.
 
 ## Links
-[Solution URL](https://github.com/Unicorn-Barf/Doggy_Dating)
+[Solution URL](https://github.com/Unicorn-Barf/Doggy_Dating)<br>
 [Deploy URL](https://dev-bone-buddies.herokuapp.com/)
 ### User Story
 
 ```md
-
 AS A PERSON with pet dogs,
 I WANT my dog to find other cute dogs to playdate with,
 SO THAT I can watch my dog socialize hapily and find new doggy friends.
@@ -65,8 +66,7 @@ WHEN I click on the Logout button
 THEN I am logged out and the navbar now only shows options for home, signin, and signup
 ```
 
-
-<img src="../Doggy_Dating/client/src/pages/assets/images/bonebuddies-landingpage.png">
+<img src="./client/src/pages/assets/images/bonebuddies-landingpage.png">
 
 ## What we Learned
 
