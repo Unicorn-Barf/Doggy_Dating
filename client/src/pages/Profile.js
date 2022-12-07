@@ -95,7 +95,7 @@ export default function DogProfile() {
                                             justifyContent="center"
                                         >
                                             <img
-                                                src={dog.images[0]}
+                                                src={dog.images[dog.images.length - 1]}
                                                 style={{ maxWidth: "100%", my: 1, alignSelf: "center", objectFit: "cover" }}
                                                 alt="dog profile pic"
                                             />

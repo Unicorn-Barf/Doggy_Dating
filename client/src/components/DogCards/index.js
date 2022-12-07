@@ -26,7 +26,7 @@ const DogCards = ({
                 <CardMedia
                     component="img"
                     height="200"
-                    image={images[0]}
+                    image={images[images.length - 1]}
                     alt="dog image"
                 />
                 <CardContent>
