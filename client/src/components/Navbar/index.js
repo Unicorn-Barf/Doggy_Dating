@@ -26,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Logo from '../../pages/assets/images/bone-buddies-logo-small.png';
 import { toggleLoggedIn } from '../../slices/ownerSlice';
 import { getSavedDogArr, getCurrentDogIndex, setCurrentDogIndex } from '../../utils/localStorage';
-import { storeDogs, storeCurrentDog, getDog } from '../../slices/dogSlice';
+import { storeDogs, storeCurrentDog, storeCurrentDogIndex, getDog } from '../../slices/dogSlice';
 import { storeOwner } from '../../slices/ownerSlice';
 import Auth from '../../utils/auth';
 import './navbar.css';
@@ -36,7 +36,6 @@ export default function Navbar() {
    const { height, width } = useWindowDimension();
    const { _id: myDogId } = getSavedDogArr()[getCurrentDogIndex()] || { _id: null };
    const dogArray = getSavedDogArr();
-   const currentDogIndex = getCurrentDogIndex();
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -59,6 +58,7 @@ export default function Navbar() {
 
    const handleClickChange = (event) => {
       const index = event.currentTarget.value;
+      dispatch(storeCurrentDogIndex(index));
       setCurrentDogIndex(index);
       dispatch(storeCurrentDog(getSavedDogArr()[index]));
       setAnchorEl(null);
