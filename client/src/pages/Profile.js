@@ -13,13 +13,18 @@ import { IconButton, Grid, Box, Button, Paper } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import { shouldWriteResult } from '@apollo/client/core/QueryInfo';
 import { getSavedDogArr, getCurrentDogIndex } from '../utils/localStorage';
+import { useSelector, useDispatch } from 'react-redux';
+import { storeCurrentDogIndex, getDogIndex } from '../slices/dogSlice';
 
 export default function DogProfile() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { dogId } = useParams();
+    const dogIndex = useSelector(getDogIndex);
     const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+    dispatch(storeCurrentDogIndex(getCurrentDogIndex()));
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
-        variables: { dogId }
+        variables: { dogId: myDogId }
     });
 
     const [createConvo] = useMutation(CREATE_CONVO);
