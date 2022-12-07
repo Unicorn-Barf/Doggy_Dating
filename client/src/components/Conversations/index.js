@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS_BY_DOG_ID, GET_DOG_BY_DOG_ID } from '../../utils/queries';
 import { GET_CONVERSATIONS_SUB } from '../../utils/subscriptions';
 import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
-import { Grid, Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 
 const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
@@ -43,29 +43,33 @@ const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
     return (
         <div style={{ textAlign: "center" }}>
             <h2 style={{ marginTop: '3rem' }}>These are your conversations:</h2>
-            {convos.map((convo) => {
-                return (
-                    <div
-                        key={convo._id}
-                        style={{ display: "flex", alignContent: "center", justifyContent: "center" }}
-                    >
-                        <img
-                            src={convo.dogIds.find(dog => dog.name !== myDogName).images[0] || 'https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'}
-                            style={{ backgroundSize: "cover", borderRadius: "50%", width: "60px", height: "60px", my: 1, alignSelf: "center", margin: "10px" }}
-                            alt="dog profile pic"
-                        />
-                        <Button size="large" style={{ fontSize: '1.5rem' }}
+            {convosQuery.loading
+                ?
+                <h1>Loading...</h1>
+                :
+                convos.map((convo) => {
+                    return (
+                        <div
                             key={convo._id}
-                            data-convoid={convo._id}
-                            onClick={handleChatRoute}
+                            style={{ display: "flex", alignContent: "center", justifyContent: "center" }}
                         >
-                            {convo.dogIds.map(dog => {
-                                if (myDogName !== dog.name) return dog.name;
-                            })}
-                        </Button>
-                    </div>
-                )
-            })
+                            <img
+                                src={convo.dogIds.find(dog => dog.name !== myDogName).images[0] || 'https://drive.google.com/uc?id=1s5JNJlVpC1YA0pZ1AyiHl94zfELmQlYW'}
+                                style={{ backgroundSize: "cover", borderRadius: "50%", width: "60px", height: "60px", my: 1, alignSelf: "center", margin: "10px" }}
+                                alt="dog profile pic"
+                            />
+                            <Button size="large" style={{ fontSize: '1.5rem' }}
+                                key={convo._id}
+                                data-convoid={convo._id}
+                                onClick={handleChatRoute}
+                            >
+                                {convo.dogIds.map(dog => {
+                                    if (myDogName !== dog.name) return dog.name;
+                                })}
+                            </Button>
+                        </div>
+                    )
+                })
             }
         </div>
 
