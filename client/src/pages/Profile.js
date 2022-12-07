@@ -21,10 +21,19 @@ export default function DogProfile() {
     const dispatch = useDispatch();
     const { dogId } = useParams();
     const dogIndex = useSelector(getDogIndex);
-    const myDogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+    const dogArr = getSavedDogArr();
+    const myDogId = dogArr[getCurrentDogIndex()]._id;
+    let payload;
+    for (let i=0; i<dogArr.length; i++) {
+        if (dogArr[i]._id === dogId) {
+            payload = myDogId;
+            break;
+        }
+        else payload = dogId;
+    };
     dispatch(storeCurrentDogIndex(getCurrentDogIndex()));
     const dogData = useQuery(GET_DOG_BY_DOG_ID, {
-        variables: { dogId: myDogId }
+        variables: { dogId: payload }
     });
 
     const [createConvo] = useMutation(CREATE_CONVO);
