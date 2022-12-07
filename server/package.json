@@ -19,6 +19,7 @@
     "bcrypt": "^4.0.1",
     "dotenv": "^16.0.2",
     "express": "^4.17.1",
+    "graphql": "^16.6.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.11.2",
     "jsonwebtoken": "^8.5.1",
