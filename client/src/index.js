@@ -26,8 +26,6 @@ if (/herokuapp/g.test(location.host)) {
       }));
 }
 
-
-
 const httpLink = createHttpLink({
     uri: '/graphql',
 });
