@@ -15,7 +15,7 @@ import './styles/root.css';
 // Apollo Subscriptions setup
 let wsLink;
 // eslint-disable-next-line no-restricted-globals
-if (/herokuapp/g.test(location.host)) {
+if (/onrender/g.test(location.host)) {
     wsLink = new GraphQLWsLink(createClient({
         // eslint-disable-next-line no-restricted-globals
         url: `wss://${location.host}/graphql`,
