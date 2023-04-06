@@ -21,7 +21,7 @@ subscription Subscription($conversationId: ID!) {
 `;
 
 export const GET_CONVERSATIONS_SUB = gql`
-subscription ConversationUpdated($dogId: ID!) {
+subscription Subscription($dogId: ID!) {
   conversationUpdated(dogId: $dogId) {
     _id
     dogIds {

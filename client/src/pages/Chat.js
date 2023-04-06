@@ -40,7 +40,7 @@ const Chat = ({ convoId = null, toggle = false }) => {
                                                 justifyContent="center"
                                             >
                                                 <Button
-                                                    size="small" variant="contained" item xs={2}
+                                                    size="small" variant="contained" xs={2}
                                                     onClick={() => setToggleChat(!toggleChat)}
                                                 >
                                                     <ArrowBackIcon />
@@ -58,6 +58,7 @@ const Chat = ({ convoId = null, toggle = false }) => {
                                         />
                                         : <Conversations
                                             myDogName={myDogName}
+                                            myDogId={myDogId}
                                             setConversationId={setConversationId}
                                             setToggleChat={setToggleChat}
                                         />}

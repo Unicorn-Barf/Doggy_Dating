@@ -48,11 +48,8 @@ const conversationMutation = {
                },
             );
          }
-         console.log('************AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHH***********');
-         console.log(conversation);
          // Publish Subscription Event for each dog
          const { _id, dogIds, messages } = conversation;
-         console.log(_id, dogIds, messages)
          console.log('hit UPDATED_CONVERSATION pubsub');
          pubsub.publish(`UPDATED_CONVERSATION`, {
             conversationUpdated: { _id, dogIds, messages }
@@ -115,9 +112,12 @@ const conversationMutation = {
             }
          );
 
-         // Publish Subscription Event
+         // Publish Subscription Event 
          console.log('hit UPDATED_CONVERSATION pubsub');
-         pubsub.publish(`UPDATED_CONVERSATION`, conversation);
+         const { _id, dogIds, messages } = conversation;
+         pubsub.publish(`UPDATED_CONVERSATION`, {
+         conversationUpdated: { _id, dogIds, messages }
+      });
          return conversation;
       } catch (error) {
          console.error(error);
@@ -140,8 +140,9 @@ const conversationSubscription = {
       subscribe: withFilter(
          () => pubsub.asyncIterator(['UPDATED_CONVERSATION']),
          (payload, variables) => {
+            const idArr = payload.conversationUpdated.dogIds.map((dog) => dog._id.toString());
             // Only push update for relevant Dog
-            return (payload.conversationUpdated.dogIds.find(dog => dog._id === variables.dogId));
+            return (idArr.includes(variables.dogId));
          }
       )
    }
