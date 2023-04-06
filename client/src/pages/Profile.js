@@ -141,6 +141,9 @@ export default function DogProfile() {
                                     spacing={2}
                                     justifyContent="center"
                                 >
+                                    {dogId === myDogId ?
+                                    ''
+                                    :
                                     <Button
                                         size="medium"
                                         variant="contained"
@@ -149,6 +152,7 @@ export default function DogProfile() {
                                     >
                                         Playdate
                                     </Button>
+                                }
 
                                     {/* FOR FUTURE DEVELOPMENT
                                 <Button
