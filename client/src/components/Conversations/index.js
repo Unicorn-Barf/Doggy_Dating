@@ -6,9 +6,10 @@ import { getSavedDogArr, getCurrentDogIndex } from '../../utils/localStorage';
 import { Button } from '@mui/material';
 
 
-const Conversations = ({ setConversationId, setToggleChat, myDogName }) => {
+const Conversations = ({ setConversationId, setToggleChat, myDogName, myDogId }) => {
 
-    const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+    // const dogId = getSavedDogArr()[getCurrentDogIndex()]._id;
+    const dogId = myDogId;
 
     // Query for all Conversations
     // Use subscribe to more for subscriptions to updates
