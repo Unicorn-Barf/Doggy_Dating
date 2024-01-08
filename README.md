@@ -23,8 +23,8 @@ Arrrrf you found us!  Bone Buddies is the ultimate web application to discover a
 Bone Buddies is a MERN stack application integrated with an Apollo server.  This provides the flexibility to quickly innovate and improve the user experience; the team has plans to grow the functionality and features to keep humans and canines happy and thriving.  Apollo subscriptions were chosen to deliver responsive websocket features so you will never miss a message or moment with live data automatically coming to life on the screen.  Cloudinary hosts any uploaded profile pictures so that you can rely on easily adding your favorite friend's adorable, clumsy, and impressive moments to attract the perfect playmate.
 
 ## Links
-[Solution URL](https://github.com/Unicorn-Barf/Doggy_Dating)<br>
-[Deploy URL](https://bonebuddies.onrender.com)
+[Github Repo](https://github.com/Unicorn-Barf/Doggy_Dating)<br>
+[Deployed Application](https://bonebuddies.onrender.com)
 
 ***The following images show the web application's appearance and functionality in large screen***
 
