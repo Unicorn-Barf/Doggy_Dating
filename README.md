@@ -24,7 +24,7 @@ Bone Buddies is a MERN stack application integrated with an Apollo server.  This
 
 ## Links
 [Solution URL](https://github.com/Unicorn-Barf/Doggy_Dating)<br>
-[Deploy URL](https://dev-bone-buddies.herokuapp.com/)
+[Deploy URL](https://bonebuddies.onrender.com)
 
 ***The following images show the web application's appearance and functionality in large screen***
 
